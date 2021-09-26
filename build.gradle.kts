@@ -33,7 +33,7 @@ subprojects {
     apply(plugin = "kotlin-android")
 
     aliucord {
-        author("zt", 289556910426816513L)
+        author("Animal", 118437263754395652L)
         updateUrl.set("https://raw.githubusercontent.com/ItzOnlyAnimal/aliucable/builds/updater.json")
         buildUrl.set("https://raw.githubusercontent.com/ItzOnlyAnimal/aliucable/builds/%s.zip")
     }
