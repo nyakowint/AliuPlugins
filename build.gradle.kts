@@ -9,6 +9,7 @@ buildscript {
     }
     dependencies {
         classpath("com.android.tools.build:gradle:7.0.2")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
         classpath("com.github.Aliucord:gradle:main-SNAPSHOT")
     }
 }
@@ -17,22 +18,24 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven("https://jitpack.io")
     }
 }
 
-fun Project.aliucord(configuration: AliucordExtension.() -> Unit) = extensions.getByName<AliucordExtension>("aliucord").configuration()
+fun Project.android(configuration: BaseExtension.() -> Unit) =
+        extensions.getByName<BaseExtension>("android").configuration()
 
-fun Project.android(configuration: BaseExtension.() -> Unit) = extensions.getByName<BaseExtension>("android").configuration()
+fun Project.aliucord(configuration: AliucordExtension.() -> Unit) =
+        extensions.getByName<AliucordExtension>("aliucord").configuration()
 
 subprojects {
     apply(plugin = "com.android.library")
     apply(plugin = "com.aliucord.gradle")
+    apply(plugin = "kotlin-android")
 
     aliucord {
-        author("DISCORD USERNAME", 123456789L)
-        updateUrl.set("https://raw.githubusercontent.com/USERNAME/REPONAME/builds/updater.json")
-        buildUrl.set("https://raw.githubusercontent.com/USERNAME/REPONAME/builds/%s.zip")
+        author("zt", 289556910426816513L)
+        updateUrl.set("https://raw.githubusercontent.com/ItzOnlyAnimal/aliucable/builds/updater.json")
+        buildUrl.set("https://raw.githubusercontent.com/ItzOnlyAnimal/aliucable/builds/%s.zip")
     }
 
     android {
@@ -47,18 +50,30 @@ subprojects {
             sourceCompatibility = JavaVersion.VERSION_11
             targetCompatibility = JavaVersion.VERSION_11
         }
+
+        tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+            kotlinOptions {
+                jvmTarget = "11"
+                freeCompilerArgs = freeCompilerArgs +
+                        "-Xno-call-assertions" +
+                        "-Xno-param-assertions" +
+                        "-Xno-receiver-assertions"
+            }
+        }
+    }
+
+    repositories {
+        google()
+        mavenCentral()
+        maven("https://jitpack.io")
     }
 
     dependencies {
         val discord by configurations
-        val implementation by configurations
+        val api by configurations
 
         discord("com.discord:discord:aliucord-SNAPSHOT")
-        implementation("com.github.Aliucord:Aliucord:main-SNAPSHOT")
-
-        implementation("androidx.appcompat:appcompat:1.3.1")
-        implementation("com.google.android.material:material:1.4.0")
-        implementation("androidx.constraintlayout:constraintlayout:2.1.0")
+        api("com.github.Aliucord:Aliucord:main-SNAPSHOT")
     }
 }
 
