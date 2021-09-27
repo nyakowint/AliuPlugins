@@ -1,9 +1,9 @@
 version = "1.0.0"
-description = "Farts"
+description = "View comic-like drawings from xkcd.com"
 
 aliucord {
     changelog.set("""
-        - 300% more farting
+        - nothing
     """.trimIndent()
     )
 }

@@ -11,7 +11,6 @@ import com.discord.utilities.rest.RestAPI
 @AliucordPlugin
 class Fart : Plugin() {
     override fun start(context: Context?) {
-        // p1: name p2: description p3:
         val options = listOf(
             ApplicationCommandOption(
                 ApplicationCommandType.USER,
