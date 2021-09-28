@@ -8,22 +8,15 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
-import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
-import com.aliucord.patcher.PineInsteadFn
 import com.aliucord.patcher.PinePatchFn
-import com.aliucord.patcher.PinePrePatchFn
 import com.aliucord.wrappers.ChannelWrapper.Companion.id
 import com.discord.databinding.WidgetChatListActionsBinding
 import com.discord.stores.StoreStream
 import com.discord.utilities.color.ColorCompat
 import com.discord.utilities.permissions.PermissionUtils
 import com.discord.widgets.chat.input.AppFlexInputViewModel
-import com.discord.widgets.chat.input.ChatInputViewModel
-import com.discord.widgets.chat.input.WidgetChatInput
-import com.discord.widgets.chat.input.WidgetChatInputEditText
-import com.discord.widgets.chat.list.WidgetChatList
 
 import com.discord.widgets.chat.list.actions.WidgetChatListActions
 import com.lytefast.flexinput.R
@@ -69,9 +62,18 @@ class Quoter : Plugin() {
                                 ) View.VISIBLE else View.GONE
                             }
                         quoteButton.setOnClickListener {
+                            val inputBox = (textInput as FlexEditText)
                             (yes.thisObject as WidgetChatListActions).dismiss()
                             textBox?.focus()
-                            (textInput as FlexEditText).setText("> ${msg.content}\n@${msg.author.r()}#${msg.author.f()} ")
+                            inputBox.setText(
+                                "> ${
+                                    msg.content.replace(
+                                        "\n",
+                                        "\n> "
+                                    )
+                                }\n@${msg.author.r()}#${msg.author.f()}  "
+                            )
+                            textInput!!.setSelection(inputBox.text!!.lastIndex+1)
                         }
                     } catch (ignore: Throwable) {
 

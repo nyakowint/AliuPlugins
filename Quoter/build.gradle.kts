@@ -1,6 +1,6 @@
-version = "1.0.0"
+version = "1.1.0"
 description = "Re-adds the famous quote button in the message context menu."
 
 aliucord {
-    changelog.set("""- it works!""".trimIndent())
+    changelog.set("""- quoted messages containing newlines should properly format now """.trimIndent())
 }
