@@ -6,7 +6,7 @@ Click on a plugin name to download, and then move the downloaded file to the `Al
 ~~or just use PluginDownloader like everyone else does lol~~
 
 # Plugins
-- [Quoter](https://github.com/ItzOnlyAnimal/aliucable/raw/builds/Fart.zip): Re-adds the famous "Quote" button.
+- [Quoter](https://github.com/ItzOnlyAnimal/aliucable/raw/builds/Quoter.zip): Re-adds the famous "Quote" button.
 - [Fart](https://github.com/ItzOnlyAnimal/aliucable/raw/builds/Fart.zip): Tell someone to fart, or fart yourself.
 - [xkcd](https://github.com/ItzOnlyAnimal/aliucable/raw/builds/xkcd.zip): Shows comic pages from [xkcd.com](https://xkcd.com).
 
