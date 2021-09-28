@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat
 
 @AliucordPlugin
 class xkcd : Plugin() {
-    @SuppressLint("SimpleDateFormat")
+    @SuppressLint("SetTextI18n")
     override fun start(context: Context?) {
         val url = "https://xkcd.com"
         val comicNum = ApplicationCommandOption(
@@ -47,7 +47,7 @@ class xkcd : Plugin() {
                 val embed = MessageEmbedBuilder().setTitle(comic.title)
                     .setUrl("$url/${comic.num}")
                     .setDescription(comic.transcript)
-                    .setImage(comic.img)
+                    .setImage(comic.img, comic.img, 720, 1280)
                     .setFooter(comic.alt)
                     .setTimestamp(UtcDateTime(SimpleDateFormat("dd-MM-yyyy").parse("${comic.day}-${comic.month}-${comic.year}").time))
                 CommandsAPI.CommandResult(null, listOf(embed.build()), false)
@@ -62,7 +62,7 @@ class xkcd : Plugin() {
                 val embed = MessageEmbedBuilder().setTitle(comic.title)
                     .setUrl("$url/${comic.num}")
                     .setDescription(comic.transcript)
-                    .setImage(comic.img)
+                    .setImage(comic.img, comic.img, 720, 1280)
                     .setFooter(comic.alt)
                     .setTimestamp(UtcDateTime(SimpleDateFormat("dd-MM-yyyy").parse("${comic.day}-${comic.month}-${comic.year}").time))
                 CommandsAPI.CommandResult(null, listOf(embed.build()), false)
@@ -75,7 +75,6 @@ class xkcd : Plugin() {
     }
 }
 
-// i hope no one tries number 2445 (or any other one with extra stuff) because its got extra shit like a checkbox FUCK
 class Response(
     val month: String,
     val num: Number,

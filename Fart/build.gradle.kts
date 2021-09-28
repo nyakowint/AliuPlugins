@@ -1,9 +1,6 @@
-version = "1.0.0"
-description = "Farts"
+version = "1.1.0"
+description = "fart"
 
 aliucord {
-    changelog.set("""
-        - 300% more farting
-    """.trimIndent()
-    )
+    changelog.set("you can now fart in lowercase")
 }
