@@ -7,7 +7,11 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
+import com.aliucord.Constants
+import com.aliucord.Main.logger
+import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.PinePatchFn
@@ -63,6 +67,17 @@ class Quoter : Plugin() {
                             }
                         quoteButton.setOnClickListener {
                             (yes.thisObject as WidgetChatListActions).dismiss()
+                            if (textInput == null) {
+                                logger.error(
+                                    context,
+                                    "FlexEditText textInput == null, sad"
+                                )
+
+                                return@setOnClickListener Utils.showToast(
+                                    context,
+                                    "Guess your device doesn't like quoting :shrug:"
+                                )
+                            }
                             textBox?.focus()
                             if (msg.content.contains("\n")) {
                                 (textInput as FlexEditText).setText(
@@ -98,9 +113,10 @@ class Quoter : Plugin() {
                         text = "Quote"
                         id = quoteId
                         setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
+                        typeface = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold)
                     }
 
-                    linearLayout.addView(quote, 5)
+                    linearLayout.addView(quote, 1)
                 })
 
             patcher.patch(
