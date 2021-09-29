@@ -20,6 +20,7 @@ import com.discord.databinding.WidgetChatListActionsBinding
 import com.discord.stores.StoreStream
 import com.discord.utilities.color.ColorCompat
 import com.discord.utilities.permissions.PermissionUtils
+import com.discord.utilities.user.UserUtils
 import com.discord.widgets.chat.input.AppFlexInputViewModel
 
 import com.discord.widgets.chat.list.actions.WidgetChatListActions
@@ -67,37 +68,41 @@ class Quoter : Plugin() {
                             }
                         quoteButton.setOnClickListener {
                             (yes.thisObject as WidgetChatListActions).dismiss()
-                            if (textInput == null) {
-                                logger.error(
-                                    context,
-                                    "FlexEditText textInput == null, sad"
-                                )
+                            try {
+                                if (textInput == null) {
+                                    logger.error(
+                                        context,
+                                        "FlexEditText textInput == null, sad"
+                                    )
 
-                                return@setOnClickListener Utils.showToast(
-                                    context,
-                                    "Guess your device doesn't like quoting :shrug:"
-                                )
+                                    return@setOnClickListener Utils.showToast(
+                                        context,
+                                        "Guess your device doesn't like quoting :shrug:"
+                                    )
+                                }
+                                textBox?.focus()
+                                val inputBox = textInput as FlexEditText
+                                if (msg.content.contains("\n")) {
+                                    inputBox.setText(
+                                        "> ${
+                                            msg.content.replace(
+                                                "\n",
+                                                "\n> "
+                                            )
+                                        }\n@${msg.author.r()}#${msg.author.f()}"
+                                    )
+                                    textInput!!.text?.let { it1 -> inputBox.setSelection(it1.lastIndex) }
+                                } else {
+                                    inputBox.setText("> ${msg.content}\n@${msg.author.r()}#${msg.author.f()}")
+                                    textInput!!.text?.let { it1 -> inputBox.setSelection(it1.lastIndex) }
+                                }
+                            } catch (bruh: Throwable) {
+                                logger.error(bruh)
                             }
-                            textBox?.focus()
-                            if (msg.content.contains("\n")) {
-                                (textInput as FlexEditText).setText(
-                                    "> ${
-                                        msg.content.replace(
-                                            "\n",
-                                            "\n> "
-                                        )
-                                    }\n@${msg.author.r()}#${msg.author.f()}  "
-                                )
-                            } else {
-                                (textInput as FlexEditText).setText("> ${msg.content}\n@${msg.author.r()}#${msg.author.f()}")
-                            }
-                            (textInput as FlexEditText).setSelection(
-                                ((textInput as FlexEditText).text?.lastIndex
-                                    ?: 0) + 1
-                            )
                         }
                     } catch (ignore: Throwable) {
-
+                        Utils.showToast(context, ignore.message)
+                        logger.error(ignore)
                     }
                 })
             patcher.patch(
