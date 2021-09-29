@@ -62,18 +62,24 @@ class Quoter : Plugin() {
                                 ) View.VISIBLE else View.GONE
                             }
                         quoteButton.setOnClickListener {
-                            val inputBox = (textInput as FlexEditText)
                             (yes.thisObject as WidgetChatListActions).dismiss()
                             textBox?.focus()
-                            inputBox.setText(
-                                "> ${
-                                    msg.content.replace(
-                                        "\n",
-                                        "\n> "
-                                    )
-                                }\n@${msg.author.r()}#${msg.author.f()}  "
+                            if (msg.content.contains("\n")) {
+                                (textInput as FlexEditText).setText(
+                                    "> ${
+                                        msg.content.replace(
+                                            "\n",
+                                            "\n> "
+                                        )
+                                    }\n@${msg.author.r()}#${msg.author.f()}  "
+                                )
+                            } else {
+                                (textInput as FlexEditText).setText("> ${msg.content}\n@${msg.author.r()}#${msg.author.f()}")
+                            }
+                            (textInput as FlexEditText).setSelection(
+                                ((textInput as FlexEditText).text?.lastIndex
+                                    ?: 0) + 1
                             )
-                            textInput!!.setSelection(inputBox.text!!.lastIndex+1)
                         }
                     } catch (ignore: Throwable) {
 

@@ -1,6 +1,6 @@
-version = "1.1.0"
+version = "1.2.0"
 description = "fart"
 
 aliucord {
-    changelog.set("you can now fart in lowercase")
+    changelog.set("easter egg")
 }

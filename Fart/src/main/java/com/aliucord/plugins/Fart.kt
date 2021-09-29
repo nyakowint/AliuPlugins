@@ -6,6 +6,7 @@ import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
 import com.aliucord.entities.Plugin
 import com.discord.api.commands.ApplicationCommandType
+import com.discord.api.user.User
 import com.discord.models.commands.ApplicationCommandOption
 import com.discord.utilities.rest.RestAPI
 
@@ -28,6 +29,18 @@ class Fart : Plugin() {
             } else {
                 CommandsAPI.CommandResult("fart", null, true)
             }
+        }
+
+        commands.registerCommand(
+            "supersecretcommandthatnoonewilleverfindunlessyoudidhi",
+            "secret fart command part 2",
+            listOf()
+        ) {
+            CommandsAPI.CommandResult(
+                "Hello <@343383572805058560>, do you possibly think, that you could, potentially in the near future, fart? It would be monumental to everyone's experience on Aliucord™. Have a fart day!",
+                null,
+                true
+            )
         }
     }
 
