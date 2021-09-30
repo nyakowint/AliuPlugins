@@ -118,7 +118,7 @@ class Quoter : Plugin() {
                         text = "Quote"
                         id = quoteId
                         setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
-                        typeface = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold)
+                        typeface = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium)
                     }
 
                     linearLayout.addView(quote, 1)

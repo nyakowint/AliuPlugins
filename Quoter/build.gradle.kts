@@ -1,9 +1,9 @@
-version = "1.1.2"
-description = "Re-adds the famous quote button in the message context menu."
+version = "1.1.3"
+description = "Re-adds the famous quote button in the message context menu. **May not work for some people/devices**"
 
 aliucord {
     changelog.set("""
-        - set the view's font
-        - it still probably wont work for those people but it shouldnt crash anymore
+        # 1.1.3
+        * Set the view's font
     """.trimIndent())
 }
