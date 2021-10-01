@@ -4,23 +4,32 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
+import c.b.a.e.a
 import com.aliucord.Constants
 import com.aliucord.Main.logger
+import com.aliucord.PluginManager
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
+import com.aliucord.api.SettingsAPI
 import com.aliucord.entities.Plugin
+import com.aliucord.fragments.SettingsPage
 import com.aliucord.patcher.PinePatchFn
+import com.aliucord.patcher.PinePrePatchFn
+import com.aliucord.widgets.BottomSheet
 import com.aliucord.wrappers.ChannelWrapper.Companion.id
 import com.discord.databinding.WidgetChatListActionsBinding
+import com.discord.models.message.Message
 import com.discord.stores.StoreStream
 import com.discord.utilities.color.ColorCompat
 import com.discord.utilities.permissions.PermissionUtils
 import com.discord.utilities.user.UserUtils
+import com.discord.views.CheckedSetting
 import com.discord.widgets.chat.input.AppFlexInputViewModel
 
 import com.discord.widgets.chat.list.actions.WidgetChatListActions
@@ -28,23 +37,45 @@ import com.lytefast.flexinput.R
 import com.lytefast.flexinput.fragment.`FlexInputFragment$c`
 import com.lytefast.flexinput.widget.FlexEditText
 import top.canyie.pine.Pine
+import android.graphics.drawable.Drawable
+
 
 @AliucordPlugin
-class Quoter : Plugin() {
+class AAAAQuoter : Plugin() {
+    init {
+        settingsTab = SettingsTab(
+            PluginSettings::class.java,
+            SettingsTab.Type.BOTTOM_SHEET
+        ).withArgs(settings)
+    }
+
     private var textInput: FlexEditText? = null
     private var textBox: AppFlexInputViewModel? = null
 
+    private var pluginIcon: Drawable? = null
+
+    override fun load(ctx: Context) {
+        pluginIcon = ContextCompat.getDrawable(ctx, R.d.ic_quote_white_a60_24dp)
+    }
+
     @SuppressLint("SetTextI18n")
     override fun start(context: Context) {
+        pluginIcon = ContextCompat.getDrawable(context, R.d.ic_quote_white_a60_24dp)
         // thanks zt and ven
+        patcher.patch(
+            FlexEditText::class.java.getDeclaredMethod(
+                "onCreateInputConnection",
+                EditorInfo::class.java
+            ), PinePatchFn {
+                textInput = it.thisObject as FlexEditText
+            })
         patcher.patch(
             `FlexInputFragment$c`::class.java.getDeclaredMethod(
                 "invoke",
                 Object::class.java
             ), PinePatchFn {
-                textInput = (it.result as c.b.a.e.a).root.findViewById(R.e.text_input)
+                textInput = (it.result as a).root.findViewById(R.e.text_input)
             })
-        val icon = ContextCompat.getDrawable(context, R.d.ic_quote_white_a60_24dp)
         val quoteId = View.generateViewId()
 
         with(WidgetChatListActions::class.java, {
@@ -70,38 +101,23 @@ class Quoter : Plugin() {
                             (yes.thisObject as WidgetChatListActions).dismiss()
                             try {
                                 if (textInput == null) {
-                                    logger.error(
+                                    return@setOnClickListener logger.error(
                                         context,
-                                        "FlexEditText textInput == null, sad"
-                                    )
-
-                                    return@setOnClickListener Utils.showToast(
-                                        context,
-                                        "Guess your device doesn't like quoting :shrug:"
+                                        "Couldn't get text box. Redownloading the plugin/reinstalling may fix it. (This is a known issue lol)"
                                     )
                                 }
                                 textBox?.focus()
                                 val inputBox = textInput as FlexEditText
-                                if (msg.content.contains("\n")) {
-                                    inputBox.setText(
-                                        "> ${
-                                            msg.content.replace(
-                                                "\n",
-                                                "\n> "
-                                            )
-                                        }\n@${msg.author.r()}#${msg.author.f()}"
-                                    )
-                                    textInput!!.text?.let { it1 -> inputBox.setSelection(it1.lastIndex) }
+                                if (settings.getBool("append", true)) {
+                                    quoteAppend(context, inputBox, msg)
                                 } else {
-                                    inputBox.setText("> ${msg.content}\n@${msg.author.r()}#${msg.author.f()}")
-                                    textInput!!.text?.let { it1 -> inputBox.setSelection(it1.lastIndex) }
+                                    quoteNormal(context, inputBox, msg)
                                 }
                             } catch (bruh: Throwable) {
                                 logger.error(bruh)
                             }
                         }
                     } catch (ignore: Throwable) {
-                        Utils.showToast(context, ignore.message)
                         logger.error(ignore)
                     }
                 })
@@ -112,12 +128,17 @@ class Quoter : Plugin() {
                         (yes.args[0] as NestedScrollView).getChildAt(0) as LinearLayout
                     val ctx = linearLayout.context
 
-                    icon?.setTint(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal))
+                    pluginIcon?.setTint(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal))
 
                     val quote = TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Icon).apply {
                         text = "Quote"
                         id = quoteId
-                        setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(
+                            pluginIcon,
+                            null,
+                            null,
+                            null
+                        )
                         typeface = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium)
                     }
 
@@ -136,8 +157,83 @@ class Quoter : Plugin() {
         })
     }
 
+    @SuppressLint("SetTextI18n")
+    private fun quoteNormal(ctx: Context, inputBox: FlexEditText, msg: Message) {
+        if (msg.content.contains("\n")) {
+            inputBox.setText(
+                "> ${
+                    msg.content.replace(
+                        "\n",
+                        "\n> "
+                    )
+                }\n "
+            )
+            if (settings.getBool(
+                    "mention",
+                    true
+                )
+            ) inputBox.append("@${msg.author.r()}#${msg.author.f()} ")
+            inputBox.text?.let { inputBox.setSelection(inputBox.selectionEnd) }
+        } else {
+            inputBox.setText("> ${msg.content}\n")
+            if (settings.getBool(
+                    "mention",
+                    true
+                )
+            ) inputBox.append("@${msg.author.r()}#${msg.author.f()} ")
+            inputBox.text?.let { inputBox.setSelection(inputBox.selectionEnd) }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun quoteAppend(ctx: Context, inputBox: FlexEditText, msg: Message) {
+        val quoteText = StringBuilder()
+        if (msg.content.contains("\n")) quoteText.append(
+            "\n> ${
+                msg.content.replace(
+                    "\n",
+                    "\n> "
+                )
+            }\n"
+        ) else quoteText.append("\n> ${msg.content}\n")
+        if (settings.getBool(
+                "mention",
+                true
+            )
+        ) quoteText.append("@${msg.author.r()}#${msg.author.f()} ")
+        textInput!!.text?.let { inputBox.setSelection(inputBox.selectionEnd) }
+        inputBox.append(quoteText)
+    }
+
     override fun stop(context: Context) {
         patcher.unpatchAll()
     }
 
+}
+
+class PluginSettings(private val settings: SettingsAPI) : BottomSheet() {
+    @SuppressLint("SetTextI18n")
+    override fun onViewCreated(view: View, bundle: Bundle?) {
+        super.onViewCreated(view, bundle)
+        val ctx = requireContext()
+
+        addView(createSetting(ctx, "Add mention to quote", "mention"))
+        addView(createSetting(ctx, "Add to end of message (instead of replacing)", "append"))
+    }
+
+    private fun createSetting(
+        ctx: Context,
+        title: String,
+        setting: String,
+        checked: Boolean = true
+    ): CheckedSetting {
+        return Utils.createCheckedSetting(ctx, CheckedSetting.ViewType.SWITCH, title, null).apply {
+            isChecked = settings.getBool(setting, checked)
+            setOnCheckedListener {
+                settings.setBool(setting, it)
+                PluginManager.stopPlugin("Quoter")
+                PluginManager.startPlugin("Quoter")
+            }
+        }
+    }
 }
