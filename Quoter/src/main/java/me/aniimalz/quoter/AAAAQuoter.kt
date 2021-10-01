@@ -109,9 +109,9 @@ class AAAAQuoter : Plugin() {
                                 textBox?.focus()
                                 val inputBox = textInput as FlexEditText
                                 if (settings.getBool("append", true)) {
-                                    quoteAppend(context, inputBox, msg)
+                                    quoteAppend(inputBox, msg)
                                 } else {
-                                    quoteNormal(context, inputBox, msg)
+                                    quoteNormal(inputBox, msg)
                                 }
                             } catch (bruh: Throwable) {
                                 logger.error(bruh)
@@ -158,7 +158,7 @@ class AAAAQuoter : Plugin() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun quoteNormal(ctx: Context, inputBox: FlexEditText, msg: Message) {
+    private fun quoteNormal(inputBox: FlexEditText, msg: Message) {
         if (msg.content.contains("\n")) {
             inputBox.setText(
                 "> ${
@@ -186,7 +186,7 @@ class AAAAQuoter : Plugin() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun quoteAppend(ctx: Context, inputBox: FlexEditText, msg: Message) {
+    private fun quoteAppend(inputBox: FlexEditText, msg: Message) {
         val quoteText = StringBuilder()
         if (msg.content.contains("\n")) quoteText.append(
             "\n> ${
