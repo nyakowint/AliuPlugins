@@ -1,4 +1,4 @@
-package com.aliucord.plugins
+package me.aniimalz.plugins
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -6,9 +6,7 @@ import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
 import com.aliucord.entities.Plugin
 import com.discord.api.commands.ApplicationCommandType
-import com.discord.api.user.User
 import com.discord.models.commands.ApplicationCommandOption
-import com.discord.utilities.rest.RestAPI
 
 @AliucordPlugin
 class Fart : Plugin() {
@@ -34,13 +32,32 @@ class Fart : Plugin() {
         commands.registerCommand(
             "supersecretcommandthatnoonewilleverfindunlessyoudidhi",
             "secret fart command part 2",
-            listOf()
+            options
         ) {
-            CommandsAPI.CommandResult(
-                "Hello <@343383572805058560>, do you possibly think, that you could, potentially in the near future, fart? It would be monumental to everyone's experience on Aliucord™. Have a fart day!",
-                null,
-                true
-            )
+            if (it.mentionedUsers.count() > 0) {
+                CommandsAPI.CommandResult(
+                    "Hello <@${it.mentionedUsers[0].id}>, do you possibly think, that you could, potentially in the near future, fart? It would be monumental to everyone's experience on Aliucord™. Have a fart day!",
+                    null,
+                    true
+                )
+            } else {
+                CommandsAPI.CommandResult(
+                    "Hello <@343383572805058560>, do you possibly think, that you could, potentially in the near future, fart? It would be monumental to everyone's experience on Aliucord™. Have a fart day!",
+                    null,
+                    true
+                )
+            }
+        }
+        commands.registerCommand("shart", "shart", listOf()) {
+            CommandsAPI.CommandResult("/shart", null, true)
+        }
+
+        commands.registerCommand("cock", "Send \"cock\"", options) {
+            if (it.mentionedUsers.count() > 0) {
+                CommandsAPI.CommandResult("<@${it.mentionedUsers[0].id}> cock", null, true)
+            } else {
+                CommandsAPI.CommandResult("cock", null, true)
+            }
         }
     }
 

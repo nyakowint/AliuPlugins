@@ -1,4 +1,4 @@
-package me.aniimalz.quoter
+package me.aniimalz.plugins
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -18,9 +18,7 @@ import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.SettingsAPI
 import com.aliucord.entities.Plugin
-import com.aliucord.fragments.SettingsPage
 import com.aliucord.patcher.PinePatchFn
-import com.aliucord.patcher.PinePrePatchFn
 import com.aliucord.widgets.BottomSheet
 import com.aliucord.wrappers.ChannelWrapper.Companion.id
 import com.discord.databinding.WidgetChatListActionsBinding
@@ -28,7 +26,6 @@ import com.discord.models.message.Message
 import com.discord.stores.StoreStream
 import com.discord.utilities.color.ColorCompat
 import com.discord.utilities.permissions.PermissionUtils
-import com.discord.utilities.user.UserUtils
 import com.discord.views.CheckedSetting
 import com.discord.widgets.chat.input.AppFlexInputViewModel
 
@@ -41,7 +38,7 @@ import android.graphics.drawable.Drawable
 
 
 @AliucordPlugin
-class AAAAQuoter : Plugin() {
+class `0Quoter` : Plugin() {
     init {
         settingsTab = SettingsTab(
             PluginSettings::class.java,
