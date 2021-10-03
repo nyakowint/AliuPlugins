@@ -1,4 +1,4 @@
-/*include(":PinIcon")*/
+include(":PinIcon")
 include(":Fart")
 include(":xkcd")
 include(":Quoter")

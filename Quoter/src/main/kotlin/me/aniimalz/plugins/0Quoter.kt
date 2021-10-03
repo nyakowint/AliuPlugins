@@ -35,6 +35,7 @@ import com.lytefast.flexinput.fragment.`FlexInputFragment$c`
 import com.lytefast.flexinput.widget.FlexEditText
 import top.canyie.pine.Pine
 import android.graphics.drawable.Drawable
+import com.aliucord.Logger
 
 
 @AliucordPlugin
@@ -45,6 +46,8 @@ class `0Quoter` : Plugin() {
             SettingsTab.Type.BOTTOM_SHEET
         ).withArgs(settings)
     }
+
+    private val logger: Logger = Logger("Quoter")
 
     private var textInput: FlexEditText? = null
     private var textBox: AppFlexInputViewModel? = null
