@@ -36,6 +36,7 @@ import com.lytefast.flexinput.widget.FlexEditText
 import top.canyie.pine.Pine
 import android.graphics.drawable.Drawable
 import com.aliucord.Logger
+import org.w3c.dom.Text
 
 
 @AliucordPlugin
@@ -90,7 +91,7 @@ class `0Quoter` : Plugin() {
                             getBinding.invoke(yes.thisObject) as WidgetChatListActionsBinding
                         val channel = (yes.args[0] as WidgetChatListActions.Model).channel
                         val quoteButton =
-                            binding.a.findViewById<TextView>(quoteId).apply {
+                            binding.root.findViewById<TextView>(quoteId).apply {
                                 visibility = if (PermissionUtils.INSTANCE.hasAccessWrite(
                                         channel,
                                         StoreStream.getPermissions().permissionsByChannel[channel.id]
