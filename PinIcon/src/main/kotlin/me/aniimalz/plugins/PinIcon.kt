@@ -54,7 +54,7 @@ class PinIcon : Plugin() {
                                 Utils.showToast(textView.context, "This message is pinned")
                             }
                         } else {
-                            val textView = itemTimestampField.get(cf.thisObject) as TextView
+                            val textView = itemTimestampField.get(cf.thisObject) as TextView? ?: return@PinePatchFn
                             textView.setCompoundDrawablesRelativeWithIntrinsicBounds(
                                 null,
                                 null,
