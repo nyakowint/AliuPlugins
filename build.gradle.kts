@@ -73,7 +73,7 @@ subprojects {
         val discord by configurations
         val implementation by configurations
 
-        discord("com.discord:discord:96100")
+        discord("com.discord:discord:96103")
         implementation("com.github.Aliucord:Aliucord:a9c8b95168")
     }
 }
