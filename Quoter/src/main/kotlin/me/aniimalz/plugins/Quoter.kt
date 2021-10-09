@@ -36,11 +36,13 @@ import com.lytefast.flexinput.widget.FlexEditText
 import top.canyie.pine.Pine
 import android.graphics.drawable.Drawable
 import com.aliucord.Logger
+import com.aliucord.patcher.Hook
+import de.robv.android.xposed.XC_MethodHook
 import org.w3c.dom.Text
 
 
 @AliucordPlugin
-class `0Quoter` : Plugin() {
+class Quoter : Plugin() {
     init {
         settingsTab = SettingsTab(
             PluginSettings::class.java,
@@ -67,14 +69,14 @@ class `0Quoter` : Plugin() {
             FlexEditText::class.java.getDeclaredMethod(
                 "onCreateInputConnection",
                 EditorInfo::class.java
-            ), PinePatchFn {
+            ), Hook {
                 textInput = it.thisObject as FlexEditText
             })
         patcher.patch(
             `FlexInputFragment$c`::class.java.getDeclaredMethod(
                 "invoke",
                 Object::class.java
-            ), PinePatchFn {
+            ), Hook {
                 textInput = (it.result as a).root.findViewById(R.e.text_input)
             })
         val quoteId = View.generateViewId()
@@ -84,7 +86,7 @@ class `0Quoter` : Plugin() {
 
             patcher.patch(
                 getDeclaredMethod("configureUI", WidgetChatListActions.Model::class.java),
-                PinePatchFn { yes: Pine.CallFrame ->
+                Hook { yes: XC_MethodHook.MethodHookParam ->
                     try {
                         val msg = (yes.args[0] as WidgetChatListActions.Model).message
                         val binding =
@@ -124,7 +126,7 @@ class `0Quoter` : Plugin() {
                 })
             patcher.patch(
                 getDeclaredMethod("onViewCreated", View::class.java, Bundle::class.java),
-                PinePatchFn { yes: Pine.CallFrame ->
+                Hook { yes: XC_MethodHook.MethodHookParam ->
                     val linearLayout =
                         (yes.args[0] as NestedScrollView).getChildAt(0) as LinearLayout
                     val ctx = linearLayout.context
@@ -151,7 +153,7 @@ class `0Quoter` : Plugin() {
                     "onInputTextChanged",
                     String::class.java,
                     Boolean::class.javaObjectType
-                ), PinePatchFn {
+                ), Hook {
                     textBox = it.thisObject as AppFlexInputViewModel
                 })
 

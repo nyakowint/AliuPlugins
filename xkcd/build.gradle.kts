@@ -1,9 +1,10 @@
-version = "1.0.0"
+version = "1.0.1"
 description = "View comic-like drawings from xkcd.com"
 
 aliucord {
     changelog.set("""
-        - nothing
+        # 1.0.1
+        * Update to 96.3
     """.trimIndent()
     )
 }

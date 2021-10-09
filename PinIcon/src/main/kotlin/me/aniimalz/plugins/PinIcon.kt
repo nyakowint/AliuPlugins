@@ -6,14 +6,14 @@ import android.graphics.drawable.Drawable
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.aliucord.Logger
-import com.aliucord.Utils
+import com.aliucord.Utils.showToast
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
-import com.aliucord.patcher.PinePatchFn
+import com.aliucord.patcher.Hook
 import com.discord.models.message.Message
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
 import com.lytefast.flexinput.R
-import top.canyie.pine.Pine.CallFrame
+import de.robv.android.xposed.XC_MethodHook
 
 @AliucordPlugin
 class PinIcon : Plugin() {
@@ -39,7 +39,7 @@ class PinIcon : Plugin() {
                 getDeclaredMethod(
                     "configureItemTag",
                     Message::class.java
-                ), PinePatchFn { cf: CallFrame ->
+                ), Hook { cf: XC_MethodHook.MethodHookParam ->
                     try {
                         val msg = cf.args[0] as Message
                         if (msg.pinned) {
@@ -51,10 +51,10 @@ class PinIcon : Plugin() {
                                 null
                             )
                             textView.setOnClickListener {
-                                Utils.showToast(textView.context, "This message is pinned")
+                                showToast("This message is pinned" )
                             }
                         } else {
-                            val textView = itemTimestampField.get(cf.thisObject) as TextView? ?: return@PinePatchFn
+                            val textView = itemTimestampField.get(cf.thisObject) as TextView? ?: return@Hook
                             textView.setCompoundDrawablesRelativeWithIntrinsicBounds(
                                 null,
                                 null,

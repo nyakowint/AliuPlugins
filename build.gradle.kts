@@ -71,10 +71,10 @@ subprojects {
 
     dependencies {
         val discord by configurations
-        val api by configurations
+        val implementation by configurations
 
-        discord("com.discord:discord:aliucord-SNAPSHOT")
-        api("com.github.Aliucord:Aliucord:main-SNAPSHOT")
+        discord("com.discord:discord:96100")
+        implementation("com.github.Aliucord:Aliucord:a9c8b95168")
     }
 }
 

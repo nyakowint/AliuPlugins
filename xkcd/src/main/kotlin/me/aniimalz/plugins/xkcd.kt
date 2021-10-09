@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import com.aliucord.Http
 import com.aliucord.Main.logger
+import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
 import com.aliucord.entities.CommandContext
@@ -19,15 +20,15 @@ class xkcd : Plugin() {
     @SuppressLint("SetTextI18n")
     override fun start(context: Context?) {
         val url = "https://xkcd.com"
-        val comicNum = ApplicationCommandOption(
+        val comicNum = Utils.createCommandOption(
             ApplicationCommandType.NUMBER,
             "num",
             "# of the comic to view",
             null,
             false,
-            false,
-            null,
-            null
+            default = false,
+            channelTypes = emptyList(),
+            choices = emptyList(), subCommandOptions = emptyList(), autocomplete = false
         )
         commands.registerCommand(
             "xkcd",

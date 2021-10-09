@@ -2,6 +2,7 @@ package me.aniimalz.plugins
 
 import android.annotation.SuppressLint
 import android.content.Context
+import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
 import com.aliucord.entities.Plugin
@@ -13,10 +14,15 @@ class Fart : Plugin() {
     @SuppressLint("SetTextI18n")
     override fun start(context: Context?) {
         val options = listOf(
-            ApplicationCommandOption(
+            Utils.createCommandOption(
                 ApplicationCommandType.USER,
-                "user", "The farting user, or fartee (bonus points if ven)", null, false,
-                true, null, null
+                "user", "The farting user, or fartee (bonus points if ven)", null,
+                required = false,
+                default = true,
+                channelTypes = emptyList(),
+                choices = emptyList(),
+                subCommandOptions = emptyList(),
+                autocomplete = false
             )
         )
 
