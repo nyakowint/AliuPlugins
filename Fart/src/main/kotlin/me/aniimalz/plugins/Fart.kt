@@ -36,8 +36,8 @@ class Fart : Plugin() {
         }
 
         commands.registerCommand(
-            "supersecretcommandthatnoonewilleverfindunlessyoudidhi",
-            "secret fart command part 2",
+            "betterfart",
+            "fart but better",
             options
         ) {
             if (it.mentionedUsers.count() > 0) {
@@ -48,7 +48,7 @@ class Fart : Plugin() {
                 )
             } else {
                 CommandsAPI.CommandResult(
-                    "Hello <@343383572805058560>, do you possibly think, that you could, potentially in the near future, fart? It would be monumental to everyone's experience on Aliucord™. Have a fart day!",
+                    "Hello everyone, do you possibly think, that you could, potentially in the near future, fart? It would be monumental to your experience on Aliucord™. Have a fart day!",
                     null,
                     true
                 )
