@@ -22,10 +22,10 @@ allprojects {
 }
 
 fun Project.android(configuration: BaseExtension.() -> Unit) =
-        extensions.getByName<BaseExtension>("android").configuration()
+    extensions.getByName<BaseExtension>("android").configuration()
 
 fun Project.aliucord(configuration: AliucordExtension.() -> Unit) =
-        extensions.getByName<AliucordExtension>("aliucord").configuration()
+    extensions.getByName<AliucordExtension>("aliucord").configuration()
 
 subprojects {
     apply(plugin = "com.android.library")
@@ -71,10 +71,10 @@ subprojects {
 
     dependencies {
         val discord by configurations
-        val implementation by configurations
+        val compileOnly by configurations
 
-        discord("com.discord:discord:96103")
-        implementation("com.github.Aliucord:Aliucord:a9c8b95168")
+        discord("com.discord:discord:aliucord-SNAPSHOT")
+        compileOnly("com.github.Aliucord:Aliucord:main-SNAPSHOT")
     }
 }
 

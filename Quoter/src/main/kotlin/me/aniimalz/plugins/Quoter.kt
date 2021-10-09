@@ -2,6 +2,7 @@ package me.aniimalz.plugins
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -132,6 +133,7 @@ class Quoter : Plugin() {
                     val ctx = linearLayout.context
 
                     pluginIcon?.setTint(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal))
+                    Utils.tintToTheme(pluginIcon)
 
                     val quote = TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Icon).apply {
                         text = "Quote"
