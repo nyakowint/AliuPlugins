@@ -2,15 +2,21 @@ package me.aniimalz.plugins
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.media.AudioAttributes
+import android.media.MediaPlayer
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
 import com.aliucord.entities.Plugin
 import com.discord.api.commands.ApplicationCommandType
-import com.discord.models.commands.ApplicationCommandOption
+import java.lang.IllegalArgumentException
 
 @AliucordPlugin
 class Fart : Plugin() {
+    init {
+        needsResources = true
+    }
+
     @SuppressLint("SetTextI18n")
     override fun start(context: Context?) {
         val options = listOf(
@@ -28,8 +34,8 @@ class Fart : Plugin() {
 
         // hi ven :3
         commands.registerCommand("fart", "Tell someone to fart", options) {
-            if (it.mentionedUsers.count() > 0) {
-                CommandsAPI.CommandResult("<@${it.mentionedUsers[0].id}> fart", null, true)
+            if (it.containsArg("user")) {
+                CommandsAPI.CommandResult("<@${it.getRequiredUser("user").id}> fart", null, true)
             } else {
                 CommandsAPI.CommandResult("fart", null, true)
             }
@@ -42,7 +48,7 @@ class Fart : Plugin() {
         ) {
             if (it.mentionedUsers.count() > 0) {
                 CommandsAPI.CommandResult(
-                    "Hello <@${it.mentionedUsers[0].id}>, do you possibly think, that you could, potentially in the near future, fart? It would be monumental to everyone's experience on Aliucord™. Have a fart day!",
+                    "Hello <@${it.getRequiredUser("user").id}>, do you possibly think, that you could, potentially in the near future, fart? It would be monumental to everyone's experience on Aliucord™. Have a fart day!",
                     null,
                     true
                 )
@@ -54,13 +60,15 @@ class Fart : Plugin() {
                 )
             }
         }
-        commands.registerCommand("shart", "shart", listOf()) {
+
+        // epic troll command
+        commands.registerCommand("shart", "If it doesnt work reinstall aliucord", listOf()) {
             CommandsAPI.CommandResult("/shart", null, true)
         }
 
         commands.registerCommand("cock", "Send \"cock\"", options) {
             if (it.mentionedUsers.count() > 0) {
-                CommandsAPI.CommandResult("<@${it.mentionedUsers[0].id}> cock", null, true)
+                CommandsAPI.CommandResult("<@${it.getRequiredUser("user").id}> cock", null, true)
             } else {
                 CommandsAPI.CommandResult("cock", null, true)
             }

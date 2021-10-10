@@ -19,5 +19,8 @@ Shows comic pages from [xkcd.com](https://xkcd.com).
 ### [PinIcon](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/PinIcon.zip)
 Shows an icon next to messages that are pinned
 
+### [FreeNitro](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/FreeNitro.zip)
+This plugin DOES NOT give you ANY nitro features whatsoever. It is entirely intended to troll people who don't read / install plugins without reading what they do.
+
 ---
 xinto zt and ven are epic (oh and joo bee)

@@ -1,3 +1,4 @@
+include(":FreeNitro")
 include(":PinIcon")
 include(":Fart")
 include(":xkcd")
