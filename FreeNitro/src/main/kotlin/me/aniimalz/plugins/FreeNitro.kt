@@ -1,9 +1,11 @@
 package me.aniimalz.plugins
 
 import android.content.Context
+import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
 import com.aliucord.entities.Plugin
 
+@AliucordPlugin
 class FreeNitro : Plugin() {
     override fun start(ctx: Context) {
         commands.registerCommand("nitro", "Free nitro! Totally not a scam 10% legit") {

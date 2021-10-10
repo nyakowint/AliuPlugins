@@ -3,6 +3,7 @@ package me.aniimalz.plugins
 import android.content.Context
 import com.aliucord.entities.Plugin
 
+@AliucordPlugin
 class Template : Plugin() {
     override fun start(ctx: Context) {
 
