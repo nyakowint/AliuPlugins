@@ -19,7 +19,7 @@ Shows comic pages from [xkcd.com](https://xkcd.com).
 ### [PinIcon](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/PinIcon.zip)
 Shows an icon next to messages that are pinned
 
-### [FreeNitro](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/FreeNitro.zip)
+### [FreeNitro](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/FreeNitro.zip) (aka Fr3eNitro)
 This plugin DOES NOT give you ANY nitro features whatsoever. It is entirely intended to troll people who don't read / install plugins without reading what they do.
 
 ---
