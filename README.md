@@ -21,8 +21,8 @@ Shows comic pages from [xkcd.com](https://xkcd.com).
 ### [PinIcon](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/PinIcon.zip)
 Shows an icon next to messages that are pinned
 
-### [CompactMode](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/CompactMode.zip)
-Tries to replicate the compact mode from the desktop version of discord. Also ven torture lol
+### [AutoShowSpoilers](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/AutoShowSpoilers.zip)
+Automatically reveal spoilers on text and media.
 
 ### [FreeNitro](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/FreeNitro.zip)
 This plugin does not give you free nitro just buy nitro lol
