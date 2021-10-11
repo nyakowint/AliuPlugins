@@ -1,13 +1,9 @@
-version = "1.0.3"
-description = "This plugin DOES NOT give you ANY nitro features whatsoever. It is entirely intended to troll people who don't read / install plugins without reading what they do."
+version = "1.1.0"
+description = "\"\"Free\"\" nitro :^)"
 
 aliucord {
     changelog.set("""
-        # 1.0.3
-        * im gonna stop updating the changelog cause this is just a joke plugin lol
-        # 1.0.1
-        * Change message, fix emote
-        # 1.0.0
-		* CCP
+        # 1.1.0
+        * Make method better :kapp:
     """.trimIndent())
 }

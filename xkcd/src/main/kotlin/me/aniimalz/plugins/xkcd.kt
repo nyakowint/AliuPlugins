@@ -12,12 +12,11 @@ import com.aliucord.entities.MessageEmbedBuilder
 import com.aliucord.entities.Plugin
 import com.discord.api.commands.ApplicationCommandType
 import com.discord.api.utcdatetime.UtcDateTime
-import com.discord.models.commands.ApplicationCommandOption
 import java.text.SimpleDateFormat
 
 @AliucordPlugin
 class xkcd : Plugin() {
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun start(context: Context?) {
         val url = "https://xkcd.com"
         val comicNum = Utils.createCommandOption(

@@ -1,3 +1,4 @@
+include(":AutoShowSpoilers")
 include(":FreeNitro")
 include(":PinIcon")
 include(":Fart")

@@ -2,14 +2,11 @@ package me.aniimalz.plugins
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.media.AudioAttributes
-import android.media.MediaPlayer
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
 import com.aliucord.entities.Plugin
 import com.discord.api.commands.ApplicationCommandType
-import java.lang.IllegalArgumentException
 
 @AliucordPlugin
 class Fart : Plugin() {

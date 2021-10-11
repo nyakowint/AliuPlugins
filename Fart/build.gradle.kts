@@ -1,13 +1,9 @@
-version = "1.2.3"
+version = "1.2.4"
 description = "fart"
 
 aliucord {
     changelog.set("""
-        # 1.2.3
-        * Minor fixes
-        # 1.2.2
-        * Update to 96.3
-        # 1.2.1
-		* Added cock and shart
+        # 1.2.4
+        * Remove unused imports
     """.trimIndent())
 }

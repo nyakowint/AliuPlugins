@@ -2,7 +2,6 @@ package me.aniimalz.plugins
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -13,13 +12,11 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
 import c.b.a.e.a
 import com.aliucord.Constants
-import com.aliucord.Main.logger
 import com.aliucord.PluginManager
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.SettingsAPI
 import com.aliucord.entities.Plugin
-import com.aliucord.patcher.PinePatchFn
 import com.aliucord.widgets.BottomSheet
 import com.aliucord.wrappers.ChannelWrapper.Companion.id
 import com.discord.databinding.WidgetChatListActionsBinding
@@ -34,12 +31,10 @@ import com.discord.widgets.chat.list.actions.WidgetChatListActions
 import com.lytefast.flexinput.R
 import com.lytefast.flexinput.fragment.`FlexInputFragment$c`
 import com.lytefast.flexinput.widget.FlexEditText
-import top.canyie.pine.Pine
 import android.graphics.drawable.Drawable
 import com.aliucord.Logger
 import com.aliucord.patcher.Hook
 import de.robv.android.xposed.XC_MethodHook
-import org.w3c.dom.Text
 
 
 @AliucordPlugin
