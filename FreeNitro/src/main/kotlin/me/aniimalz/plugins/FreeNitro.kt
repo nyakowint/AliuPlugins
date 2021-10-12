@@ -85,7 +85,7 @@ class FreeNitro : Plugin() {
                 return@Hook
             }
             val binding = ephBinding.get(it.thisObject) as WidgetChatListAdapterItemEphemeralMessageBinding
-            binding.e.text = "aliucord sussy user wtf? dies of cring"
+            binding.e.text = "aliucord sussy user wtf? dies of cring (use /nitro to remove this)"
             if (StoreStream.getUsers().me.id == 587156686612201482L) binding.e.text = "Moulz"
         })
         patcher.patch(Message::class.java.getDeclaredMethod("isEphemeralMessage"), InsteadHook.returnConstant(true))
