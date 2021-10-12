@@ -1,3 +1,4 @@
+include(":Vector")
 include(":AutoShowSpoilers")
 include(":FreeNitro")
 include(":PinIcon")

@@ -136,6 +136,7 @@ class FreeNitro : Plugin() {
         )
 
         with(IconUtils::class.java) {
+            if (PluginManager.isPluginEnabled("Vector")) return@with
             patcher.patch(getDeclaredMethod("setIcon", ImageView::class.java, String::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType, Boolean::class.javaPrimitiveType), InsteadHook {
                 val img = it.args[0] as ImageView
                 img.setImageURI(Uri.parse("https://cdn.discordapp.com/attachments/811255667469582420/897530531632267264/1634058346931.png"))
