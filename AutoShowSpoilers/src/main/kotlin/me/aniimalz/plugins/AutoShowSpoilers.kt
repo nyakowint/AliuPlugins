@@ -26,7 +26,7 @@ class AutoShowSpoilers : Plugin() {
         }
 
         with(WidgetChatListAdapterItemAttachment.Model::class.java) {
-            val isRevealed = getDeclaredMethod("isSpoilerEmbedRevealed", AttachmentEntry::class.java);
+            val isRevealed = getDeclaredMethod("isSpoilerEmbedRevealed", AttachmentEntry::class.java)
             isRevealed.apply { isAccessible = true }
             patcher.patch(isRevealed, InsteadHook {
                 return@InsteadHook true
