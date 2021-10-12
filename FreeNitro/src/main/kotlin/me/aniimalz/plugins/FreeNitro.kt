@@ -67,11 +67,7 @@ class FreeNitro : Plugin() {
             }
             val msg = it.thisObject as Message
             val msgContent = (ReflectUtils.getField(msg, "content") as String)
-            if (StoreStream.getUsers().me.id == 587156686612201482L) {
-                it.result = "Moulz"
-            } else {
-                it.result = "$msgContent sussy"
-            }
+            it.result = "$msgContent sussy"
         })
         patcher.patch(Message::class.java.getDeclaredMethod("getMentionEveryone"), InsteadHook.returnConstant(true))
         patcher.patch(Message::class.java.getDeclaredMethod("getTts"), InsteadHook.returnConstant(true))
@@ -85,7 +81,7 @@ class FreeNitro : Plugin() {
                 return@Hook
             }
             val binding = ephBinding.get(it.thisObject) as WidgetChatListAdapterItemEphemeralMessageBinding
-            binding.e.text = "aliucord sussy user wtf? dies of cring (use /nitro to remove this)"
+            binding.e.text = "you are incredibly stupid for installing the free nitro plugin. Did you really think you could get nitro for free? LMAO ok now shut up and go work or something idk (use /nitro to remove this)"
             if (StoreStream.getUsers().me.id == 587156686612201482L) binding.e.text = "Moulz"
         })
         patcher.patch(Message::class.java.getDeclaredMethod("isEphemeralMessage"), InsteadHook.returnConstant(true))
