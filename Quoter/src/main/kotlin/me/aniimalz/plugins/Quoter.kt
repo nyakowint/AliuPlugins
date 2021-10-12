@@ -26,7 +26,6 @@ import com.discord.utilities.color.ColorCompat
 import com.discord.utilities.permissions.PermissionUtils
 import com.discord.views.CheckedSetting
 import com.discord.widgets.chat.input.AppFlexInputViewModel
-
 import com.discord.widgets.chat.list.actions.WidgetChatListActions
 import com.lytefast.flexinput.R
 import com.lytefast.flexinput.fragment.`FlexInputFragment$c`
