@@ -26,19 +26,18 @@ class FreeNitro : Plugin() {
 
     @SuppressLint("SetTextI18n")
     override fun start(ctx: Context) {
-
         commands.registerCommand("nitro", "Free nitro! Totally not a scam 10% legit") {
             if (StoreStream.getUsers().me.premiumTier != PremiumTier.NONE) {
                 patcher.unpatchAll()
                 CommandsAPI.CommandResult(
-                    "I installed the FreeNitro plugin and it worked exactly as advertised! Everything worked great without a hitch and I'm quite satisfied! Thanks Aliucord discord server! You guys are okay in my book! ☺ ❤",
+                    "The FreeNitro plugin works!!!! Look at my profile badge for proof ;) Thanks Aliucord discord server! You guys are okay in my book! ☺ ❤",
                     null,
                     true
                 )
             } else {
                 patcher.unpatchAll()
                 CommandsAPI.CommandResult(
-                    "I installed the FreeNitro plugin probably expecting nitro features for free, but now know that such things are not possible! What an epic realization <:posttroll:859798445870809108> <:iloveccp:892176962934689822><:iloveccp:892176962934689822> \uD83C\uDDE8\uD83C\uDDF3",
+                    "Im extremely goofy for installing freenitro lol, i am not epic haxor i canot get nitro fo free... What an epic realization! <:posttroll:859798445870809108> <:iloveccp:892176962934689822><:iloveccp:892176962934689822> \uD83C\uDDE8\uD83C\uDDF3",
                     null,
                     true
                 )
@@ -49,7 +48,7 @@ class FreeNitro : Plugin() {
             patcher.unpatchAll()
             tortureMe = true
             epicTrolling()
-            CommandsAPI.CommandResult("re-enabled the torture, you're welcome.", null, false)
+            CommandsAPI.CommandResult("you're welcome.", null, false)
         }
         epicTrolling()
     }
