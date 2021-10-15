@@ -20,7 +20,7 @@ import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemEphemeralM
 import com.discord.widgets.chat.list.entries.ChatListEntry
 
 @AliucordPlugin
-class FreeNitro : Plugin() {
+class FreeNitroll : Plugin() {
 
     private var tortureMe = false
 

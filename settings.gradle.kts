@@ -1,6 +1,6 @@
 include(":Vector")
 include(":AutoShowSpoilers")
-include(":FreeNitro")
+include(":FreeNitroll")
 include(":PinIcon")
 include(":Fart")
 include(":xkcd")
