@@ -28,13 +28,8 @@ this plugin does not give you free nitro just buy nitro lol
 ### [NoKyzas](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/NoKyzas.zip)
 This plugin changes everyone's grammatically correct sentences to normal ones.
 
-Before: [yarik before death](https://uploadi.ng/​‌​​‌‌‌‌​‌‌​​​​‌​​‌‌​‌​​​‌​​‌​​‌​‌​‌‌​​​​‌​​‌​​‌​‌‌‌​​​​​‌‌​​​‌​)
-
-After: [yarik death](https://cdn.discordapp.com/attachments/811255667469582420/899040237718765568/Screenshot_20211016-165645.png)
-before and after: ![yarik death](https://i.imgur.com/nZZL0se.png)
-Before: ![yarik before death](https://i.imgur.com/G2kltrl.png)
-
-After: ![yarik death](https://cdn.discordapp.com/attachments/811255667469582420/899040237718765568/Screenshot_20211016-165645.png)
+before and after:
+![yarik death](https://i.imgur.com/nZZL0se.png)
 
 ---
 aliucord people are epic except for yarik and kyza ew (jk lol)
