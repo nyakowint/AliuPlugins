@@ -14,7 +14,6 @@ import com.aliucord.patcher.InsteadHook
 import com.aliucord.utils.ReflectUtils
 import com.discord.api.premium.PremiumTier
 import com.discord.databinding.WidgetChatListAdapterItemEphemeralMessageBinding
-import com.discord.models.member.GuildMember
 import com.discord.models.message.Message
 import com.discord.stores.StoreStream
 import com.discord.utilities.icon.IconUtils

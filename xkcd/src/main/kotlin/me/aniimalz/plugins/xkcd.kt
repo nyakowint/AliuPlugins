@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import com.aliucord.Http
 import com.aliucord.Logger
-import com.aliucord.Main.logger
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI

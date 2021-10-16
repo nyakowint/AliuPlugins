@@ -8,15 +8,8 @@ import com.aliucord.Logger
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.InsteadHook
-import com.discord.api.user.User
-import com.discord.models.member.GuildMember
 import com.discord.models.message.Message
-import com.discord.stores.StoreSearch
-import com.discord.utilities.guildmember.GuildMemberUtilsKt
 import com.discord.utilities.icon.IconUtils
-import com.discord.utilities.search.SearchUtils
-import com.discord.utilities.user.UserUtils
-import com.discord.widgets.search.WidgetSearch
 
 @AliucordPlugin
 class Vector : Plugin() {
