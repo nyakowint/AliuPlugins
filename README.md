@@ -25,7 +25,7 @@ shows comic pages from [xkcd.com](https://xkcd.com)
 ### [FreeNitro](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/FreeNitro.zip)
 this plugin does not give you free nitro just buy nitro lol
 
-## [NoKyzas](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/NoKyzas.zip)
+### [NoKyzas](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/NoKyzas.zip)
 This plugin changes a user's grammatically correct sentences to normal ones.
 
 Before: ![yarik before death](https://i.imgur.com/G2kltrl.png)
