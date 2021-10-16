@@ -3,6 +3,7 @@ package me.aniimalz.plugins
 import android.annotation.SuppressLint
 import android.content.Context
 import com.aliucord.Http
+import com.aliucord.Logger
 import com.aliucord.Main.logger
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
@@ -16,6 +17,9 @@ import java.text.SimpleDateFormat
 
 @AliucordPlugin
 class xkcd : Plugin() {
+
+    private val logger: Logger = Logger("xkcd")
+
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun start(context: Context?) {
         val url = "https://xkcd.com"

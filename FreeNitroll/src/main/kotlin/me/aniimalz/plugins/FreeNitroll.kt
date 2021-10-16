@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.widget.ImageView
+import com.aliucord.Logger
 import com.aliucord.PluginManager
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
@@ -13,6 +14,7 @@ import com.aliucord.patcher.InsteadHook
 import com.aliucord.utils.ReflectUtils
 import com.discord.api.premium.PremiumTier
 import com.discord.databinding.WidgetChatListAdapterItemEphemeralMessageBinding
+import com.discord.models.member.GuildMember
 import com.discord.models.message.Message
 import com.discord.stores.StoreStream
 import com.discord.utilities.icon.IconUtils
@@ -23,6 +25,8 @@ import com.discord.widgets.chat.list.entries.ChatListEntry
 class FreeNitroll : Plugin() {
 
     private var tortureMe = false
+
+    private val logger: Logger = Logger("FreeNitro")
 
     @SuppressLint("SetTextI18n")
     override fun start(ctx: Context) {

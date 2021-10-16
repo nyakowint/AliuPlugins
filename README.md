@@ -1,31 +1,36 @@
-## Plugins for [Aliucord](https://github.com/Aliucord) (or aliucables as i call it lol)
+## Plugins for [Aliucord](https://github.com/Aliucord)
 
-Clone of [zt64/aliucord-plugins](https://github.com/zt64/aliucord-plugins) for easier kotlin
+Click on a plugin's name to download, and then move the downloaded file to the `Aliucord/plugins`
+folder (*do not* extract the zip lmao)
 
-Click on a plugin name to download, and then move the downloaded file to the `Aliucord/plugins`
-folder
+Clone of [zt64/aliucord-plugins] because the plugin template is java cringe smh smh
 
-~~or just use PluginDownloader like everyone else does lol~~
-
-# Plugins
+# Plugins 
 
 ### [Quoter](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/Quoter.zip)
-Re-adds the famous "Quote" button.
-
-### [Fart](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/Fart.zip)
-Tell someone to fart, or fart yourself.
-
-### [xkcd](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/xkcd.zip)
-Shows comic pages from [xkcd.com](https://xkcd.com).
+re-adds the famous "Quote" button
 
 ### [PinIcon](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/PinIcon.zip)
-Shows an icon next to messages that are pinned
+shows an icon next to messages that are pinned
 
 ### [AutoShowSpoilers](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/AutoShowSpoilers.zip)
-Automatically reveal spoilers on text and media.
+automatically reveal spoilers on text and media
+
+### [Fart](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/Fart.zip)
+tell someone to fart or fart yourself
+
+### [xkcd](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/xkcd.zip)
+shows comic pages from [xkcd.com](https://xkcd.com)
 
 ### [FreeNitro](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/FreeNitro.zip)
-This plugin does not give you free nitro just buy nitro lol
+this plugin does not give you free nitro just buy nitro lol
+
+## [NoKyzas](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/NoKyzas.zip) *** UNFINISHED + UNRELEASED ***
+This plugin changes a user's grammatically correct sentences to normal ones.
+
+### [SoftBlock](https://tryitands.ee) *** UNFINISHED + UNRELEASED ***
+hide a user's messages locally
+
 
 ---
-xinto zt and ven are epic (oh and joo bee)
+aliucord people are epic except for yarik and kyza ew (jk lol)
