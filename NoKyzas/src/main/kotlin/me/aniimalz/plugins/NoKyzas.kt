@@ -41,7 +41,7 @@ class NoKyzas : Plugin() {
             }
             val msg = (ReflectUtils.getField(it.thisObject as Message, "content") as String)
             if (CoreUser((it.thisObject as Message).author).id == StoreStream.getUsers().me.id && !settings.getBool("replaceSelf", false)) return@Hook
-            val result = msg.replaceFirstChar { w -> w.lowercase() }
+            val result = msg.lowercase()
             it.result = result.dropLastWhile { c -> c == '.' || c == '​' }
         })
     }

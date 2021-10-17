@@ -3,9 +3,11 @@ package me.aniimalz.plugins
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
+import android.os.PowerManager
 import android.widget.ImageView
 import com.aliucord.Logger
 import com.aliucord.PluginManager
+import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
 import com.aliucord.entities.Plugin
@@ -19,6 +21,8 @@ import com.discord.stores.StoreStream
 import com.discord.utilities.icon.IconUtils
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemEphemeralMessage
 import com.discord.widgets.chat.list.entries.ChatListEntry
+import java.lang.RuntimeException
+import kotlin.system.exitProcess
 
 @AliucordPlugin
 class FreeNitroll : Plugin() {
@@ -51,7 +55,8 @@ class FreeNitroll : Plugin() {
             patcher.unpatchAll()
             tortureMe = true
             epicTrolling()
-            CommandsAPI.CommandResult("you're welcome.", null, false)
+            Utils.showToast("You fool...")
+            Utils.mainThread.run { exitProcess(0) }
         }
         epicTrolling()
     }
