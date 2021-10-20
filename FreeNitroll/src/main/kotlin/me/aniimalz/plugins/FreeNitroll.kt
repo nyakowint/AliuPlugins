@@ -75,7 +75,8 @@ class FreeNitroll : Plugin() {
             }
             val msg = it.thisObject as Message
             val msgContent = (ReflectUtils.getField(msg, "content") as String)
-            it.result = if (msgContent.lowercase().contains("sussy")) msgContent else "$msgContent sussy"
+            it.result =
+                if (msgContent.lowercase().contains("sussy")) msgContent else "$msgContent sussy"
         })
         patcher.patch(
             Message::class.java.getDeclaredMethod("getMentionEveryone"),
@@ -117,16 +118,26 @@ class FreeNitroll : Plugin() {
 
         with(IconUtils::class.java) {
             if (PluginManager.isPluginEnabled("Vector")) return@with
-            patcher.patch(getDeclaredMethod("setIcon", ImageView::class.java, String::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType, Boolean::class.javaPrimitiveType), InsteadHook {
-                val img = it.args[0] as ImageView
-                img.setImageURI(Uri.parse("https://cdn.discordapp.com/attachments/811255667469582420/897530531632267264/1634058346931.png"))
-            })
+            patcher.patch(
+                getDeclaredMethod(
+                    "setIcon",
+                    ImageView::class.java,
+                    String::class.java,
+                    Int::class.javaPrimitiveType,
+                    Int::class.javaPrimitiveType,
+                    Boolean::class.javaPrimitiveType
+                ), InsteadHook {
+                    val img = it.args[0] as ImageView
+                    img.setImageURI(Uri.parse("https://cdn.discordapp.com/attachments/811255667469582420/897530531632267264/1634058346931.png"))
+                })
             methods.forEach {
                 if (it.parameterTypes.contains(ImageView::class.java)) {
-                    patcher.patch(getDeclaredMethod(it.name, *it.parameterTypes), InsteadHook { cf ->
-                        val img = cf.args[0] as ImageView
-                        img.setImageURI(Uri.parse("https://cdn.discordapp.com/attachments/811255667469582420/897530531632267264/1634058346931.png"))
-                    })
+                    patcher.patch(
+                        getDeclaredMethod(it.name, *it.parameterTypes),
+                        InsteadHook { cf ->
+                            val img = cf.args[0] as ImageView
+                            img.setImageURI(Uri.parse("https://cdn.discordapp.com/attachments/811255667469582420/897530531632267264/1634058346931.png"))
+                        })
                 }
             }
         }

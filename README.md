@@ -22,7 +22,7 @@ tell someone to fart or fart yourself
 ### [xkcd](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/xkcd.zip)
 shows comic pages from [xkcd.com](https://xkcd.com)
 
-### [FreeNitro](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/FreeNitro.zip)
+### [FreeNitro](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/FreeNitroll.zip)
 this plugin does not give you free nitro just buy nitro lol
 
 ### [NoKyzas](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/NoKyzas.zip)

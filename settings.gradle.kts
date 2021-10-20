@@ -1,5 +1,4 @@
 include(":NoKyzas")
-include(":SoftBlock")
 include(":Vector")
 include(":AutoShowSpoilers")
 include(":FreeNitroll")
