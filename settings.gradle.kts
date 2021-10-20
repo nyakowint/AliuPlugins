@@ -1,5 +1,4 @@
 include(":NoKyzas")
-include(":Vector")
 include(":AutoShowSpoilers")
 include(":FreeNitroll")
 include(":PinIcon")
