@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.aliucord.Logger
-import com.aliucord.Utils.showToast
+import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.Hook
@@ -51,7 +51,7 @@ class PinIcon : Plugin() {
                                 null
                             )
                             textView.setOnClickListener {
-                                showToast("This message is pinned" )
+                                Utils.showToast("This message is pinned")
                             }
                         } else {
                             val textView = itemTimestampField.get(cf.thisObject) as TextView? ?: return@Hook
