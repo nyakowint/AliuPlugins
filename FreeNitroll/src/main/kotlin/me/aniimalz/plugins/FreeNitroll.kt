@@ -3,7 +3,6 @@ package me.aniimalz.plugins
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
-import android.os.PowerManager
 import android.widget.ImageView
 import com.aliucord.Logger
 import com.aliucord.PluginManager
@@ -21,7 +20,6 @@ import com.discord.stores.StoreStream
 import com.discord.utilities.icon.IconUtils
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemEphemeralMessage
 import com.discord.widgets.chat.list.entries.ChatListEntry
-import java.lang.RuntimeException
 import kotlin.system.exitProcess
 
 @AliucordPlugin

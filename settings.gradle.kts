@@ -5,5 +5,4 @@ include(":PinIcon")
 include(":Quoter")
 include(":xkcd")
 include(":Fart")
-include(":ImLazy")
 rootProject.name = "AliuPlugins"

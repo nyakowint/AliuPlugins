@@ -68,6 +68,5 @@ class NoKyzas : Plugin() {
 
     override fun stop(context: Context) {
         patcher.unpatchAll()
-        commands.unregisterAll()
     }
 }
