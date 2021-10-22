@@ -4,6 +4,8 @@ import android.content.Context
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import com.aliucord.PluginManager
+import com.aliucord.api.CommandsAPI
+import com.aliucord.api.CommandsAPI.CommandResult
 
 @AliucordPlugin
 class ImLazy : Plugin() {
