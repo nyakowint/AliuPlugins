@@ -1,9 +1,12 @@
 package me.aniimalz.plugins
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import com.aliucord.Logger
 import com.aliucord.PluginManager
 import com.aliucord.Utils
@@ -21,6 +24,7 @@ import com.discord.utilities.icon.IconUtils
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemEphemeralMessage
 import com.discord.widgets.chat.list.entries.ChatListEntry
 import kotlin.system.exitProcess
+
 
 @AliucordPlugin
 class FreeNitroll : Plugin() {
@@ -41,6 +45,7 @@ class FreeNitroll : Plugin() {
                 )
             } else {
                 patcher.unpatchAll()
+                Utils.openPage(Utils.appActivity, WidgetFreeNitro::class.java)
                 CommandsAPI.CommandResult(
                     "Im extremely goofy for installing freenitro lol, i am not epic haxor i canot get nitro fo free... What an epic realization! <:posttroll:859798445870809108> <:iloveccp:892176962934689822><:iloveccp:892176962934689822> \uD83C\uDDE8\uD83C\uDDF3",
                     null,
@@ -54,7 +59,25 @@ class FreeNitroll : Plugin() {
             tortureMe = true
             epicTrolling()
             Utils.showToast("You fool...")
-            Utils.mainThread.run { exitProcess(0) }
+            Utils.mainThread.run {
+                try {
+                    ContextCompat.startActivity(
+                        it.context,
+                        Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:vIefYWT7jNo")),
+                        null
+                    )
+                } catch (ex: ActivityNotFoundException) {
+                    ContextCompat.startActivity(
+                        it.context,
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://www.youtube.com/watch?v=vIefYWT7jNo")
+                        ),
+                        null
+                    )
+                }
+                exitProcess(0)
+            }
         }
         epicTrolling()
     }
@@ -62,8 +85,18 @@ class FreeNitroll : Plugin() {
     @SuppressLint("SetTextI18n")
     private fun epicTrolling() {
         var dont = false
+        if (StoreStream.getUsers().me.premiumTier == PremiumTier.NONE) {
+            if (dont && !tortureMe || listOf(118437263754395652L).contains(
+                    StoreStream.getUsers().me.id
+                ) && !tortureMe
+            )
+                Utils.openPageWithProxy(
+                    Utils.appActivity,
+                    ReflectUtils.invokeConstructorWithArgs(WidgetFreeNitro::class.java)
+                )
+        }
         patcher.patch(Message::class.java.getDeclaredMethod("getContent"), Hook {
-            if (dont && !tortureMe || listOf(118437263754395652L, 289556910426816513L).contains(
+            if (dont && !tortureMe || listOf(118437263754395652L).contains(
                     StoreStream.getUsers().me.id
                 ) && !tortureMe
             ) {
@@ -95,7 +128,7 @@ class FreeNitroll : Plugin() {
                 Int::class.javaPrimitiveType,
                 ChatListEntry::class.java
             ), Hook {
-                if (dont && !tortureMe || listOf(118437263754395652L, 289556910426816513L).contains(
+                if (dont && !tortureMe || listOf(118437263754395652L).contains(
                         StoreStream.getUsers().me.id
                     ) && !tortureMe
                 ) {
