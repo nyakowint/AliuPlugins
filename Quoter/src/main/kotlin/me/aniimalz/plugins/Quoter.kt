@@ -231,8 +231,7 @@ class PluginSettings(private val settings: SettingsAPI) : BottomSheet() {
             isChecked = settings.getBool(setting, checked)
             setOnCheckedListener {
                 settings.setBool(setting, it)
-                PluginManager.stopPlugin("Quoter")
-                PluginManager.startPlugin("Quoter")
+                PluginManager.remountPlugin("Quoter")
             }
         }
     }

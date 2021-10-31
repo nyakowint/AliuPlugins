@@ -1,3 +1,4 @@
+include(":AutoServerNotifs")
 include(":NoKyzas")
 include(":AutoShowSpoilers")
 include(":PinIcon")
