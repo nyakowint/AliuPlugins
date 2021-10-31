@@ -20,38 +20,44 @@ class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
         setActionBarTitle("Auto Server Notifications")
         val ctx = requireContext()
 
-        addView(
-            createSetting(
-                ctx,
-                "Mute Guild",
-                "Mute the guild on join",
-                "Mute Guild",
-                CheckedSetting.ViewType.SWITCH,
-                false
-            )
-        )
+        addView(createSetting(ctx, "Apply settings", "Basically whether the plugin is enabled/disabled",
+            "applyAss", CheckedSetting.ViewType.SWITCH, true))
+
+        addView(createSetting(ctx, "Mute Guild", "Mute the guild on join",
+            "Mute Guild", CheckedSetting.ViewType.SWITCH, false))
 
         val tv = TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Header)
-        tv.text = "these dont work rn cause this sucked to make"
+        tv.text = "Notification Settings"
         addView(Divider(ctx))
         addView(tv)
 
         arrayListOf(
-            Utils.createCheckedSetting(ctx, CheckedSetting.ViewType.RADIO, "All Messages", "You wont get mobile push notifications for non-@mentions in large servers."),
-            Utils.createCheckedSetting(ctx, CheckedSetting.ViewType.RADIO, "Only @mentions", "Get notified only when you are pinged"),
+            Utils.createCheckedSetting(
+                ctx,
+                CheckedSetting.ViewType.RADIO,
+                "All Messages",
+                "You wont get mobile push notifications for non-@mentions in large servers."
+            ),
+            Utils.createCheckedSetting(
+                ctx,
+                CheckedSetting.ViewType.RADIO,
+                "Only @mentions",
+                "Get notified only when you are pinged"
+            ),
             Utils.createCheckedSetting(ctx, CheckedSetting.ViewType.RADIO, "Nothing", null),
         ).let { radios ->
             val manager = RadioManager(radios)
-            manager.a(radios[AutoServerNotifs.pain.notifFrequency.value])
+            manager.a(radios[AutoServerNotifs.bSettings.notifFrequency.value])
             for (i in 0 until radios.size) {
                 val radio = radios[i]
                 radio.e {
                     manager.a(radio)
-                    AutoServerNotifs.pain.notifFrequency = GuildNotifFrequency.from(i)
+                    AutoServerNotifs.bSettings.notifFrequency = GuildNotifFrequency.from(i)
                 }
                 addView(radio)
             }
         } // i sure hope i implemented this right lol
+        addView(Divider(ctx))
         addView(
             createSetting(
                 ctx,
@@ -85,14 +91,22 @@ class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
 
     }
 
-    var SettingsAPI.notifFrequency
-        get() = GuildNotifFrequency.from(getInt("notifFrequency", GuildNotifFrequency.FREQUENCY_MENTIONS.value))
-        set(v) = setInt("notifFrequency", v.value)
+    companion object {
+        var SettingsAPI.notifFrequency
+            get() = GuildNotifFrequency.from(
+                getInt(
+                    "notifFrequency",
+                    GuildNotifFrequency.FREQUENCY_MENTIONS.value
+                )
+            )
+            set(v) = setInt("notifFrequency", v.value)
+    }
 
     enum class GuildNotifFrequency(val value: Int) {
         FREQUENCY_ALL(0),
         FREQUENCY_MENTIONS(1),
         FREQUENCY_NOTHING(2);
+
         companion object {
             fun from(i: Int) = values().first { it.value == i }
         }
@@ -107,9 +121,9 @@ class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
         checked: Boolean = true
     ): CheckedSetting {
         return Utils.createCheckedSetting(ctx, type, title, subtitle).apply {
-            isChecked = AutoServerNotifs.pain.getBool(setting, checked)
+            isChecked = AutoServerNotifs.bSettings.getBool(setting, checked)
             setOnCheckedListener {
-                AutoServerNotifs.pain.setBool(setting, it)
+                AutoServerNotifs.bSettings.setBool(setting, it)
             }
         }
     }
