@@ -24,6 +24,9 @@ shows an icon next to messages that are pinned
 ### [AutoShowSpoilers](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/AutoShowSpoilers.zip)
 automatically reveal spoilers on text and media
 
+### [MoarConfirm](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/MoarConfirm.zip) **UNFINISHED**
+puts more confirmations on more shit cause you have fat fingers 
+
 ### [Fart](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/Fart.zip)
 tell someone to fart or fart yourself
 
@@ -45,5 +48,5 @@ aliucord people are epic except for yarik and kyza ew (jk lol)
 moved to [other repo](https://github.com/aliucoin/coinplugins)
 
 ### FreeNitro (aka FreeNitroll)
-removed from official list - You can still [download](https://github.com/aliucoin/coinplugins/raw/builds/FreeNitroll.zip) it though
+You can still [download](https://github.com/aliucoin/coinplugins/raw/builds/FreeNitroll.zip) it
 Reasoning: i liked it as a funny troll but people cant read and/or are really stupid shrug

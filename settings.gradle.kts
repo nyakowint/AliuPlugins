@@ -1,3 +1,5 @@
+include(":MoarConfirm")
+include(":DontInstallThisYouFuckinIdiot")
 include(":AutoServerNotifs")
 include(":NoKyzas")
 include(":AutoShowSpoilers")

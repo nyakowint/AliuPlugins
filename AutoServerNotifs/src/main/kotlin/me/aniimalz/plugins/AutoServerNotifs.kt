@@ -110,7 +110,7 @@ class AutoServerNotifs : Plugin() {
             StoreGuilds::class.java.getDeclaredMethod(
                 "handleGuildAdd",
                 Guild::class.java
-            ), Hook {
+            ), Hook { // WHY DOES THIS FIRE RANDOMLY IM GONNA SHOOT MYSELF
                 if (!settings.getBool("applyAss", true)) return@Hook
                 val guild = GuildWrapper(it.args[0] as Guild)
                 logger.info("${guild.name} (${guild.id}) joined, applying notification settings")
