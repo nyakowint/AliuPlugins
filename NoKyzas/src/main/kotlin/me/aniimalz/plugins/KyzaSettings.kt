@@ -15,15 +15,15 @@ class KyzaSettings(private val settings: SettingsAPI): SettingsPage() {
         setActionBarTitle("NoKyzas")
         setActionBarSubtitle("...or whatever you wanna call it")
 
-        addView(Utils.createCheckedSetting(requireContext(), CheckedSetting.ViewType.CHECK, "Enable Plugin.", "Disable Kyza Mode.").apply {
+        addView(Utils.createCheckedSetting(requireContext(), CheckedSetting.ViewType.SWITCH, "Enable Plugin.", "Disable Kyza Mode.").apply {
             isChecked = settings.getBool("uncap", true)
             setOnCheckedListener { settings.setBool("uncap", it) }
         })
-        addView(Utils.createCheckedSetting(requireContext(), CheckedSetting.ViewType.CHECK, "Replace Your Own Messages.", "Replace your own messages.").apply {
+        addView(Utils.createCheckedSetting(requireContext(), CheckedSetting.ViewType.SWITCH, "Replace Your Own Messages.", "Replace your own messages.").apply {
             isChecked = settings.getBool("replaceSelf", false)
             setOnCheckedListener { settings.setBool("replaceSelf", it) }
         })
-        addView(Utils.createCheckedSetting(requireContext(), CheckedSetting.ViewType.CHECK, "Ignore Bots.", "Don't touch messages from bots and webhooks.").apply {
+        addView(Utils.createCheckedSetting(requireContext(), CheckedSetting.ViewType.SWITCH, "Ignore Bots.", "Don't touch messages from bots and webhooks.").apply {
             isChecked = settings.getBool("ignoreBots", true)
             setOnCheckedListener { settings.setBool("ignoreBots", it) }
         })
