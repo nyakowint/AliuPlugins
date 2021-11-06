@@ -24,6 +24,9 @@ shows an icon next to messages that are pinned
 ### [AutoShowSpoilers](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/AutoShowSpoilers.zip)
 automatically reveal spoilers on text and media
 
+### [GhostMessage](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/GhostMessage.zip)
+Immediately deletes messages you send in chat. A minified version of Kyza's GhostMessage
+
 ### [MoarConfirm](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/MoarConfirm.zip) **UNFINISHED**
 puts more confirmations on more shit cause you have fat fingers 
 
