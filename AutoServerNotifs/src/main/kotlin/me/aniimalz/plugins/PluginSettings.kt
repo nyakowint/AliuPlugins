@@ -10,7 +10,7 @@ import com.aliucord.fragments.SettingsPage
 import com.aliucord.utils.DimenUtils.defaultPadding
 import com.aliucord.views.Divider
 import com.discord.views.CheckedSetting
-import com.discord.views.R.e.oManager
+import com.discord.views.RadioManager
 import com.lytefast.flexinput.R
 
 class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
@@ -58,7 +58,7 @@ class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
             ),
             Utils.createCheckedSetting(ctx, CheckedSetting.ViewType.RADIO, "Nothing", null),
         ).let { radios ->
-            val manager = R.e.oManager(radios)
+            val manager = RadioManager(radios)
             manager.a(radios[AutoServerNotifs.bSettings.notifFrequency.value])
             for (i in 0 until radios.size) {
                 val radio = radios[i]
