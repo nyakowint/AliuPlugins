@@ -53,7 +53,7 @@ class GhostMessage : Plugin() {
                 default = false
             )
         ) {
-            if (it.getRequiredBool("enabled")) {
+            if (!it.getRequiredBool("enabled")) {
                 settings.setBool("ghostMessages", false)
                 logger.info("Disabled!")
                 CommandsAPI.CommandResult("Disabled GhostMessage", null, false)
