@@ -1,4 +1,4 @@
-version = "1.0.4"
+version = "1.0.5"
 description = "Shows a pin icon next to messages that have been pinned"
 
 aliucord {

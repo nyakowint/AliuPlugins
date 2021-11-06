@@ -1,4 +1,4 @@
-version = "1.0.6"
+version = "1.0.7"
 description = "Changes grammatically correct sentences to discord speak"
 
 aliucord {

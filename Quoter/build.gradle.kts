@@ -1,4 +1,4 @@
-version = "1.1.7"
+version = "1.1.8"
 description = "Re-adds the famous quote button in the message context menu. May not work for some people or devices."
 
 aliucord {
