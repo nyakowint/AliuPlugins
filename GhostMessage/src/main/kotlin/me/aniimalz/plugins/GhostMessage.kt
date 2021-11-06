@@ -56,11 +56,11 @@ class GhostMessage : Plugin() {
             if (it.getRequiredBool("enabled")) {
                 settings.setBool("ghostMessages", false)
                 logger.info("Disabled!")
-                CommandsAPI.CommandResult("Disabled GhostMessage")
+                CommandsAPI.CommandResult("Disabled GhostMessage", null, false)
             } else {
                 settings.setBool("ghostMessages", true)
                 logger.info("Enabled!")
-                CommandsAPI.CommandResult("Enabled GhostMessage")
+                CommandsAPI.CommandResult("Enabled GhostMessage", null, false)
             }
         }
         messagesSubscription =
