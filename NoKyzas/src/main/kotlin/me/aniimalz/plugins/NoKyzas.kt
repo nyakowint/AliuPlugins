@@ -30,17 +30,17 @@ class NoKyzas : Plugin() {
     private var pluginIcon: Drawable? = null
 
     override fun load(ctx: Context) {
-        pluginIcon = ContextCompat.getDrawable(ctx, R.d.ic_warning_circle_24dp)
+        pluginIcon = ContextCompat.getDrawable(ctx, R.e.ic_warning_circle_24dp)
     }
 
     override fun start(ctx: Context) {
         // blatantly stolen regex from ven https://github.com/Vendicated/AliucordPlugins/blob/94d7cabc8cb8886cf458ada8617b190aa670c0c3/PluginDownloader/src/main/java/dev/vendicated/aliucordplugs/plugindownloader/PluginDownloader.java#L37
         val repoPattern =
             Pattern.compile("https?://github\\.com/([A-Za-z0-9\\-_.]+)/([A-Za-z0-9\\-_.]+)")
-                .toRegex()
+                .toR.h.x()
         val zipPattern =
             Pattern.compile("https?://(?:github|raw\\.githubusercontent)\\.com/([A-Za-z0-9\\-_.]+)/([A-Za-z0-9\\-_.]+)/(?:raw|blob)?/?\\w+/(\\w+).zip")
-                .toRegex()
+                .toR.h.x()
 
         val option = Utils.createCommandOption(
             ApplicationCommandType.BOOLEAN,
@@ -67,7 +67,7 @@ class NoKyzas : Plugin() {
             if (rMsg.channelId == Constants.PLUGIN_LINKS_CHANNEL_ID || rMsg.channelId == Constants.PLUGIN_LINKS_UPDATES_CHANNEL_ID) return@Hook
             try {
                 val msg = (ReflectUtils.getField(rMsg, "content") as String)
-                if (msg.contains("https?://".toRegex()) || msg.contains("discord.gg/")) return@Hook
+                if (msg.contains("https?://".toR.h.x()) || msg.contains("discord.gg/")) return@Hook
 /*            if (repoPattern.containsMatchIn(msg)) {
                 msg = msg.replace(repoPattern, "")
             }

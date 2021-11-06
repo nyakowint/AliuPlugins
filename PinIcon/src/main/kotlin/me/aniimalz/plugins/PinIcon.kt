@@ -23,12 +23,12 @@ class PinIcon : Plugin() {
     private var pluginIcon: Drawable? = null
 
     override fun load(ctx: Context) {
-        pluginIcon = ContextCompat.getDrawable(ctx, R.d.ic_sidebar_pins_off_dark_24dp)
+        pluginIcon = ContextCompat.getDrawable(ctx, R.e.ic_sidebar_pins_off_dark_24dp)
     }
 
     @SuppressLint("SetTextI18n")
     override fun start(ctx: Context) {
-        pluginIcon = ContextCompat.getDrawable(ctx, R.d.ic_sidebar_pins_off_light_24dp)
+        pluginIcon = ContextCompat.getDrawable(ctx, R.e.ic_sidebar_pins_off_light_24dp)
 
         val itemTimestampField = WidgetChatListAdapterItemMessage::class.java.getDeclaredField(
             "itemTimestamp"

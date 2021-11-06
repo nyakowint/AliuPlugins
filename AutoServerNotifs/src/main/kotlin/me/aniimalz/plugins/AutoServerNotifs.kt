@@ -79,7 +79,7 @@ class AutoServerNotifs : Plugin() {
                         layout.context,
                         null,
                         0,
-                        R.h.UiKit_Settings_Item_Icon
+                        R.i.UiKit_Settings_Item_Icon
                     )
                     DimenUtils.defaultPadding.let { pd -> button.setPadding(pd, pd, pd, pd) }
                     button.typeface = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold)

@@ -1,3 +1,4 @@
+include(":GhostMessage")
 include(":MoarConfirm")
 include(":DontInstallThisYouFuckinIdiot")
 include(":AutoServerNotifs")

@@ -1,8 +1,10 @@
-version = "1.0.3"
+version = "1.0.4"
 description = "Shows a pin icon next to messages that have been pinned"
 
 aliucord {
     changelog.set("""
+        # 1.0.4
+        * Update to 101.3
         # 1.0.3
         * fix weird toast thing
         # 1.0.2

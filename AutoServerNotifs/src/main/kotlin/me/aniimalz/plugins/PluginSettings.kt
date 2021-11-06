@@ -7,9 +7,10 @@ import android.widget.TextView
 import com.aliucord.Utils
 import com.aliucord.api.SettingsAPI
 import com.aliucord.fragments.SettingsPage
+import com.aliucord.utils.DimenUtils.defaultPadding
 import com.aliucord.views.Divider
 import com.discord.views.CheckedSetting
-import com.discord.views.RadioManager
+import com.discord.views.R.e.oManager
 import com.lytefast.flexinput.R
 
 class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
@@ -20,13 +21,24 @@ class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
         setActionBarTitle("Auto Server Notifications")
         val ctx = requireContext()
 
-        addView(createSetting(ctx, "Apply settings", "Basically whether the plugin is enabled/disabled",
-            "applyAss", CheckedSetting.ViewType.SWITCH, true))
+        val padding = defaultPadding
+        val p = padding / 2
 
-        addView(createSetting(ctx, "Mute Guild", "Mute the guild on join",
-            "Mute Guild", CheckedSetting.ViewType.SWITCH, false))
+        addView(
+            createSetting(
+                ctx, "Apply settings", "Basically whether the plugin is enabled/disabled",
+                "applyAss", CheckedSetting.ViewType.SWITCH, true
+            )
+        )
 
-        val tv = TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Header)
+        addView(
+            createSetting(
+                ctx, "Mute Guild", "Mute the guild on join",
+                "Mute Guild", CheckedSetting.ViewType.SWITCH, false
+            )
+        )
+
+        val tv = TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Header)
         tv.text = "Notification Settings"
         addView(Divider(ctx))
         addView(tv)
@@ -46,7 +58,7 @@ class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
             ),
             Utils.createCheckedSetting(ctx, CheckedSetting.ViewType.RADIO, "Nothing", null),
         ).let { radios ->
-            val manager = RadioManager(radios)
+            val manager = R.e.oManager(radios)
             manager.a(radios[AutoServerNotifs.bSettings.notifFrequency.value])
             for (i in 0 until radios.size) {
                 val radio = radios[i]

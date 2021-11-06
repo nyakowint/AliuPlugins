@@ -1,0 +1,83 @@
+package me.aniimalz.plugins
+
+import android.content.Context
+import android.graphics.drawable.Drawable
+import androidx.core.content.ContextCompat
+import com.aliucord.Logger
+import com.aliucord.Utils
+import com.aliucord.annotations.AliucordPlugin
+import com.aliucord.api.CommandsAPI
+import com.aliucord.entities.Plugin
+import com.aliucord.utils.RxUtils.createActionSubscriber
+import com.aliucord.utils.RxUtils.onBackpressureBuffer
+import com.aliucord.utils.RxUtils.subscribe
+import com.discord.api.commands.ApplicationCommandType
+import com.discord.models.message.Message
+import com.discord.models.user.CoreUser
+import com.discord.stores.StoreStream
+import com.lytefast.flexinput.R
+import rx.Subscription
+import rx.functions.Action1
+import java.util.*
+
+@AliucordPlugin
+class GhostMessage : Plugin() {
+
+    private val logger = Logger("GhostMessage")
+
+    private var pluginIcon: Drawable? = null
+    private var messagesSubscription: Subscription? = null
+
+    init {
+        settingsTab = SettingsTab(
+            PluginSettings::class.java,
+            SettingsTab.Type.BOTTOM_SHEET
+        ).withArgs(settings)
+    }
+
+    override fun load(ctx: Context) {
+        pluginIcon =
+            ContextCompat.getDrawable(ctx, R.e.ic_user_profile_action_message_white_a60_24dp)
+    }
+
+    override fun start(ctx: Context) {
+        commands.registerCommand(
+            "ghostmessage",
+            "Toggle ghost message",
+            Utils.createCommandOption(
+                ApplicationCommandType.BOOLEAN,
+                "enabled",
+                null,
+                null,
+                true,
+                default = false
+            )
+        ) {
+            if (it.getRequiredBool("enabled")) {
+                settings.setBool("ghostMessages", false)
+                logger.info("Disabled!")
+                CommandsAPI.CommandResult("Disabled GhostMessage")
+            } else {
+                settings.setBool("ghostMessages", true)
+                logger.info("Enabled!")
+                CommandsAPI.CommandResult("Enabled GhostMessage")
+            }
+        }
+        messagesSubscription =
+            StoreStream.getGatewaySocket().messageCreate.onBackpressureBuffer().subscribe(
+                createActionSubscriber(Action1 { msg ->
+                    if (msg == null || !settings.getBool("ghostMessages", false)) return@Action1
+                    val ref = Message(msg)
+                    val user = CoreUser(ref.author)
+                    if (ref.editedTimestamp == null && user.id == StoreStream.getUsers().me.id && StoreStream.getChannelsSelected().id == ref.channelId) {
+                        StoreStream.getMessages().deleteMessage(ref)
+                    }
+                })
+            )
+    }
+
+    override fun stop(context: Context) {
+        commands.unregisterAll()
+        messagesSubscription?.unsubscribe()
+    }
+}

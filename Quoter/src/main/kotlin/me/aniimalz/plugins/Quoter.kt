@@ -53,12 +53,12 @@ class Quoter : Plugin() {
     private var pluginIcon: Drawable? = null
 
     override fun load(ctx: Context) {
-        pluginIcon = ContextCompat.getDrawable(ctx, R.d.ic_quote_white_a60_24dp)
+        pluginIcon = ContextCompat.getDrawable(ctx, R.e.ic_quote_white_a60_24dp)
     }
 
     @SuppressLint("SetTextI18n")
     override fun start(context: Context) {
-        pluginIcon = ContextCompat.getDrawable(context, R.d.ic_quote_white_a60_24dp)
+        pluginIcon = ContextCompat.getDrawable(context, R.e.ic_quote_white_a60_24dp)
         // thanks zt and ven
         patcher.patch(
             FlexEditText::class.java.getDeclaredMethod(
@@ -72,7 +72,7 @@ class Quoter : Plugin() {
                 "invoke",
                 Object::class.java
             ), Hook {
-                textInput = (it.result as a).root.findViewById(R.e.text_input)
+                textInput = (it.result as a).root.findViewById(R.f.text_input)
             })
         val quoteId = View.generateViewId()
 
@@ -101,7 +101,7 @@ class Quoter : Plugin() {
                                 if (textInput == null) {
                                     return@setOnClickListener logger.error(
                                         context,
-                                        "Couldn't get text box. Redownloading the plugin/reinstalling may fix it. (This is a known issue lol)"
+                                        "Couldn't get text box. R.e.wnloading the plugin/reinstalling may fix it. (This is a known issue lol)"
                                     )
                                 }
                                 textBox?.focus()
@@ -129,7 +129,7 @@ class Quoter : Plugin() {
                     pluginIcon?.setTint(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal))
                     Utils.tintToTheme(pluginIcon)
 
-                    val quote = TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Icon).apply {
+                    val quote = TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Icon).apply {
                         text = "Quote"
                         id = quoteId
                         setCompoundDrawablesRelativeWithIntrinsicBounds(
