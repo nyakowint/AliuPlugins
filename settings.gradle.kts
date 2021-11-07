@@ -1,6 +1,6 @@
 include(":GhostMessage")
 include(":MoarConfirm")
-include(":DontInstallThisYouFuckinIdiot")
+include(":BDFDB")
 include(":AutoServerNotifs")
 include(":NoKyzas")
 include(":AutoShowSpoilers")

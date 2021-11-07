@@ -7,7 +7,6 @@ import android.widget.TextView
 import com.aliucord.Utils
 import com.aliucord.api.SettingsAPI
 import com.aliucord.fragments.SettingsPage
-import com.aliucord.utils.DimenUtils.defaultPadding
 import com.aliucord.views.Divider
 import com.discord.views.CheckedSetting
 import com.discord.views.RadioManager
@@ -20,9 +19,6 @@ class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
         super.onViewBound(view)
         setActionBarTitle("Auto Server Notifications")
         val ctx = requireContext()
-
-        val padding = defaultPadding
-        val p = padding / 2
 
         addView(
             createSetting(

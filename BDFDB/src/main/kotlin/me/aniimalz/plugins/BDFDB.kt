@@ -24,7 +24,7 @@ import de.robv.android.xposed.XposedBridge
 import java.lang.reflect.Member
 
 @AliucordPlugin
-class DontInstallThisYouFuckinIdiot : Plugin() {
+class BDFDB : Plugin() {
     override fun start(ctx: Context) {
         var isInSupport = false
         Utils.showToast("good job idiot, you installed it.")
