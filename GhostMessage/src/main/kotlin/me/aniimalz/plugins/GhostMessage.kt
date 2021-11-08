@@ -1,8 +1,6 @@
 package me.aniimalz.plugins
 
 import android.content.Context
-import android.graphics.drawable.Drawable
-import androidx.core.content.ContextCompat
 import com.aliucord.Logger
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
@@ -15,7 +13,6 @@ import com.discord.api.commands.ApplicationCommandType
 import com.discord.models.message.Message
 import com.discord.models.user.CoreUser
 import com.discord.stores.StoreStream
-import com.lytefast.flexinput.R
 import rx.Subscription
 import rx.functions.Action1
 import java.util.*
@@ -25,7 +22,6 @@ class GhostMessage : Plugin() {
 
     private val logger = Logger("GhostMessage")
 
-    private var pluginIcon: Drawable? = null
     private var messagesSubscription: Subscription? = null
 
     init {
@@ -33,11 +29,6 @@ class GhostMessage : Plugin() {
             PluginSettings::class.java,
             SettingsTab.Type.BOTTOM_SHEET
         ).withArgs(settings)
-    }
-
-    override fun load(ctx: Context) {
-        pluginIcon =
-            ContextCompat.getDrawable(ctx, R.e.ic_user_profile_action_message_white_a60_24dp)
     }
 
     override fun start(ctx: Context) {

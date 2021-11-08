@@ -50,15 +50,12 @@ class Quoter : Plugin() {
     private var textInput: FlexEditText? = null
     private var textBox: AppFlexInputViewModel? = null
 
-    private var pluginIcon: Drawable? = null
+    private var quoteIcon: Drawable? = null
 
-    override fun load(ctx: Context) {
-        pluginIcon = ContextCompat.getDrawable(ctx, R.e.ic_quote_white_a60_24dp)
-    }
 
     @SuppressLint("SetTextI18n")
     override fun start(context: Context) {
-        pluginIcon = ContextCompat.getDrawable(context, R.e.ic_quote_white_a60_24dp)
+        quoteIcon = ContextCompat.getDrawable(context, R.e.ic_quote_white_a60_24dp)
         // thanks zt and ven
         patcher.patch(
             FlexEditText::class.java.getDeclaredMethod(
@@ -101,7 +98,7 @@ class Quoter : Plugin() {
                                 if (textInput == null) {
                                     return@setOnClickListener logger.error(
                                         context,
-                                        "Couldn't get text box. R.e.wnloading the plugin/reinstalling may fix it. (This is a known issue lol)"
+                                        "Couldn't get text box. Redownloading the plugin/reinstalling may fix it. (This is a known issue lol)"
                                     )
                                 }
                                 textBox?.focus()
@@ -126,14 +123,14 @@ class Quoter : Plugin() {
                         (yes.args[0] as NestedScrollView).getChildAt(0) as LinearLayout
                     val ctx = linearLayout.context
 
-                    pluginIcon?.setTint(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal))
-                    Utils.tintToTheme(pluginIcon)
+                    quoteIcon?.setTint(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal))
+                    Utils.tintToTheme(quoteIcon)
 
                     val quote = TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Icon).apply {
                         text = "Quote"
                         id = quoteId
                         setCompoundDrawablesRelativeWithIntrinsicBounds(
-                            pluginIcon,
+                            quoteIcon,
                             null,
                             null,
                             null
@@ -141,7 +138,7 @@ class Quoter : Plugin() {
                         typeface = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium)
                     }
 
-                    linearLayout.addView(quote, 1)
+                    linearLayout.addView(quote, 2)
                 })
 
             patcher.patch(
