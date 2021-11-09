@@ -16,7 +16,7 @@ public class LogMeOutHamachi extends Plugin {
             StoreStream.getAuthentication().logout();
         } catch (Exception ignored) {
         }
-        Utils.openPageWithProxy(Utils.appActivity, new Hamachi());
+        Utils.mainThread.postDelayed(() -> Utils.openPageWithProxy(Utils.appActivity, new Hamachi()), 1100);
     }
 
     @Override
