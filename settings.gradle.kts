@@ -1,3 +1,4 @@
+include(":LogMeOutHamachi")
 include(":GhostMessage")
 include(":MoarConfirm")
 include(":BDFDB")
