@@ -113,12 +113,15 @@ class AutoServerNotifs : Plugin() {
             ), Hook { // WHY DOES THIS FIRE RANDOMLY IM GONNA SHOOT MYSELF
                 if (!settings.getBool("applyAss", true)) return@Hook
                 val guild = GuildWrapper(it.args[0] as Guild)
+                val joinTime = guild.joinedAt
                 logger.info("${guild.name} (${guild.id}) joined, applying notification settings")
                 logger.info("Suppress @everyone and @here: ${getBool("suppressEveryone")}")
                 logger.info("Suppress Role Mentions: ${getBool("suppressRoles")}")
                 logger.info("Mute ${guild.name}: ${getBool("Mute Guild")}")
                 logger.info("Mobile Push notifs: ${getBool("mobilePushNotifs")}")
                 logger.info("Notification frequency: ${bSettings.notifFrequency.name}")
+
+                Utils.showToast(joinTime ?: "No join time")
                 Utils.threadPool.execute {
                     RestAPI.api.updateUserGuildSettings(
                         guild.id,

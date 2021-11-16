@@ -1,3 +1,4 @@
+include(":ChannelLocker")
 include(":LogMeOutHamachi")
 include(":GhostMessage")
 include(":MoarConfirm")
