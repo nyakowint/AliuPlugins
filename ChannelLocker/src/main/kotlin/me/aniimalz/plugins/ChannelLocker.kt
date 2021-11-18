@@ -18,6 +18,7 @@ import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.Hook
+import com.aliucord.patcher.InsteadHook
 import com.aliucord.utils.DimenUtils
 import com.aliucord.utils.ReflectUtils
 import com.aliucord.wrappers.ChannelWrapper.Companion.id
@@ -138,6 +139,9 @@ class ChannelLocker : Plugin() {
                         gateButtonLayout.visibility = View.GONE
                         chatWrap.visibility = View.VISIBLE
                         return@setOnLongClickListener true
+                    }
+                    gateButtonArrow.setOnClickListener {
+                        InsteadHook.DO_NOTHING
                     }
                     gateButtonArrow.visibility =
                         if (settings.getBool("showUnlock", true)) View.VISIBLE else View.GONE

@@ -18,7 +18,7 @@ class MoarSettings(private val settings: SettingsAPI): SettingsPage() {
             isChecked = settings.getBool("callConfirm", true)
             setOnCheckedListener { settings.setBool("callConfirm", it) }
         })
-        addView(Utils.createCheckedSetting(requireContext(), CheckedSetting.ViewType.SWITCH, "Friend Confirmation", "Confirm before friending someone - not yet implemented").apply {
+        addView(Utils.createCheckedSetting(requireContext(), CheckedSetting.ViewType.SWITCH, "Friend Confirmation", "Confirm before friending someone").apply {
             isChecked = settings.getBool("friendConfirm", true)
             setOnCheckedListener { settings.setBool("friendConfirm", it) }
         })
