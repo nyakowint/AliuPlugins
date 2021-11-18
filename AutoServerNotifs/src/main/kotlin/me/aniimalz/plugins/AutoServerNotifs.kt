@@ -22,6 +22,7 @@ import com.aliucord.wrappers.GuildWrapper
 import com.discord.api.guild.Guild
 import com.discord.databinding.WidgetGuildProfileSheetBinding
 import com.discord.restapi.RestAPIParams
+import com.discord.stores.StoreGuildSelected
 import com.discord.stores.StoreGuilds
 import com.discord.utilities.rest.RestAPI
 import com.discord.widgets.guilds.profile.WidgetGuildProfileSheet

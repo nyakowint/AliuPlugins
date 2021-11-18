@@ -56,7 +56,7 @@ class Fart : Plugin() {
                 )
             }
         }
-        
+
         commands.registerCommand("venmybeloved", "VEN HOW DO I GET FREE NITRO", listOf()) {
             CommandsAPI.CommandResult("VEN HOW DO I GET FREE NITRO", null, true)
         }

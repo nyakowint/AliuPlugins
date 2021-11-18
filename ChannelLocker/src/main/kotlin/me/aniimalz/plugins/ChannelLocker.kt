@@ -164,18 +164,25 @@ class ChannelLocker : Plugin() {
                     ) as WidgetChannelsListItemActionsBinding?
                     val root = (binding?.root as ViewGroup).getChildAt(0) as ViewGroup
                     TextView(root.context, null, 0, R.i.UiKit_Settings_Item_Icon).apply {
-                        text = "Lock Channel"
+                        text =
+                            if (!channels.containsValue(model.channel.id)) "Lock Channel" else "Unlock Channel"
                         setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
                         id = channelLockId
                         typeface = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium)
                         setOnClickListener {
-                            if (channels.containsValue(model.channel.id)) return@setOnClickListener
+                            if (channels.containsValue(model.channel.id)) {
+                                channels.remove(model.channel.name)
+                                actions.dismiss()
+                                Utils.showToast("Channel unlocked")
+                                settings.setObject("channels", channels)
+                                return@setOnClickListener
+                            }
                             channels[model.channel.name] = model.channel.id
                             actions.dismiss()
-                            Utils.showToast("Channel added: locked")
+                            Utils.showToast("Channel locked")
                             settings.setObject("channels", channels)
                         }
-                        if (!channels.containsValue(model.channel.id)) root.addView(this)
+                        root.addView(this)
                     }
                     icon?.setTint(
                         ColorCompat.getThemedColor(
