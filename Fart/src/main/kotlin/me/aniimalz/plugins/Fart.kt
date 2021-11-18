@@ -58,8 +58,8 @@ class Fart : Plugin() {
         }
 
         // epic troll command
-        commands.registerCommand("shart", "If it doesnt work reinstall aliucord", listOf()) {
-            CommandsAPI.CommandResult("/shart", null, true)
+        commands.registerCommand("venmybeloved", "VEN HOW DO I GET FREE NITRO", listOf()) {
+            CommandsAPI.CommandResult("VEN HOW DO I GET FREE NITRO", null, true)
         }
 
         commands.registerCommand("cock", "Send \"cock\"", options) {

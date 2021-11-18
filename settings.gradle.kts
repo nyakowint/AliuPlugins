@@ -1,3 +1,4 @@
+include(":TestPlugin")
 include(":ChannelLocker")
 include(":LogMeOutHamachi")
 include(":GhostMessage")

@@ -30,10 +30,10 @@ import com.lytefast.flexinput.R
 import me.aniimalz.plugins.PluginSettings.Companion.notifFrequency
 import java.lang.reflect.InvocationTargetException
 
+val logger = Logger("ASN")
 
 @AliucordPlugin
 class AutoServerNotifs : Plugin() {
-    val logger = Logger("AutoServerNotifs")
 
     init {
         settingsTab = SettingsTab(
@@ -47,7 +47,6 @@ class AutoServerNotifs : Plugin() {
     @SuppressLint("SetTextI18n")
     override fun start(ctx: Context) {
         bSettings = settings
-
         // not yoinked from editserverslocally not at all
         patcher.patch(
             WidgetGuildProfileSheet::class.java.getDeclaredMethod(
@@ -88,10 +87,7 @@ class AutoServerNotifs : Plugin() {
                     button.setOnClickListener {
                         Utils.openPageWithProxy(
                             Utils.appActivity,
-                            ReflectUtils.invokeConstructorWithArgs(
-                                PluginSettings::class.java,
-                                bSettings
-                            )
+                            PluginSettings(bSettings)
                         )
                     }
                     button.layoutParams = linearLayout.getChildAt(0).layoutParams
@@ -113,7 +109,8 @@ class AutoServerNotifs : Plugin() {
             ), Hook { // WHY DOES THIS FIRE RANDOMLY IM GONNA SHOOT MYSELF
                 if (!settings.getBool("applyAss", true)) return@Hook
                 val guild = GuildWrapper(it.args[0] as Guild)
-                val joinTime = guild.joinedAt
+                val joinTime = guild.joinedAt!!
+                logger.info(joinTime ?: "No join time")
                 logger.info("${guild.name} (${guild.id}) joined, applying notification settings")
                 logger.info("Suppress @everyone and @here: ${getBool("suppressEveryone")}")
                 logger.info("Suppress Role Mentions: ${getBool("suppressRoles")}")
@@ -121,7 +118,6 @@ class AutoServerNotifs : Plugin() {
                 logger.info("Mobile Push notifs: ${getBool("mobilePushNotifs")}")
                 logger.info("Notification frequency: ${bSettings.notifFrequency.name}")
 
-                Utils.showToast(joinTime ?: "No join time")
                 Utils.threadPool.execute {
                     RestAPI.api.updateUserGuildSettings(
                         guild.id,
