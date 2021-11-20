@@ -22,8 +22,8 @@ import com.aliucord.wrappers.GuildWrapper
 import com.discord.api.guild.Guild
 import com.discord.databinding.WidgetGuildProfileSheetBinding
 import com.discord.restapi.RestAPIParams
-import com.discord.stores.StoreGuildSelected
 import com.discord.stores.StoreGuilds
+import com.discord.stores.StoreStream
 import com.discord.utilities.rest.RestAPI
 import com.discord.widgets.guilds.profile.WidgetGuildProfileSheet
 import com.discord.widgets.guilds.profile.WidgetGuildProfileSheetViewModel.TabItems
@@ -110,8 +110,7 @@ class AutoServerNotifs : Plugin() {
             ), Hook { // WHY DOES THIS FIRE RANDOMLY IM GONNA SHOOT MYSELF
                 if (!settings.getBool("applyAss", true)) return@Hook
                 val guild = GuildWrapper(it.args[0] as Guild)
-                val joinTime = guild.joinedAt!!
-                logger.info(joinTime ?: "No join time")
+                if (StoreStream.getGuildSelected().selectedGuildId != guild.id) return@Hook
                 logger.info("${guild.name} (${guild.id}) joined, applying notification settings")
                 logger.info("Suppress @everyone and @here: ${getBool("suppressEveryone")}")
                 logger.info("Suppress Role Mentions: ${getBool("suppressRoles")}")
