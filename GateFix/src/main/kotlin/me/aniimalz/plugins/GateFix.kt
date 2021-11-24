@@ -26,22 +26,25 @@ class GateFix : Plugin() {
 
                 val loaded = it.args[0] as ChatInputViewModel.ViewState.Loaded
 
-                if (!loaded.shouldShowVerificationGate || !loaded.shouldShowFollow) {
-                    val binding = bindingMethod(it.thisObject) as WidgetChatInputBinding
+                val binding = bindingMethod(it.thisObject) as WidgetChatInputBinding
 
-                    val chatWrap = binding.root.findViewById<LinearLayout>(
-                        Utils.getResId(
-                            "chat_input_wrap", "id"
-                        )
+                val chatWrap = binding.root.findViewById<LinearLayout>(
+                    Utils.getResId(
+                        "chat_input_wrap", "id"
                     )
-                    val gateButtonLayout = binding.root.findViewById<RelativeLayout>(
-                        Utils.getResId(
-                            "guard_member_verification", "id"
-                        )
+                )
+                val gateButtonLayout = binding.root.findViewById<RelativeLayout>(
+                    Utils.getResId(
+                        "guard_member_verification", "id"
                     )
+                )
+
+                if (!loaded.shouldShowVerificationGate) {
 
                     gateButtonLayout.visibility = View.GONE
-                    chatWrap.visibility = View.VISIBLE
+                    if (loaded.shouldShowFollow || loaded.shouldShowVerificationGate) {
+                        chatWrap.visibility = View.GONE
+                    }
                 }
             })
     }
