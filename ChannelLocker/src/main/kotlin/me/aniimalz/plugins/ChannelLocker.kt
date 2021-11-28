@@ -81,11 +81,7 @@ class ChannelLocker : Plugin() {
 
                 val loaded = it.args[0] as ChatInputViewModel.ViewState.Loaded
 
-                if (channels.containsValue(loaded.channelId) && !loaded.shouldShowVerificationGate && PluginManager.plugins["SupportWarn"]?.settings?.getBool(
-                        "devNotSupport",
-                        false
-                    ) != false
-                ) {
+                if (channels.containsValue(loaded.channelId) && !loaded.shouldShowVerificationGate) {
                     val binding = bindingMethod(it.thisObject) as WidgetChatInputBinding
 
                     val gateButtonText = binding.root.findViewById<TextView>(
