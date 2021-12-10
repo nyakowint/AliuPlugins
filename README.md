@@ -10,37 +10,46 @@ Manually:
 2) place the zip in `Aliucord/plugins` (do not extract it)
 
 
-# Plugins
+# Plugins 
 
-### [AutoShowSpoilers](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/AutoShowSpoilers.zip)
-Automatically reveal spoilers on text and media
+### [AutoServerNotifs](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/AutoServerNotifs.zip)
+when you join a server the plugin will automatically turn off notification settings like "Suppress @everyone and @here"
 
 ### [Quoter](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/Quoter.zip)
 re-adds the famous "Quote" button
 
-### [ChannelLocker](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/ChannelLocker.zip)
-Puts a "lock" on a channel's chatbox so you cannot accidentally type there
-
 ### [PinIcon](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/PinIcon.zip)
 shows an icon next to messages that are pinned
 
-### [MoarConfirm](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/MoarConfirm.zip)
-Puts more confirmations on more shit cause you have fat fingers
+### [AutoShowSpoilers](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/AutoShowSpoilers.zip)
+automatically reveal spoilers on text and media
 
 ### [GhostMessage](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/GhostMessage.zip)
 Immediately deletes messages you send in chat. A minified version of Kyza's GhostMessage
 
+### [MoarConfirm](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/MoarConfirm.zip) **UNFINISHED**
+puts more confirmations on more shit cause you have fat fingers 
+
 ### [Fart](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/Fart.zip)
-Fart
+tell someone to fart or fart yourself
 
 ### [xkcd](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/xkcd.zip)
-Show a comic page from [xkcd.com](https://xkcd.com)
+shows comic pages from [xkcd.com](https://xkcd.com)
 
 ### [NoKyzas](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/NoKyzas.zip)
-This plugin changes everyone's grammatically correct sentences to lowercase. 
-Useful For People Who Like Typing Like This Also.
+This plugin changes everyone's grammatically correct sentences to normal ones.
 
-### [AutoServerNotifs](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/AutoServerNotifs.zip)*
-Ability to automatically turn on/off notification settings like "Suppress @everyone and @here"
+before and after: ![yarik death](https://i.imgur.com/nZZL0se.png)
 
-**USE AT YOUR OWN RISK. It may also trigger on random server events. /shrug it's unpublished for a reason**
+---
+aliucord people are epic except for yarik and kyza ew (jk lol)
+
+
+# Deprecated / Moved Plugins
+
+### Vector
+moved to [other repo](https://github.com/aliucoin/coinplugins)
+
+### FreeNitro (aka FreeNitroll)
+You can still [download](https://github.com/aliucoin/coinplugins/raw/builds/FreeNitroll.zip) it
+Reasoning: i liked it as a funny troll but people cant read and/or are really stupid shrug

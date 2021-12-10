@@ -6,7 +6,6 @@ import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.Hook
 import com.aliucord.patcher.InsteadHook
-import com.aliucord.patcher.before
 import com.discord.utilities.textprocessing.node.SpoilerNode
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemAttachment
 import com.discord.widgets.chat.list.entries.AttachmentEntry

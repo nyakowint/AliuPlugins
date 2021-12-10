@@ -9,7 +9,6 @@ import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.Hook
-import com.aliucord.patcher.after
 import com.aliucord.utils.ReflectUtils
 import com.discord.api.commands.ApplicationCommandType
 import com.discord.models.message.Message
@@ -44,32 +43,28 @@ class NoKyzas : Plugin() {
             CommandsAPI.CommandResult("done", null, false)
         }
 
-        patcher.after<Message>("getContent") {
+        patcher.patch(Message::class.java.getDeclaredMethod("getContent"), Hook {
             if (!settings.getBool("uncap", true)) {
-                return@after
+                return@Hook
             }
             val rMsg = it.thisObject as Message
-            if (rMsg.channelId == Constants.PLUGIN_LINKS_CHANNEL_ID || rMsg.channelId == Constants.PLUGIN_LINKS_UPDATES_CHANNEL_ID) return@after
+            if (rMsg.channelId == Constants.PLUGIN_LINKS_CHANNEL_ID || rMsg.channelId == Constants.PLUGIN_LINKS_UPDATES_CHANNEL_ID) return@Hook
             try {
                 val msg = (ReflectUtils.getField(rMsg, "content") as String)
-                if (msg.contains("https?://".toRegex()) || msg.contains("discord.gg/")) return@after
+                if (msg.contains("https?://".toRegex()) || msg.contains("discord.gg/")) return@Hook
                 val author = CoreUser(rMsg.author)
                 if (author.id == StoreStream.getUsers().me.id && !settings.getBool(
                         "replaceSelf",
                         false
                     )
-                ) return@after
-                if (author.isBot || rMsg.isWebhook && settings.getBool(
-                        "ignoreBots",
-                        true
-                    )
-                ) return@after
+                ) return@Hook
+                if (author.isBot || rMsg.isWebhook && settings.getBool("ignoreBots", true)) return@Hook
                 val result = msg.lowercase()
                 it.result = result.dropLastWhile { c -> c == '.' || c == '​' }
             } catch (h: Exception) {
                 logger.warn("something went derp, oh well: ", h)
             }
-        }
+        })
     }
 
     override fun stop(context: Context) {

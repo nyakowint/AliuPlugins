@@ -4,7 +4,6 @@ import android.content.Context
 import com.aliucord.Logger
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
-import com.discord.widgets.changelog.WidgetChangeLog
 
 val logger = Logger("TestPlugin")
 
