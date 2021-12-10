@@ -97,8 +97,8 @@ class Quoter : Plugin() {
                             try {
                                 if (textInput == null) {
                                     return@setOnClickListener logger.error(
-                                        context,
-                                        "Couldn't get text box. Redownloading the plugin/reinstalling may fix it. (This is a known issue lol)"
+                                        "Couldn't get text box. Redownloading the plugin/reinstalling may fix it. (This is a known issue lol)",
+                                        null
                                     )
                                 }
                                 textBox?.focus()
@@ -213,8 +213,22 @@ class PluginSettings(private val settings: SettingsAPI) : BottomSheet() {
         super.onViewCreated(view, bundle)
         val ctx = requireContext()
 
-        addView(createSetting(ctx, "Add mention to quote", "adds an author @ to the end, like old quote did", "mention"))
-        addView(createSetting(ctx, "Add to end of message", "Add quote to end of the message instead of clearing the textbox", "append"))
+        addView(
+            createSetting(
+                ctx,
+                "Add mention to quote",
+                "adds an author @ to the end, like old quote did",
+                "mention"
+            )
+        )
+        addView(
+            createSetting(
+                ctx,
+                "Add to end of message",
+                "Add quote to end of the message instead of clearing the textbox",
+                "append"
+            )
+        )
     }
 
     private fun createSetting(
@@ -224,12 +238,13 @@ class PluginSettings(private val settings: SettingsAPI) : BottomSheet() {
         setting: String,
         checked: Boolean = true
     ): CheckedSetting {
-        return Utils.createCheckedSetting(ctx, CheckedSetting.ViewType.SWITCH, title, subtitle).apply {
-            isChecked = settings.getBool(setting, checked)
-            setOnCheckedListener {
-                settings.setBool(setting, it)
-                PluginManager.remountPlugin("Quoter")
+        return Utils.createCheckedSetting(ctx, CheckedSetting.ViewType.SWITCH, title, subtitle)
+            .apply {
+                isChecked = settings.getBool(setting, checked)
+                setOnCheckedListener {
+                    settings.setBool(setting, it)
+                    PluginManager.remountPlugin("Quoter")
+                }
             }
-        }
     }
 }
