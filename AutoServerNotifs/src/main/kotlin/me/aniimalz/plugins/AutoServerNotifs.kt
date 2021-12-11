@@ -95,10 +95,6 @@ class AutoServerNotifs : Plugin() {
                     linearLayout.addView(button)
                 } catch (e: NoSuchMethodException) {
                     logger.error(e)
-                } catch (e: IllegalAccessException) {
-                    logger.error(e)
-                } catch (e: InvocationTargetException) {
-                    logger.error(e)
                 }
             })
 
@@ -107,10 +103,9 @@ class AutoServerNotifs : Plugin() {
             StoreGuilds::class.java.getDeclaredMethod(
                 "handleGuildAdd",
                 Guild::class.java
-            ), Hook { // WHY DOES THIS FIRE RANDOMLY IM GONNA SHOOT MYSELF
+            ), Hook { // WHY DOES THIS FIRE RANDOMLY WHY
                 if (!settings.getBool("applyAss", true)) return@Hook
                 val guild = GuildWrapper(it.args[0] as Guild)
-                if (StoreStream.getGuildSelected().selectedGuildId != guild.id) return@Hook
                 logger.info("${guild.name} (${guild.id}) joined, applying notification settings")
                 logger.info("Suppress @everyone and @here: ${getBool("suppressEveryone")}")
                 logger.info("Suppress Role Mentions: ${getBool("suppressRoles")}")
