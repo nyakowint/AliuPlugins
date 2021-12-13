@@ -1,3 +1,4 @@
+include(":TestJava")
 include(":UserTimezones")
 include(":GateFix")
 include(":TestPlugin")

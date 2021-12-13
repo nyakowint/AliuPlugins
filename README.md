@@ -10,13 +10,13 @@ Manually:
 2) place the zip in `Aliucord/plugins` (do not extract it)
 
 
-# Plugins 
-
-### [AutoServerNotifs](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/AutoServerNotifs.zip)
-when you join a server the plugin will automatically turn off notification settings like "Suppress @everyone and @here"
-
+# Plugins
+    
 ### [Quoter](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/Quoter.zip)
 re-adds the famous "Quote" button
+
+### [UserTimezones](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/UserTimezones.zip)
+allows you to set a timezone for a user and then know their time
 
 ### [PinIcon](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/PinIcon.zip)
 shows an icon next to messages that are pinned
@@ -27,7 +27,7 @@ automatically reveal spoilers on text and media
 ### [GhostMessage](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/GhostMessage.zip)
 Immediately deletes messages you send in chat. A minified version of Kyza's GhostMessage
 
-### [MoarConfirm](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/MoarConfirm.zip) **UNFINISHED**
+### [MoarConfirm](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/MoarConfirm.zip)
 puts more confirmations on more shit cause you have fat fingers 
 
 ### [Fart](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/Fart.zip)
@@ -45,11 +45,17 @@ before and after: ![yarik death](https://i.imgur.com/nZZL0se.png)
 aliucord people are epic except for yarik and kyza ew (jk lol)
 
 
-# Deprecated / Moved Plugins
+# Deprecated Plugins
+
+### [AutoServerNotifs](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/AutoServerNotifs.zip)
+couldnt find a better method to patch -- 
+when you join a server the plugin will automatically turn off notification settings like "Suppress @everyone and @here"
+
+side effect: random servers will get your settings applied occasionally
 
 ### Vector
 moved to [other repo](https://github.com/aliucoin/coinplugins)
 
 ### FreeNitro (aka FreeNitroll)
+funny troll plugin to show how stupid people are
 You can still [download](https://github.com/aliucoin/coinplugins/raw/builds/FreeNitroll.zip) it
-Reasoning: i liked it as a funny troll but people cant read and/or are really stupid shrug

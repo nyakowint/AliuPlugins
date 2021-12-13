@@ -8,7 +8,7 @@ buildscript {
         maven("https://jitpack.io")
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.0.3")
+        classpath("com.android.tools.build:gradle:7.0.4")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
         classpath("com.github.Aliucord:gradle:main-SNAPSHOT")
     }
@@ -71,10 +71,10 @@ subprojects {
 
     dependencies {
         val discord by configurations
-        val compileOnly by configurations
+        val implementation by configurations
 
         discord("com.discord:discord:aliucord-SNAPSHOT")
-        compileOnly("com.github.Aliucord:Aliucord:main-SNAPSHOT")
+        implementation("com.github.Aliucord:Aliucord:main-SNAPSHOT")
     }
 }
 
