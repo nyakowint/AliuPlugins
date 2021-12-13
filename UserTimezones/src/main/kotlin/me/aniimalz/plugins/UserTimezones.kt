@@ -14,21 +14,27 @@ import com.aliucord.Constants
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
+import com.aliucord.fragments.InputDialog
 import com.aliucord.fragments.SelectDialog
 import com.aliucord.patcher.Hook
 import com.aliucord.utils.DimenUtils
+import com.discord.models.user.User
 import com.discord.widgets.user.usersheet.WidgetUserSheet
 import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel
 import com.lytefast.flexinput.R
+import java.text.SimpleDateFormat
 import java.time.*
 import java.util.*
+import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
+import kotlin.time.hours
 
 @AliucordPlugin
 class UserTimezones : Plugin() {
     init {
         settingsTab = SettingsTab(
             PluginSettings::class.java,
-            SettingsTab.Type.PAGE
+            SettingsTab.Type.BOTTOM_SHEET
         ).withArgs(settings)
     }
 
@@ -58,9 +64,11 @@ class UserTimezones : Plugin() {
                 var tzView = layout.findViewById<TextView>(tzId)
                 if (tzView != null) {
                     tzView.text = "Click to set a timezone"
-
+                    setUserSheetTime(user, settings.getBool("24hourTime", false))
                     return@Hook
                 }
+                val format12 = SimpleDateFormat("hh:mm a")
+                val format24 = SimpleDateFormat("HH:mm")
                 tzView =
                     TextView(layout.context, null, 0, R.i.UserProfile_Section_Header).apply {
                         id = tzId
@@ -75,15 +83,26 @@ class UserTimezones : Plugin() {
                                 title = "Set timezone (UTC)"
                                 items = timezones
                                 onResultListener = { tz ->
+                                    if (timezones[tz].contains("Custom")) {
+                                        InputDialog().apply {
+                                            title = "Custom Offset"
+                                            setDescription("Type a custom UTC offset here (e.g +05:50 or -02:10)")
+                                            setOnOkListener {
+
+                                            }
+                                            show(Utils.appActivity.supportFragmentManager, "idiot_country_offsets")
+                                        }
+                                    }
                                     Utils.showToast("UTC${timezones[tz]} selected")
-                                    val timeInUtc = OffsetDateTime.of(
-                                        LocalDateTime.now(), ZoneOffset.of(
+                                    val timeInUtc = ZonedDateTime.ofInstant(
+                                        Instant.now(), ZoneOffset.of(
                                             timezones[tz]
                                         )
                                     )
-                                    text = "${timeInUtc.hour}:${timeInUtc.minute} (UTC${timezones[tz]})"
+                                    val timeAmPm = format12.format(format24.parse("${timeInUtc.hour}:${timeInUtc.minute}")!!)
+                                    text = "$timeAmPm (UTC${timezones[tz]})"
                                 }
-                                show(Utils.appActivity.supportFragmentManager, "uhhhhhhhh")
+                                show(Utils.appActivity.supportFragmentManager, "timezone_selector")
                             }
                         }
                         layout.addView(this, layout.indexOfChild(header))
@@ -91,6 +110,10 @@ class UserTimezones : Plugin() {
                 tzView.text = "Click to set a timezone"
 
             })
+    }
+
+    fun setUserSheetTime(user: User, use24Hour: Boolean) {
+        
     }
 
     override fun stop(context: Context) {
