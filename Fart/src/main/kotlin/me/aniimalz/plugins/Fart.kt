@@ -2,8 +2,6 @@ package me.aniimalz.plugins
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.view.View
-import com.aliucord.Logger
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
@@ -12,7 +10,6 @@ import com.discord.api.commands.ApplicationCommandType
 
 @AliucordPlugin
 class Fart : Plugin() {
-    private val logger: Logger = Logger("Fart")
 
     @SuppressLint("SetTextI18n")
     override fun start(context: Context?) {

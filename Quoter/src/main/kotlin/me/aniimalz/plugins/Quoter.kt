@@ -13,7 +13,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
 import c.b.a.e.a
 import com.aliucord.Constants
-import com.aliucord.Logger
 import com.aliucord.PluginManager
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
@@ -44,8 +43,6 @@ class Quoter : Plugin() {
             SettingsTab.Type.BOTTOM_SHEET
         ).withArgs(settings)
     }
-
-    private val logger: Logger = Logger("Quoter")
 
     private var textInput: FlexEditText? = null
     private var textBox: AppFlexInputViewModel? = null

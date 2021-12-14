@@ -33,9 +33,6 @@ import com.google.gson.reflect.TypeToken
 import com.lytefast.flexinput.R
 import java.util.*
 
-
-val logger = Logger("ChannelLocker")
-
 @AliucordPlugin
 class ChannelLocker : Plugin() {
     init {

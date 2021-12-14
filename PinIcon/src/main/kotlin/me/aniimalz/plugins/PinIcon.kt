@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.aliucord.Logger
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.SettingsAPI
@@ -22,8 +21,6 @@ import de.robv.android.xposed.XC_MethodHook
 
 @AliucordPlugin
 class PinIcon : Plugin() {
-
-    private val logger: Logger = Logger("PinIcon")
 
     private var pinIcon: Drawable? = null
 

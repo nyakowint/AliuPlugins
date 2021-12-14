@@ -1,7 +1,6 @@
 package me.aniimalz.plugins
 
 import android.content.Context
-import com.aliucord.Logger
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.Hook
@@ -12,7 +11,6 @@ import com.discord.widgets.chat.list.entries.AttachmentEntry
 
 @AliucordPlugin
 class AutoShowSpoilers : Plugin() {
-    private val logger = Logger("AutoShowSpoilers")
     override fun start(ctx: Context) {
         with(SpoilerNode::class.java) {
             patcher.patch(getDeclaredMethod("isRevealed"), Hook {

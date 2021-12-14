@@ -1,9 +1,2 @@
 version = "1.0.0"
-description = "Description goes here"
-
-aliucord {
-    changelog.set("""
-        # 1.0.0
-		* Released
-    """.trimIndent())
-}
+description = "Allows you to set a timezone for a user and view their time"

@@ -2,7 +2,6 @@ package me.aniimalz.plugins
 
 import android.content.Context
 import com.aliucord.Constants
-import com.aliucord.Logger
 import com.aliucord.PluginManager
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
@@ -21,8 +20,6 @@ class NoKyzas : Plugin() {
         settingsTab =
             SettingsTab(KyzaSettings::class.java, SettingsTab.Type.PAGE).withArgs(settings)
     }
-
-    private val logger: Logger = Logger("NoKyzas")
 
     override fun start(ctx: Context) {
 

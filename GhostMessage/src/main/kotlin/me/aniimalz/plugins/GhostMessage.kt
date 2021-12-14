@@ -1,7 +1,6 @@
 package me.aniimalz.plugins
 
 import android.content.Context
-import com.aliucord.Logger
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
@@ -19,8 +18,6 @@ import java.util.*
 
 @AliucordPlugin
 class GhostMessage : Plugin() {
-
-    private val logger = Logger("GhostMessage")
 
     private var messagesSubscription: Subscription? = null
 

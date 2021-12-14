@@ -31,8 +31,6 @@ import com.lytefast.flexinput.R
 import me.aniimalz.plugins.PluginSettings.Companion.notifFrequency
 import java.lang.reflect.InvocationTargetException
 
-val logger = Logger("ASN")
-
 @AliucordPlugin
 class AutoServerNotifs : Plugin() {
 

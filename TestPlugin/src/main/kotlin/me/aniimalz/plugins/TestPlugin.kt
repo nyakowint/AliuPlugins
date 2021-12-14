@@ -5,8 +5,6 @@ import com.aliucord.Logger
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 
-val logger = Logger("TestPlugin")
-
 @AliucordPlugin
 class TestPlugin : Plugin() {
 /*    init {
