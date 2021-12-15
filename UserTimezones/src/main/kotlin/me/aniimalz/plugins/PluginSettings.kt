@@ -3,19 +3,48 @@ package me.aniimalz.plugins
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.aliucord.PluginManager
 import com.aliucord.Utils
 import com.aliucord.api.SettingsAPI
 import com.aliucord.fragments.SettingsPage
+import com.aliucord.views.Divider
 import com.aliucord.widgets.BottomSheet
 import com.discord.views.CheckedSetting
+import com.google.gson.reflect.TypeToken
+import java.util.HashMap
 
-class PluginSettings(private val settings: SettingsAPI) : BottomSheet() {
-    override fun onViewCreated(p0: View, p1: Bundle?) {
-        super.onViewCreated(p0, p1)
+class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
+    override fun onViewBound(view: View) {
+        super.onViewBound(view)
         val ctx = requireContext()
+        setActionBarTitle("Timezones")
+        val usersList = settings.getObject(
+            "usersList",
+            HashMap<Long, String>(),
+            TypeToken.getParameterized(
+                HashMap::class.java,
+                Long::class.javaObjectType,
+                String::class.javaObjectType
+            ).type
+        )
 
-        addSetting(ctx, "Use 24-hour time", "Use 24 hour time instead of AM/PM", "24hourTime")
+        val recycler = RecyclerView(ctx).apply {
+            layoutManager = LinearLayoutManager(ctx)
+            adapter = SettingsTZAdapter(this@PluginSettings, usersList)
+        }
+
+        addView(
+            addSetting(
+                ctx,
+                "Use 24-hour time",
+                "Use 24 hour time instead of AM/PM",
+                "24hourTime"
+            )
+        )
+        addView(Divider(ctx))
+        addView(recycler)
     }
 
     private fun addSetting(

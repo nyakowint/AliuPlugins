@@ -21,6 +21,7 @@ import com.aliucord.utils.DimenUtils
 import com.discord.models.user.User
 import com.discord.widgets.user.usersheet.WidgetUserSheet
 import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel
+import com.google.gson.reflect.TypeToken
 import com.lytefast.flexinput.R
 import java.text.SimpleDateFormat
 import java.time.*
@@ -29,16 +30,20 @@ import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 import kotlin.time.hours
 
+@SuppressLint("SimpleDateFormat")
 @AliucordPlugin
 class UserTimezones : Plugin() {
     init {
         settingsTab = SettingsTab(
             PluginSettings::class.java,
-            SettingsTab.Type.BOTTOM_SHEET
+            SettingsTab.Type.PAGE
         ).withArgs(settings)
     }
 
     private val tzId = View.generateViewId()
+    val format12 = SimpleDateFormat("hh:mm a")
+    val format24 = SimpleDateFormat("HH:mm")
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
@@ -60,60 +65,140 @@ class UserTimezones : Plugin() {
                 val headerId = Utils.getResId("about_me_header_container", "id")
                 val header = binding.a.findViewById<ViewGroup>(headerId)
                 val layout = header.parent as LinearLayout
+                val userSheet = it.thisObject as WidgetUserSheet
 
-                var tzView = layout.findViewById<TextView>(tzId)
+                val tzView = layout.findViewById<TextView>(tzId)
                 if (tzView != null) {
-                    tzView.text = "Click to set a timezone"
-                    setUserSheetTime(user, settings.getBool("24hourTime", false))
+                    setOnClick(tzView, userSheet, loaded)
+                    setUserSheetTime(
+                        user,
+                        settings.getBool("24hourTime", false),
+                        tzView,
+                        userSheet,
+                        loaded
+                    )
                     return@Hook
                 }
-                val format12 = SimpleDateFormat("hh:mm a")
-                val format24 = SimpleDateFormat("HH:mm")
-                tzView =
-                    TextView(layout.context, null, 0, R.i.UserProfile_Section_Header).apply {
+                TextView(layout.context, null, 0, R.i.UserProfile_Section_Header).apply {
                         id = tzId
                         typeface =
                             ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold)
                         val dp = DimenUtils.defaultPadding
                         compoundDrawablePadding = DimenUtils.dpToPx(8)
+                        text = if (user.timezone != null) setUserSheetTime(user, settings.getBool("24hourTime", false), this, userSheet, loaded) else "Click to set a timezone"
                         setPadding(dp, dp, dp, dp)
                         setCompoundDrawablesRelativeWithIntrinsicBounds(clock, null, null, null)
-                        setOnClickListener {
-                            SelectDialog().apply {
-                                title = "Set timezone (UTC)"
-                                items = timezones
-                                onResultListener = { tz ->
-                                    if (timezones[tz].contains("Custom")) {
-                                        InputDialog().apply {
-                                            title = "Custom Offset"
-                                            setDescription("Type a custom UTC offset here (e.g +05:50 or -02:10)")
-                                            setOnOkListener {
-
-                                            }
-                                            show(Utils.appActivity.supportFragmentManager, "idiot_country_offsets")
-                                        }
-                                    }
-                                    Utils.showToast("UTC${timezones[tz]} selected")
-                                    val timeInUtc = ZonedDateTime.ofInstant(
-                                        Instant.now(), ZoneOffset.of(
-                                            timezones[tz]
-                                        )
-                                    )
-                                    val timeAmPm = format12.format(format24.parse("${timeInUtc.hour}:${timeInUtc.minute}")!!)
-                                    text = "$timeAmPm (UTC${timezones[tz]})"
-                                }
-                                show(Utils.appActivity.supportFragmentManager, "timezone_selector")
-                            }
-                        }
                         layout.addView(this, layout.indexOfChild(header))
+                        setOnClick(this, userSheet, loaded)
                     }
-                tzView.text = "Click to set a timezone"
 
             })
     }
 
-    fun setUserSheetTime(user: User, use24Hour: Boolean) {
-        
+    val User.timezone
+        get() = settings.getObject(
+            "usersList", HashMap<Long, String>(), // userid, timezone
+            TypeToken.getParameterized(
+                HashMap::class.java,
+                Long::class.javaObjectType,
+                String::class.javaObjectType
+            ).type
+        )[id]
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setUserSheetTime(
+        user: User,
+        use24Hour: Boolean,
+        tzView: TextView,
+        userSheet: WidgetUserSheet,
+        loaded: WidgetUserSheetViewModel.ViewState.Loaded
+    ): CharSequence {
+        val list = settings.getObject(
+            "usersList",
+            HashMap<Long, String>(), // userid, timezone
+            TypeToken.getParameterized(
+                HashMap::class.java,
+                Long::class.javaObjectType,
+                String::class.javaObjectType
+            ).type
+        )
+        if (list.containsKey(user.id)) {
+            Utils.showToast("${user.username} is UTC${user.timezone}")
+            val timeInUtc = ZonedDateTime.ofInstant(
+                Instant.now(), ZoneOffset.of(
+                    user.timezone
+                )
+            )
+            val timeAmPm =
+                format12.format(format24.parse("${timeInUtc.hour}:${timeInUtc.minute}")!!)
+            tzView.text =
+                if (use24Hour) "${timeInUtc.hour}:${timeInUtc.minute} (UTC${user.timezone})" else "$timeAmPm (UTC${user.timezone})"
+            return if (use24Hour) "${timeInUtc.hour}:${timeInUtc.minute} (UTC${user.timezone})" else "$timeAmPm (UTC${user.timezone})"
+        }
+        return "No timezone set"
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    @SuppressLint("SetTextI18n", "SimpleDateFormat")
+    private fun setOnClick(
+        tzView: TextView,
+        userSheet: WidgetUserSheet,
+        loaded: WidgetUserSheetViewModel.ViewState.Loaded
+    ) {
+        with(tzView) {
+            val user = loaded.user
+            setOnClickListener {
+                SelectDialog().apply {
+                    title = "Set timezone (UTC)"
+                    items = timezones
+                    onResultListener = cringe@{ tz ->
+                        val userList = settings.getObject(
+                            "usersList",
+                            HashMap<Long, String>(), // userid, timezone
+                            TypeToken.getParameterized(
+                                HashMap::class.java,
+                                Long::class.javaObjectType,
+                                String::class.javaObjectType
+                            ).type
+                        )
+                        if (timezones[tz].contains("Custom")) {
+                            InputDialog().apply {
+                                title = "Custom Offset"
+                                setDescription("Type a custom UTC offset here (e.g +05:50 or -02:10)")
+                                setOnOkListener {
+                                    try {
+                                        Utils.showToast(text.toString())
+                                        userList[user.id] = text as String
+                                        settings.setObject("usersList", userList)
+                                        setUserSheetTime(
+                                            user,
+                                            settings.getBool("24hourTime", false),
+                                            tzView,
+                                            userSheet,
+                                            loaded
+                                        )
+                                    } catch (t: Throwable) {
+                                        logger.error(t)
+                                    }
+                                }
+                                show(userSheet.parentFragmentManager, "idiot_country_offsets")
+                            }
+                            return@cringe
+                        }
+                        userList[user.id] = timezones[tz]
+                        settings.setObject("usersList", userList)
+                        setUserSheetTime(
+                            user,
+                            settings.getBool("24hourTime", false),
+                            tzView,
+                            userSheet,
+                            loaded
+                        )
+                    }
+                    show(userSheet.parentFragmentManager, "timezone_selector")
+                }
+            }
+        }
     }
 
     override fun stop(context: Context) {
