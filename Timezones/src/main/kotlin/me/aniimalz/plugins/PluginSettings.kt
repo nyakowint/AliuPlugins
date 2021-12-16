@@ -1,7 +1,6 @@
 package me.aniimalz.plugins
 
 import android.content.Context
-import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,10 +9,9 @@ import com.aliucord.Utils
 import com.aliucord.api.SettingsAPI
 import com.aliucord.fragments.SettingsPage
 import com.aliucord.views.Divider
-import com.aliucord.widgets.BottomSheet
 import com.discord.views.CheckedSetting
 import com.google.gson.reflect.TypeToken
-import java.util.HashMap
+import java.util.*
 
 class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
     override fun onViewBound(view: View) {
@@ -59,7 +57,7 @@ class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
                 isChecked = settings.getBool(setting, checked)
                 setOnCheckedListener {
                     settings.setBool(setting, it)
-                    PluginManager.remountPlugin("UserTimezones")
+                    PluginManager.remountPlugin("Timezones")
                 }
             }
     }

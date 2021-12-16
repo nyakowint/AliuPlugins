@@ -15,7 +15,7 @@ Manually:
 ### [Quoter](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/Quoter.zip)
 re-adds the famous "Quote" button
 
-### [UserTimezones](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/UserTimezones.zip)
+### [Timezones](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/Timezones.zip)
 allows you to set a timezone for a user and then know their time
 
 ### [PinIcon](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/PinIcon.zip)

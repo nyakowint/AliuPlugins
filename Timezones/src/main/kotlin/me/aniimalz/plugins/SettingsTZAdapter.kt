@@ -10,6 +10,7 @@ import com.aliucord.PluginManager
 import com.aliucord.Utils
 import com.aliucord.Utils.getResId
 import com.aliucord.fragments.SettingsPage
+import com.discord.stores.StoreStream
 import com.discord.utilities.color.ColorCompat
 import com.lytefast.flexinput.R
 import java.util.*
@@ -39,15 +40,15 @@ class SettingsTZAdapter(
     @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: TZListHolder, position: Int) {
         val name = ArrayList(usersList.keys)[position]
-        holder.item.name.text = name.toString()
+        holder.item.name.text = StoreStream.getUsers().users[name]?.username ?: name.toString()
         holder.item.delete.setOnClickListener {
             usersList.remove(name)
-            PluginManager.plugins["UserTimezones"]!!.settings.setObject("usersList", usersList)
+            PluginManager.plugins["Timezones"]!!.settings.setObject("usersList", usersList)
             notifyDataSetChanged()
             Utils.showToast("User removed")
         }
         val icon =
-            ContextCompat.getDrawable(ctx!!, getResId("ic_text_channel_white_24dp", "drawable"))!!
+            ContextCompat.getDrawable(ctx!!, getResId("ic_person_white_a60_24dp", "drawable"))!!
                 .mutate()
         icon.setTint(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal))
         holder.item.name.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)

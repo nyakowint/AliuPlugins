@@ -1,5 +1,5 @@
 include(":TestJava")
-include(":UserTimezones")
+include(":Timezones")
 include(":GateFix")
 include(":TestPlugin")
 include(":ChannelLocker")

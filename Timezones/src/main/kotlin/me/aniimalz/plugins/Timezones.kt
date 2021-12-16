@@ -26,13 +26,10 @@ import com.lytefast.flexinput.R
 import java.text.SimpleDateFormat
 import java.time.*
 import java.util.*
-import kotlin.time.Duration
-import kotlin.time.ExperimentalTime
-import kotlin.time.hours
 
 @SuppressLint("SimpleDateFormat")
 @AliucordPlugin
-class UserTimezones : Plugin() {
+class Timezones : Plugin() {
     init {
         settingsTab = SettingsTab(
             PluginSettings::class.java,
