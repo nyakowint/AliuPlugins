@@ -120,7 +120,6 @@ class Timezones : Plugin() {
             ).type
         )
         if (list.containsKey(user.id)) {
-            Utils.showToast("${user.username} is UTC${user.timezone}")
             val timeInUtc = ZonedDateTime.ofInstant(
                 Instant.now(), ZoneOffset.of(
                     user.timezone
@@ -164,7 +163,6 @@ class Timezones : Plugin() {
                                 setDescription("Type a custom UTC offset here (e.g +05:50 or -02:10)")
                                 setOnOkListener {
                                     try {
-                                        Utils.showToast(text.toString())
                                         userList[user.id] = text as String
                                         settings.setObject("usersList", userList)
                                         setUserSheetTime(

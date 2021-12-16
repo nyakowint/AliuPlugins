@@ -55,7 +55,6 @@ class SettingsTZAdapter(
     }
 
     fun onClick() {
-        Utils.showToast("bruh")
     }
 
 }
