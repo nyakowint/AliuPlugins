@@ -39,5 +39,5 @@ val timezones = arrayOf(
     "+12:45",
     "+13:00",
     "+14:00",
-    "Custom"
+    "Custom (may not work)"
 )
