@@ -5,6 +5,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven("https://maven.aliucord.com/snapshots")
         maven("https://jitpack.io")
     }
     dependencies {
@@ -18,6 +19,8 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven("https://maven.aliucord.com/snapshots")
+        maven("https://jitpack.io")
     }
 }
 
@@ -71,10 +74,10 @@ subprojects {
 
     dependencies {
         val discord by configurations
-        val implementation by configurations
+        val compileOnly by configurations
 
         discord("com.discord:discord:aliucord-SNAPSHOT")
-        implementation("com.github.Aliucord:Aliucord:main-SNAPSHOT")
+        compileOnly("com.Aliucord:Aliucord:main-SNAPSHOT")
     }
 }
 

@@ -2,6 +2,7 @@ package me.aniimalz.plugins
 
 import android.content.Context
 import android.view.Gravity
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -12,12 +13,14 @@ import com.lytefast.flexinput.R
 class UserTZCard(ctx: Context?) : LinearLayout(ctx) {
     val name: TextView
     val delete: ToolbarButton
+    val image: ImageView
 
     init {
         orientation = HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         name = TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Icon)
+        image = ImageView(ctx).apply { gravity = Gravity.LEFT }
         val buttons = LinearLayout(ctx)
         buttons.orientation = HORIZONTAL
         val params = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
