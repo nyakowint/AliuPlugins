@@ -77,7 +77,7 @@ subprojects {
         val compileOnly by configurations
 
         discord("com.discord:discord:aliucord-SNAPSHOT")
-        compileOnly("com.Aliucord:Aliucord:main-SNAPSHOT")
+        compileOnly("com.aliucord:Aliucord:main-SNAPSHOT")
     }
 }
 

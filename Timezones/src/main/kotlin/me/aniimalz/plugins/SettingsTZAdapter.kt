@@ -2,12 +2,12 @@ package me.aniimalz.plugins
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.net.Uri
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aliucord.PluginManager
 import com.aliucord.Utils
+import com.aliucord.fragments.ConfirmDialog
 import com.aliucord.fragments.SettingsPage
 import com.discord.models.user.User
 import com.discord.stores.StoreStream
@@ -15,7 +15,7 @@ import com.discord.widgets.user.usersheet.WidgetUserSheet
 import java.util.*
 
 class SettingsTZAdapter(
-    page: SettingsPage,
+    private val page: SettingsPage,
     private val usersList: MutableMap<Long, String>
 ) :
     RecyclerView.Adapter<SettingsTZAdapter.TZListHolder>() {
@@ -36,26 +36,37 @@ class SettingsTZAdapter(
         return TZListHolder(this, UserTZCard(ctx))
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
     override fun onBindViewHolder(holder: TZListHolder, position: Int) {
         val name = ArrayList(usersList.keys)[position]
         val user = StoreStream.getUsers().users[name] as User
-        holder.item.name.text = user.username ?: name.toString()
+        holder.item.name.text = "${user.username ?: name.toString()} (${usersList.getValue(name)})"
         holder.item.delete.setOnClickListener {
+            if (PluginManager.plugins["Timezones"]!!.settings.getBool("confirmRemoval", false)) {
+                ConfirmDialog().setTitle("Confirm removal").setOnOkListener {
+                    usersList.remove(name)
+                    PluginManager.plugins["Timezones"]!!.settings.setObject("usersList", usersList)
+                    notifyDataSetChanged()
+                    Utils.showToast("User removed")
+                }.show(page.parentFragmentManager, "fat_finger")
+                return@setOnClickListener
+            }
             usersList.remove(name)
             PluginManager.plugins["Timezones"]!!.settings.setObject("usersList", usersList)
             notifyDataSetChanged()
             Utils.showToast("User removed")
         }
-/*        val icon =
-            ContextCompat.getDrawable(ctx!!, getResId("ic_person_white_a60_24dp", "drawable"))!!
-                .mutate()
-        icon.setTint(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal))
-        holder.item.name.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)*/
-        holder.item.image.setImageURI(Uri.parse(user.avatar))
-        holder.item.name.setOnLongClickListener {
-            WidgetUserSheet.show(name, Utils.appActivity.supportFragmentManager)
-            return@setOnLongClickListener false
+        holder.item.image.setImageURI("https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png")
+        holder.item.image.setOnClickListener {
+            WidgetUserSheet.show(
+                user.id,
+                page.parentFragmentManager
+            )
+        }
+        holder.item.image.setOnLongClickListener {
+            Utils.setClipboard("User ID", user.id.toString())
+            Utils.showToast("Copied ID to clipboard!")
+            return@setOnLongClickListener true
         }
     }
 

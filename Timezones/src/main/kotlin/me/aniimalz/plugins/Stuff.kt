@@ -1,5 +1,11 @@
 package me.aniimalz.plugins
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import java.time.Instant
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
+
 val timezones = arrayOf(
     "-12:00",
     "-11:00",
@@ -41,3 +47,15 @@ val timezones = arrayOf(
     "+14:00",
     "Custom (may not work)"
 )
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun calculateTime(timezone: String?, use24Hour: Boolean): String {
+    val timeInUtc = ZonedDateTime.ofInstant(
+        Instant.now(), ZoneOffset.of(
+           timezone
+        )
+    )
+    val timeAmPm =
+        format12.format(format24.parse("${timeInUtc.hour}:${timeInUtc.minute}")!!)
+    return if (use24Hour) "${timeInUtc.hour}:${timeInUtc.minute}" else timeAmPm
+}

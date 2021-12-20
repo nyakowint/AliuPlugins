@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken
 import java.util.*
 
 class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
+    val stzId = View.generateViewId()
     override fun onViewBound(view: View) {
         super.onViewBound(view)
         val ctx = requireContext()
@@ -42,7 +43,48 @@ class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
             )
         )
         addView(Divider(ctx))
+        addView(
+            addSetting(
+                ctx,
+                "Confirm removal",
+                "protection from fat fingering the x",
+                "confirmRemoval"
+            )
+        )
         addView(recycler)
+
+        /*val padding = DimenUtils.defaultPadding
+
+        val filesButton = ToolbarButton(ctx).apply {
+            layoutParams = Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT).apply {
+                gravity = Gravity.END
+                marginEnd = padding
+            }
+            setImageDrawable(ContextCompat.getDrawable(context, R.e.ic_guild_settings_24dp))
+            id = stzId
+            setOnClickListener { SelectDialog().apply {
+                title = "Import/Export"
+                items = arrayOf("Load user list", "Save user list")
+                onResultListener = cringe@{ selected ->
+                    val userList = settings.getObject(
+                        "usersList",
+                        HashMap<Long, String>(), // userid, timezone
+                        TypeToken.getParameterized(
+                            HashMap::class.java,
+                            Long::class.javaObjectType,
+                            String::class.javaObjectType
+                        ).type
+                    )
+                    if (items[selected] == "Save user list") {
+
+                        dismiss()
+                        return@cringe
+                    }
+
+                }
+                show(parentFragmentManager, "import_export_menu")
+            } }
+        }*/
     }
 
     private fun addSetting(

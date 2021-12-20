@@ -1,3 +1,4 @@
+include(":HopOnBloonsWhen")
 include(":TestJava")
 include(":Timezones")
 include(":GateFix")

@@ -15,6 +15,7 @@ import com.discord.databinding.WidgetUserSheetBinding
 import com.discord.stores.StoreStream
 import com.discord.stores.StoreUser
 import com.discord.stores.StoreUserRelationships
+import com.discord.views.JoinVoiceChannelButton
 import com.discord.widgets.user.calls.PrivateCallLauncher
 import com.discord.widgets.user.usersheet.WidgetUserSheet
 import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel
@@ -118,7 +119,7 @@ class MoarConfirm : Plugin() {
                         it.result = null
                     }
                 }
-                confirmBtn.setOnClickListener { _ ->
+                confirmBtn.setOnClickListener {
                     if (!settings.getBool("friendConfirm", true)) {
                         val friend = userSheet.javaClass.getDeclaredMethod("addFriend", String::class.javaObjectType)
                         friend.apply { isAccessible = true }

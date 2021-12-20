@@ -28,6 +28,11 @@ import java.time.*
 import java.util.*
 
 @SuppressLint("SimpleDateFormat")
+val format12 = SimpleDateFormat("hh:mm a")
+
+@SuppressLint("SimpleDateFormat")
+val format24 = SimpleDateFormat("HH:mm")
+
 @AliucordPlugin
 class Timezones : Plugin() {
     init {
@@ -38,8 +43,6 @@ class Timezones : Plugin() {
     }
 
     private val tzId = View.generateViewId()
-    val format12 = SimpleDateFormat("hh:mm a")
-    val format24 = SimpleDateFormat("HH:mm")
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -70,29 +73,56 @@ class Timezones : Plugin() {
                     setUserSheetTime(
                         user,
                         settings.getBool("24hourTime", false),
-                        tzView,
-                        userSheet,
-                        loaded
+                        tzView
                     )
                     return@Hook
                 }
                 TextView(layout.context, null, 0, R.i.UserProfile_Section_Header).apply {
-                        id = tzId
-                        typeface =
-                            ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold)
-                        val dp = DimenUtils.defaultPadding
-                        compoundDrawablePadding = DimenUtils.dpToPx(8)
-                        text = if (user.timezone != null) setUserSheetTime(user, settings.getBool("24hourTime", false), this, userSheet, loaded) else "Click to set a timezone"
-                        setPadding(dp, dp, dp, dp)
-                        setCompoundDrawablesRelativeWithIntrinsicBounds(clock, null, null, null)
-                        layout.addView(this, layout.indexOfChild(header))
-                        setOnClick(this, userSheet, loaded)
-                    }
+                    id = tzId
+                    typeface =
+                        ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold)
+                    val dp = DimenUtils.defaultPadding
+                    compoundDrawablePadding = DimenUtils.dpToPx(8)
+                    text = if (user.timezone != null) setUserSheetTime(
+                        user,
+                        settings.getBool("24hourTime", false),
+                        this
+                    ) else "Click to set a timezone"
+                    setPadding(dp, dp, dp, dp)
+                    setCompoundDrawablesRelativeWithIntrinsicBounds(clock, null, null, null)
+                    layout.addView(this, layout.indexOfChild(header))
+                    setOnClick(this, userSheet, loaded)
+                }
 
             })
+        val u24hr = settings.getBool("24hourTime", false)
+
+        /*// make it show next to timestamp on message - this didnt work idfk lmao
+        with(WidgetChatListAdapterItemMessage::class.java) {
+            val timestampField = getDeclaredField(
+                "itemTimestamp"
+            ).apply { isAccessible = true }
+            patcher.patch(
+                getDeclaredMethod(
+                    "configureItemTag",
+                    Message::class.java
+                ), Hook { cf: XC_MethodHook.MethodHookParam ->
+                    try {
+                        val msg = cf.args[0] as Message
+                        val user = CoreUser(msg.author)
+                        val timestamp = timestampField.get(cf.thisObject) as TextView
+                        if (user.timezone != null && settings.getBool("showOnMessages", false)) {
+                            timestamp.text =
+                                "${timestamp.text} (T: ${calculateTime(user.timezone, u24hr)})"
+                        } //.
+                    } catch (t: Throwable) {
+                        logger.error(t)
+                    }
+                })
+        }*/
     }
 
-    val User.timezone
+    private val User.timezone
         get() = settings.getObject(
             "usersList", HashMap<Long, String>(), // userid, timezone
             TypeToken.getParameterized(
@@ -102,13 +132,12 @@ class Timezones : Plugin() {
             ).type
         )[id]
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setUserSheetTime(
         user: User,
         use24Hour: Boolean,
-        tzView: TextView,
-        userSheet: WidgetUserSheet,
-        loaded: WidgetUserSheetViewModel.ViewState.Loaded
+        tzView: TextView
     ): CharSequence {
         val list = settings.getObject(
             "usersList",
@@ -120,16 +149,8 @@ class Timezones : Plugin() {
             ).type
         )
         if (list.containsKey(user.id)) {
-            val timeInUtc = ZonedDateTime.ofInstant(
-                Instant.now(), ZoneOffset.of(
-                    user.timezone
-                )
-            )
-            val timeAmPm =
-                format12.format(format24.parse("${timeInUtc.hour}:${timeInUtc.minute}")!!)
-            tzView.text =
-                if (use24Hour) "${timeInUtc.hour}:${timeInUtc.minute} (UTC${user.timezone})" else "$timeAmPm (UTC${user.timezone})"
-            return if (use24Hour) "${timeInUtc.hour}:${timeInUtc.minute} (UTC${user.timezone})" else "$timeAmPm (UTC${user.timezone})"
+            tzView.text = "${calculateTime(user.timezone, use24Hour)} (UTC${user.timezone})"
+            return "${calculateTime(user.timezone, use24Hour)} (UTC${user.timezone})"
         }
         return "No timezone set"
     }
@@ -168,9 +189,7 @@ class Timezones : Plugin() {
                                         setUserSheetTime(
                                             user,
                                             settings.getBool("24hourTime", false),
-                                            tzView,
-                                            userSheet,
-                                            loaded
+                                            tzView
                                         )
                                     } catch (t: Throwable) {
                                         logger.error(t)
@@ -185,9 +204,7 @@ class Timezones : Plugin() {
                         setUserSheetTime(
                             user,
                             settings.getBool("24hourTime", false),
-                            tzView,
-                            userSheet,
-                            loaded
+                            tzView
                         )
                     }
                     show(userSheet.parentFragmentManager, "timezone_selector")

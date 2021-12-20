@@ -16,8 +16,6 @@ class TestJava extends Plugin {
         Utils.showToast("adszfkjnjkn");
     }
 
-    public final View.OnClickListener onAvatarPress = new Fart();
-
     @Override
     public void stop(Context ctx) {
         patcher.unpatchAll();
