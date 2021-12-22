@@ -133,6 +133,13 @@ class MoarConfirm : Plugin() {
                 }
             })
         }
+
+        // confirmation for deleting roles
+        patcher.after<WidgetServerSettingsEditRole>("setupActionBar", WidgetServerSettingsEditRole.Model::class.java) {
+            val widget = it.thisObject as WidgetServerSettingsEditRole
+            val model = it.args[0] as WidgetServerSettingsEditRole.Model
+            // do more of this later i hate the web editor
+        }
     }
 
     private fun callUser(ctx: Context, user: Long, isVideo: Boolean) {
