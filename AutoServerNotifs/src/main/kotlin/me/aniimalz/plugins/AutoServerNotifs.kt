@@ -100,15 +100,10 @@ class AutoServerNotifs : Plugin() {
                 }
             })
 
-        // RestAPI.ackGuild - mark as read
         patcher.before<StoreGuilds>("handleGuildAdd", Guild::class.java) {
-            // WHY DOES THIS FIRE RANDOMLY WHY
             if (!settings.getBool("applyAss", true)) return@before
             val guild = GuildWrapper(it.args[0] as Guild)
-            if (guilds.containsKey(guild.id)) {
-                Utils.showToast("i think im right on this")
-                return@before
-            }
+            if (guilds.containsKey(guild.id)) return@before
 
             apply(guild)
         }
@@ -116,7 +111,7 @@ class AutoServerNotifs : Plugin() {
     }
 
     private fun apply(guild: GuildWrapper) {
-        Utils.showToast("Applying for ${guild.name}. If you're seeing this without joining a server first then plugin is still broke: oh well")
+        Utils.showToast("Applying for ${guild.name}. If you're seeing this without joining a server first, please report it to Animal")
         logger.info("${guild.name} (${guild.id}) joined, applying notification settings")
         logger.info("Suppress @everyone and @here: ${getBool("suppressEveryone")}")
         logger.info("Suppress Role Mentions: ${getBool("suppressRoles")}")
