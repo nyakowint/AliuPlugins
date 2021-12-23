@@ -111,13 +111,19 @@ class AutoServerNotifs : Plugin() {
     }
 
     private fun apply(guild: GuildWrapper) {
-        Utils.showToast("Applying for ${guild.name}. If you're seeing this without joining a server first, please report it to Animal")
         logger.info("${guild.name} (${guild.id}) joined, applying notification settings")
         logger.info("Suppress @everyone and @here: ${getBool("suppressEveryone")}")
         logger.info("Suppress Role Mentions: ${getBool("suppressRoles")}")
         logger.info("Mute ${guild.name}: ${getBool("Mute Guild")}")
         logger.info("Mobile Push notifs: ${getBool("mobilePushNotifs")}")
         logger.info("Notification frequency: ${bSettings.notifFrequency.name}")
+
+
+        //         Suppress @everyone and @here: true
+        //        Suppress Role Mentions: false
+        //        Mute [guild name]: false
+        //        Mobile Push notifs: false
+        //        Notification frequency: Only @mentions
 
         Utils.threadPool.execute {
             sub = RestAPI.api.updateUserGuildSettings(

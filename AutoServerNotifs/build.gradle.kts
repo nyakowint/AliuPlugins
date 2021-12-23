@@ -1,6 +1,6 @@
-version = "1.0.8"
-description = "Automatically changes notification settings when you join a guild"
+version = "1.0.9"
+description = "Automatically changes notification settings when you join a guild -- unmaintained. use at your own risk"
 
 aliucord {
-    changelog.set("holy shit i think i fixed it")
+    changelog.set("discord moment")
 }
