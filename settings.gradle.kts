@@ -1,3 +1,4 @@
+include(":ReactionNotifier")
 include(":HopOnBloonsWhen")
 include(":TestJava")
 include(":Timezones")

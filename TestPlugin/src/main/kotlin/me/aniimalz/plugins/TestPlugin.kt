@@ -1,7 +1,6 @@
 package me.aniimalz.plugins
 
 import android.content.Context
-import com.aliucord.Logger
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 
@@ -15,7 +14,7 @@ class TestPlugin : Plugin() {
     } penis */
 
     override fun start(ctx: Context) {
-
+        // shut
     }
 
     override fun stop(context: Context) {
