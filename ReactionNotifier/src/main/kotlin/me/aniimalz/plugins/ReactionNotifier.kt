@@ -39,6 +39,7 @@ class ReactionNotifier : Plugin() {
 
     private fun handleReaction(ctx: Context, reactionData: MessageReactionUpdate, removed: Boolean) {
         val msg = StoreStream.getMessages().getMessage(reactionData.a(), reactionData.c()) ?: return
+        if (msg.channelId == StoreStream.getChannelsSelected().id) return
         if (StoreStream.getUsers().me.id != CoreUser(msg.author).id || StoreStream.getUsers().me.id == reactionData.d()) return
         val user = StoreStream.getUsers().users[reactionData.d()] ?: return
         if (user.isBot && settings.getBool("ignoreBots", false)) return

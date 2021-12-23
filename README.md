@@ -62,13 +62,10 @@ aliucord people are epic except for yarik and kyza ew (jk lol)
 # Deprecated Plugins
 
 ### [AutoServerNotifs](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/AutoServerNotifs.zip)
-
-Currently in some type of limbo: if this fix is confirmed to work then this plugin will return,
-otherwise it will stay unmaintained. When you join a server the plugin will automatically turn off
+When you join a server the plugin will automatically turn off
 notification settings like "Suppress @everyone and @here"
 
-~~side effect: random servers will get your settings applied occasionally~~ -- this is the "bug"
-that (used to?) happen, please test and tell me if this still happens to you!
+side effect: random servers will get your settings applied occasionally
 
 ### FreeNitro
 
