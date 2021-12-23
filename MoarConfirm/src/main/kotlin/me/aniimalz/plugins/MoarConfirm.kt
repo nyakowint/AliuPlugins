@@ -1,6 +1,7 @@
 package me.aniimalz.plugins
 
 import android.content.Context
+import android.view.MenuItem
 import android.widget.Button
 import androidx.fragment.app.FragmentManager
 import com.aliucord.Utils
@@ -9,17 +10,24 @@ import com.aliucord.entities.Plugin
 import com.aliucord.fragments.ConfirmDialog
 import com.aliucord.patcher.Hook
 import com.aliucord.patcher.PreHook
+import com.aliucord.patcher.after
+import com.aliucord.patcher.before
+import com.aliucord.wrappers.GuildRoleWrapper.Companion.name
 import com.discord.app.AppComponent
 import com.discord.app.AppPermissionsRequests
 import com.discord.databinding.WidgetUserSheetBinding
+import com.discord.panels.R
 import com.discord.stores.StoreStream
 import com.discord.stores.StoreUser
 import com.discord.stores.StoreUserRelationships
 import com.discord.views.JoinVoiceChannelButton
+import com.discord.widgets.servers.WidgetServerSettingsEditRole
+import com.discord.widgets.servers.`WidgetServerSettingsEditRole$setupMenu$1`
 import com.discord.widgets.user.calls.PrivateCallLauncher
 import com.discord.widgets.user.usersheet.WidgetUserSheet
 import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel
 import com.discord.widgets.voice.call.PrivateCallLaunchUtilsKt
+import de.robv.android.xposed.XposedBridge
 
 @AliucordPlugin
 class MoarConfirm : Plugin() {
@@ -109,9 +117,15 @@ class MoarConfirm : Plugin() {
                     setTitle("Add Friend")
                     setOnOkListener { _ ->
                         dismiss()
-                        val friend = userSheet.javaClass.getDeclaredMethod("addFriend", String::class.javaObjectType)
+                        val friend = userSheet.javaClass.getDeclaredMethod(
+                            "addFriend",
+                            String::class.javaObjectType
+                        )
                         friend.apply { isAccessible = true }
-                        friend.invoke(userSheet, "${loaded.user.username}#${loaded.user.discriminator}")
+                        friend.invoke(
+                            userSheet,
+                            "${loaded.user.username}#${loaded.user.discriminator}"
+                        )
                     }
                     setDescription("Do you really want to friend this user?")
                     setOnCancelListener { _ ->
@@ -121,9 +135,15 @@ class MoarConfirm : Plugin() {
                 }
                 confirmBtn.setOnClickListener {
                     if (!settings.getBool("friendConfirm", true)) {
-                        val friend = userSheet.javaClass.getDeclaredMethod("addFriend", String::class.javaObjectType)
+                        val friend = userSheet.javaClass.getDeclaredMethod(
+                            "addFriend",
+                            String::class.javaObjectType
+                        )
                         friend.apply { isAccessible = true }
-                        friend.invoke(userSheet, "${loaded.user.username}#${loaded.user.discriminator}")
+                        friend.invoke(
+                            userSheet,
+                            "${loaded.user.username}#${loaded.user.discriminator}"
+                        )
                         return@setOnClickListener
                     }
                     confirmAddFriend.show(
@@ -135,10 +155,26 @@ class MoarConfirm : Plugin() {
         }
 
         // confirmation for deleting roles
-        patcher.after<WidgetServerSettingsEditRole>("setupActionBar", WidgetServerSettingsEditRole.Model::class.java) {
-            val widget = it.thisObject as WidgetServerSettingsEditRole
-            val model = it.args[0] as WidgetServerSettingsEditRole.Model
-            // do more of this later i hate the web editor
+        val bruh = arrayOf(MenuItem::class.java, Context::class.java)
+        patcher.before<`WidgetServerSettingsEditRole$setupMenu$1`<MenuItem, Context>>(
+            "call",
+            *bruh
+        ) {
+            if (!settings.getBool("deleteRoleConfirm", true)) return@before
+            val uh = this.`$data`.role
+            val cf = ConfirmDialog().apply {
+                setTitle("Delete Role")
+                setDescription("Do you want to delete ${uh.name}?")
+                setOnOkListener { _ ->
+                    XposedBridge.invokeOriginalMethod(
+                        `WidgetServerSettingsEditRole$setupMenu$1`::class.java.getDeclaredMethod("call", *bruh),
+                        it.thisObject,
+                        arrayOf(it.args[0], it.args[1])
+                    )
+                }
+            }
+            cf.show(Utils.appActivity.supportFragmentManager, "confirm_delete_role")
+            it.result = null
         }
     }
 

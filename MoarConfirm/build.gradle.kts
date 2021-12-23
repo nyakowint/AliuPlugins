@@ -1,2 +1,9 @@
-version = "1.0.3"
-description = "More confirmations on shit. This is WIP and unfinished"
+version = "1.0.4"
+description = "More confirmations on shit."
+
+aliucord {
+    changelog.set("""
+        ## 1.0.4
+        - Added confirmation for deleting a role
+    """.trimIndent())
+}

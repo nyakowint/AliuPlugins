@@ -18,9 +18,14 @@ class MoarSettings(private val settings: SettingsAPI): SettingsPage() {
             isChecked = settings.getBool("callConfirm", true)
             setOnCheckedListener { settings.setBool("callConfirm", it) }
         })
-        addView(Utils.createCheckedSetting(requireContext(), CheckedSetting.ViewType.SWITCH, "Friend Confirmation", "Confirm before friending someone").apply {
+        addView(Utils.createCheckedSetting(requireContext(), CheckedSetting.ViewType.SWITCH, "Friend confirmation", "Confirm before friending someone").apply {
             isChecked = settings.getBool("friendConfirm", true)
             setOnCheckedListener { settings.setBool("friendConfirm", it) }
+        })
+
+        addView(Utils.createCheckedSetting(requireContext(), CheckedSetting.ViewType.SWITCH, "Role delete confirmation", "Confirm before deleting a role").apply {
+            isChecked = settings.getBool("deleteRoleConfirm", true)
+            setOnCheckedListener { settings.setBool("deleteRoleConfirm", it) }
         })
 
 
