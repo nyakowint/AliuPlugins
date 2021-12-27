@@ -9,6 +9,7 @@ import com.aliucord.api.NotificationsAPI
 import com.aliucord.entities.NotificationData
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.after
+import com.aliucord.utils.MDUtils
 import com.aliucord.wrappers.messages.AttachmentWrapper.Companion.url
 import com.discord.api.message.reaction.MessageReactionUpdate
 import com.discord.models.user.CoreUser
@@ -47,11 +48,11 @@ class ReactionNotifier : Plugin() {
         val notif = NotificationData().apply {
             iconUrl = "https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png"
             title = when (removed) {
-                false -> "${user.username} reacted with ${reactionData.b().d()}"
-                true -> "${user.username} unreacted to ${reactionData.b().d()}"
+                false -> MDUtils.render("${user.username} **reacted** with ${reactionData.b().d()}")
+                true -> MDUtils.render("${user.username} **unreacted** to ${reactionData.b().d()}")
             }
             if (msg.hasAttachments()) attachmentUrl = msg.attachments.first().url
-            body = b.l(msg.content, arrayOfNulls<Any>(0), null, 2)
+            body = MDUtils.render(msg.content)
             iconTopRight = ContextCompat.getDrawable(ctx, R.e.ic_guild_settings_24dp)
             setOnClickTopRightIcon { Utils.openPageWithProxy(Utils.appActivity, PluginSettings(settings)) }
             setOnClick {
