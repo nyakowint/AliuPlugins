@@ -65,6 +65,7 @@ class Fart : Plugin() {
         }
     }
 
+    // bruh
     override fun stop(context: Context?) {
         commands.unregisterAll()
     }
