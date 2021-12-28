@@ -1,5 +1,5 @@
 version = "1.0.0"
-description = "Description goes here"
+description = "Shows members in a specific role with /rolemembers"
 
 aliucord {
     excludeFromUpdaterJson.set(true)

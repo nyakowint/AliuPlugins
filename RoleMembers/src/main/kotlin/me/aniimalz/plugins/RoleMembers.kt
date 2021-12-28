@@ -1,40 +1,30 @@
 package me.aniimalz.plugins
 
 import android.content.Context
-import com.aliucord.PluginManager
 import com.aliucord.Utils
-import com.aliucord.Utils.showToast
 import com.aliucord.annotations.AliucordPlugin
+import com.aliucord.api.CommandsAPI
 import com.aliucord.entities.Plugin
-import com.aliucord.patcher.Hook
-import com.aliucord.patcher.InsteadHook
-import com.aliucord.patcher.instead
-import com.aliucord.utils.ReflectUtils
-import com.discord.api.role.GuildRole
+import com.discord.api.commands.ApplicationCommandType
 
-@AliucordPlugin(requiresRestart = true)
+@AliucordPlugin
 class RoleMembers : Plugin() {
 
     override fun start(ctx: Context) {
-        // Add compatibility with GuildProfiles roles page
-        if (PluginManager.isPluginEnabled("GuildProfiles")) {
-            val gpRolesAdapter =
-                PluginManager.plugins["GuildProfiles"]?.javaClass?.classLoader?.loadClass("xyz.wingio.plugins.guildprofiles.pages.ServerRolesPage\$RolesAdapter")
-            // i LOVE reimplementing other plugins logic lol :husk:
-            patcher.patch(gpRolesAdapter!!.getDeclaredMethod("onRoleClicked", GuildRole::class.java), InsteadHook {
-                val role = it.args[0] as GuildRole
-                try {
-                    val sp = PluginManager.plugins["ShowPerms"]
-                    ReflectUtils.invokeMethod(sp!!.javaClass, sp, "openPermViewer", role, ctx)
-                } catch (e: Throwable) {
-                    showToast(role.g(), false)
-                }
-            })
 
+        val roleOption = Utils.createCommandOption(
+            ApplicationCommandType.ROLE, "role", "The role to list members from", null,
+            required = true, default = true
+        )
+        commands.registerCommand("rolemembers", "show all members in a given role", roleOption) {
+            val role = it.getRequiredRole("role")
+            Utils.openPageWithProxy(Utils.appActivity, RoleMembersPage(role.raw(), it.currentChannel.guildId))
+            CommandsAPI.CommandResult()
         }
     }
 
     override fun stop(context: Context) {
+        rmSub?.unsubscribe()
         patcher.unpatchAll()
         commands.unregisterAll()
     }

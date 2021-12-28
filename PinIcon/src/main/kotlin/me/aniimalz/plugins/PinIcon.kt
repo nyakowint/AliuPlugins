@@ -21,12 +21,7 @@ import de.robv.android.xposed.XC_MethodHook
 
 @AliucordPlugin
 class PinIcon : Plugin() {
-
     private var pinIcon: Drawable? = null
-
-    init {
-        settingsTab = SettingsTab(PS::class.java, SettingsTab.Type.BOTTOM_SHEET).withArgs(settings)
-    }
 
     @SuppressLint("SetTextI18n")
     override fun start(ctx: Context) {
@@ -44,7 +39,7 @@ class PinIcon : Plugin() {
                 ), Hook { cf: XC_MethodHook.MethodHookParam ->
                     try {
                         val msg = cf.args[0] as Message
-                        if (msg.pinned && settings.getBool("show", true) == true) {
+                        if (msg.pinned) {
                             val textView = itemTimestampField.get(cf.thisObject) as TextView
                             textView.setCompoundDrawablesRelativeWithIntrinsicBounds(
                                 pinIcon,
@@ -74,22 +69,5 @@ class PinIcon : Plugin() {
 
     override fun stop(context: Context) {
         patcher.unpatchAll()
-    }
-}
-
-class PS(private val settings: SettingsAPI) : BottomSheet() {
-    override fun onViewCreated(view: View, bundle: Bundle?) {
-        super.onViewCreated(view, bundle)
-        val ctx = requireContext()
-        addView(
-            Utils.createCheckedSetting(
-                ctx,
-                CheckedSetting.ViewType.SWITCH,
-                "Show pin icon",
-                null
-            ).apply {
-                isChecked = settings.getBool("show", true)
-                setOnCheckedListener { settings.setBool("show", it) }
-            })
     }
 }
