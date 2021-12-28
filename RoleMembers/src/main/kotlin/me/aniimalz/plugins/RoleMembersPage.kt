@@ -51,15 +51,14 @@ class RoleMembersPage(private val role: GuildRole, private val guild: Long) : Se
 
         if (shouldFetch(role.id)) {
             loggerd.info("Fetching role members...")
-            Utils.threadPool.execute {
-                val h = Http.Request("https://discord.com/api/v9/guilds/$guild/roles/${role.id}/member-ids", "GET")
-                    .setHeader("Authorization", ReflectUtils.getField(StoreStream.getAuthentication(), "authToken") as String?)
-                    .setHeader("User-Agent", RestAPI.AppHeadersProvider.INSTANCE.userAgent)
-                    .setHeader("X-Super-Properties", AnalyticSuperProperties.INSTANCE.superPropertiesStringBase64)
-                    .setHeader("Accept", "*/*").execute()
-                if (h.ok()) {
-                    fetchedRoles[role.id] = h.json(mutableListOf<Long>()::class.java) as MutableList<Long>
-                    updateList(ctx, h.json(mutableListOf<Long>()::class.java))
+            ObservableExtensionsKt.computationLatest(
+                RestAPI.getApi().getGuildRoleMemberIds(guild, role.id)
+            ).subscribe {
+                try {
+                    fetchedRoles[role.id] = this
+                    updateList(ctx, this)
+                } catch (t: Throwable) {
+                    loggerd.error(t)
                 }
             }
         } else {
@@ -71,16 +70,28 @@ class RoleMembersPage(private val role: GuildRole, private val guild: Long) : Se
 
     @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
     private fun updateList(ctx: Context, userList: MutableList<Long>) {
-        loggerd.info("updating list")
-        /*TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Header).apply {
-            text = "${role.name} • ${userList.size}"
-            setTextColor(role.color)
-            addView(this)
-        }*/
+        try {
+            loggerd.info("updating list")
+            TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Header).apply {
+                text = "${role.name} • ${userList.size}"
+                setTextColor(role.color)
+                addView(this)
+            }
 
-        userList.forEach {
-            loggerd.info(it.toString())
-            StoreStream.getUsers().users[it]?.let { it1 -> MemberView(ctx, it1, guild) }
+            userList.forEach {
+                loggerd.info(it.toString())
+                StoreStream.getUsers().users[it]?.let { it1 ->
+                    addView(
+                        MemberView(
+                            ctx,
+                            it1,
+                            guild
+                        )
+                    )
+                }
+            }
+        } catch (e: Throwable) {
+            loggerd.error(e)
         }
     }
 
