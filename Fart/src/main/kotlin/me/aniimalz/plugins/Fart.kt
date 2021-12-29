@@ -14,7 +14,7 @@ import kotlin.random.Random
 class Fart : Plugin() {
 
     @SuppressLint("SetTextI18n")
-    override fun start(context: Context?) {
+    override fun start(ctx: Context) {
         val options = listOf(
             Utils.createCommandOption(
                 ApplicationCommandType.USER,
@@ -66,7 +66,7 @@ class Fart : Plugin() {
     }
 
     // bruh
-    override fun stop(context: Context?) {
+    override fun stop(ctx: Context) {
         commands.unregisterAll()
     }
 }

@@ -62,7 +62,7 @@ class MoarConfirm : Plugin() {
                     setTitle("Confirm Call")
                     setOnOkListener {
                         dismiss()
-                        callUser(ctx, userId, false)
+                        callUser(Utils.appContext, userId, false)
                     }
                     setDescription("Do you really want to call this user?")
                     setOnCancelListener { dismiss() }
@@ -86,7 +86,7 @@ class MoarConfirm : Plugin() {
                     setTitle("Confirm Video Call")
                     setOnOkListener {
                         dismiss()
-                        callUser(ctx, userId, true)
+                        callUser(Utils.appContext, userId, true)
                     }
                     setDescription("Do you really want to video call this user?")
                     setOnCancelListener { dismiss() }
@@ -189,7 +189,7 @@ class MoarConfirm : Plugin() {
         )
     }
 
-    override fun stop(context: Context) {
+    override fun stop(ctx: Context) {
         patcher.unpatchAll()
         commands.unregisterAll()
     }

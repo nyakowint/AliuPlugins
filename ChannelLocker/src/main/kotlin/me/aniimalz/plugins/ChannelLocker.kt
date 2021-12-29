@@ -45,7 +45,7 @@ class ChannelLocker : Plugin() {
 
     @SuppressLint("SetTextI18n")
     override fun start(ctx: Context) {
-        val icon = Utils.tintToTheme(ContextCompat.getDrawable(ctx, R.e.ic_lock_dark_a60_24dp))
+        val icon = Utils.tintToTheme(ContextCompat.getDrawable(Utils.appContext, R.e.ic_lock_dark_a60_24dp)) // diamong makes me husk
         val channelLockId = View.generateViewId()
         val channels = settings.getObject(
             "channels", HashMap<String, Long>(), TypeToken.getParameterized(
@@ -161,7 +161,7 @@ class ChannelLocker : Plugin() {
                             if (!channels.containsValue(model.channel.id)) "Lock Channel" else "Unlock Channel"
                         setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
                         id = channelLockId
-                        typeface = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium)
+                        typeface = ResourcesCompat.getFont(Utils.appContext, Constants.Fonts.whitney_medium)
                         setOnClickListener {
                             if (channels.containsValue(model.channel.id)) {
                                 channels.remove(model.channel.name)
@@ -189,7 +189,7 @@ class ChannelLocker : Plugin() {
             })
     }
 
-    override fun stop(context: Context) {
+    override fun stop(ctx: Context) {
         patcher.unpatchAll()
         commands.unregisterAll()
     }

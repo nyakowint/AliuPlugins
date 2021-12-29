@@ -25,7 +25,7 @@ class PinIcon : Plugin() {
 
     @SuppressLint("SetTextI18n")
     override fun start(ctx: Context) {
-        pinIcon = ContextCompat.getDrawable(ctx, R.e.ic_sidebar_pins_off_light_24dp)
+        pinIcon = ContextCompat.getDrawable(Utils.appContext, R.e.ic_sidebar_pins_off_light_24dp)
 
         val itemTimestampField = WidgetChatListAdapterItemMessage::class.java.getDeclaredField(
             "itemTimestamp"
@@ -39,7 +39,8 @@ class PinIcon : Plugin() {
                 ), Hook { cf: XC_MethodHook.MethodHookParam ->
                     try {
                         val msg = cf.args[0] as Message
-                        if (msg.pinned) {
+                        @Suppress("SENSELESS_COMPARISON") // kys android
+                        if (msg != null && msg.pinned) {
                             val textView = itemTimestampField.get(cf.thisObject) as TextView
                             textView.setCompoundDrawablesRelativeWithIntrinsicBounds(
                                 pinIcon,
@@ -61,13 +62,13 @@ class PinIcon : Plugin() {
                             )
                         }
                     } catch (t: Throwable) {
-                        logger.error(t)
+                        //
                     }
                 })
         }
     }
 
-    override fun stop(context: Context) {
+    override fun stop(ctx: Context) {
         patcher.unpatchAll()
     }
 }

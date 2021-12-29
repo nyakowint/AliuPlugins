@@ -29,12 +29,12 @@ class ReactionNotifier : Plugin() {
     override fun start(ctx: Context) {
         patcher.after<StoreMessageReactions>("handleReactionAdd", MessageReactionUpdate::class.java) {
             if (!settings.getBool("notifyAdd", true)) return@after
-            handleReaction(ctx, (it.args[0] as MessageReactionUpdate), false)
+            handleReaction(Utils.appContext, (it.args[0] as MessageReactionUpdate), false)
         }
 
         patcher.after<StoreMessageReactions>("handleReactionRemove", MessageReactionUpdate::class.java) {
             if (!settings.getBool("notifyRemove", false)) return@after
-            handleReaction(ctx, (it.args[0] as MessageReactionUpdate), true)
+            handleReaction(Utils.appContext, (it.args[0] as MessageReactionUpdate), true)
         }
     }
 
@@ -64,7 +64,7 @@ class ReactionNotifier : Plugin() {
         else if (settings.getBool("notifyRemove", false) && removed) NotificationsAPI.display(notif)
     }
 
-    override fun stop(context: Context) {
+    override fun stop(ctx: Context) {
         patcher.unpatchAll()
         commands.unregisterAll()
     }

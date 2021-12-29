@@ -48,7 +48,7 @@ class Timezones : Plugin() {
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun start(ctx: Context) {
-        val clock = ContextCompat.getDrawable(ctx, R.e.ic_archived_clock_dark)?.apply {
+        val clock = ContextCompat.getDrawable(Utils.appContext, R.e.ic_archived_clock_dark)?.apply {
             mutate()
         }
 
@@ -80,7 +80,7 @@ class Timezones : Plugin() {
                 TextView(layout.context, null, 0, R.i.UserProfile_Section_Header).apply {
                     id = tzId
                     typeface =
-                        ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold)
+                        ResourcesCompat.getFont(Utils.appContext, Constants.Fonts.whitney_semibold)
                     val dp = DimenUtils.defaultPadding
                     compoundDrawablePadding = DimenUtils.dpToPx(8)
                     text = if (user.timezone != null) setUserSheetTime(
@@ -213,7 +213,7 @@ class Timezones : Plugin() {
         }
     }
 
-    override fun stop(context: Context) {
+    override fun stop(ctx: Context) {
         patcher.unpatchAll()
         commands.unregisterAll()
     }

@@ -18,7 +18,7 @@ class Template : Plugin() {
 
     }
 
-    override fun stop(context: Context) {
+    override fun stop(ctx: Context) {
         patcher.unpatchAll()
         commands.unregisterAll()
     }

@@ -1,6 +1,7 @@
 package me.aniimalz.plugins
 
 import android.content.Context
+import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import com.aliucord.utils.RxUtils.onBackpressureBuffer
@@ -26,8 +27,8 @@ class HopOnBloonsWhen : Plugin() {
             ) {
                 try {
                     val bloons =
-                        ctx.packageManager.getLaunchIntentForPackage("com.ninjakiwi.bloonstd6")
-                    ctx.startActivity(bloons)
+                        Utils.appContext.packageManager.getLaunchIntentForPackage("com.ninjakiwi.bloonstd6")
+                    Utils.appContext.startActivity(bloons)
                 } catch (ignored: Throwable) {
                     // nop nop nop nop
                 }
@@ -35,7 +36,7 @@ class HopOnBloonsWhen : Plugin() {
         }
     }
 
-    override fun stop(context: Context) {
+    override fun stop(ctx: Context) {
         patcher.unpatchAll()
         commands.unregisterAll()
         observable?.unsubscribe()
