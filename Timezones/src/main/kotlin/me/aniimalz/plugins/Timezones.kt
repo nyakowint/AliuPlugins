@@ -18,11 +18,15 @@ import com.aliucord.fragments.InputDialog
 import com.aliucord.fragments.SelectDialog
 import com.aliucord.patcher.Hook
 import com.aliucord.utils.DimenUtils
+import com.discord.models.message.Message
+import com.discord.models.user.CoreUser
 import com.discord.models.user.User
+import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
 import com.discord.widgets.user.usersheet.WidgetUserSheet
 import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel
 import com.google.gson.reflect.TypeToken
 import com.lytefast.flexinput.R
+import de.robv.android.xposed.XC_MethodHook
 import java.text.SimpleDateFormat
 import java.time.*
 import java.util.*
@@ -95,31 +99,6 @@ class Timezones : Plugin() {
                 }
 
             })
-        val u24hr = settings.getBool("24hourTime", false)
-
-        /*// make it show next to timestamp on message - this didnt work idfk lmao
-        with(WidgetChatListAdapterItemMessage::class.java) {
-            val timestampField = getDeclaredField(
-                "itemTimestamp"
-            ).apply { isAccessible = true }
-            patcher.patch(
-                getDeclaredMethod(
-                    "configureItemTag",
-                    Message::class.java
-                ), Hook { cf: XC_MethodHook.MethodHookParam ->
-                    try {
-                        val msg = cf.args[0] as Message
-                        val user = CoreUser(msg.author)
-                        val timestamp = timestampField.get(cf.thisObject) as TextView
-                        if (user.timezone != null && settings.getBool("showOnMessages", false)) {
-                            timestamp.text =
-                                "${timestamp.text} (T: ${calculateTime(user.timezone, u24hr)})"
-                        } //.
-                    } catch (t: Throwable) {
-                        logger.error(t)
-                    }
-                })
-        }*/
     }
 
     private val User.timezone

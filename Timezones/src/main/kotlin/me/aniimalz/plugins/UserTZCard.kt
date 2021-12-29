@@ -1,6 +1,9 @@
 package me.aniimalz.plugins
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.OvalShape
 import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -22,10 +25,16 @@ class UserTZCard(ctx: Context?) : LinearLayout(ctx) {
         orientation = HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-        name = TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Icon)
-        image = SimpleDraweeView(ctx).apply {
-            layoutParams = LayoutParams(128, 128)
+        name = TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Icon).apply {
+            
         }
+        image = SimpleDraweeView(ctx).apply {
+            layoutParams = LayoutParams(128, 128).apply {
+                setMargins(0, 0, dpToPx(6), 0)
+            }
+        }
+        clipToOutline = true
+        background = ShapeDrawable(OvalShape()).apply { paint.color = Color.TRANSPARENT }
         val buttons = LinearLayout(ctx)
         buttons.orientation = HORIZONTAL
         val params = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
