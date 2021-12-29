@@ -1,3 +1,4 @@
+include(":FreeNitro")
 include(":RoleMembers")
 include(":ReactionNotifier")
 include(":HopOnBloonsWhen")

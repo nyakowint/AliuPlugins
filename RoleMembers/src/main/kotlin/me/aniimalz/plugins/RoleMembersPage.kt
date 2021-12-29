@@ -39,11 +39,9 @@ var rmSub: Subscription? = null
 val loggerd = Logger("RMP")
 
 class RoleMembersPage(private val role: GuildRole, private val guild: Long) : SettingsPage() {
-    private val fetchedRoles =
-        mutableMapOf<Long, MutableList<Long>>() // id of role & list of user ids with that role
-    var recycler: RecyclerView? = null
+    private val fetchedRoles = mutableMapOf<Long, MutableList<Long>>() // id of role & list of user ids with that role
 
-    @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
+    @SuppressLint("SetTextI18n")
     override fun onViewBound(view: View) {
         super.onViewBound(view)
 
@@ -64,16 +62,14 @@ class RoleMembersPage(private val role: GuildRole, private val guild: Long) : Se
 
         if (shouldFetch(role.id)) {
             loggerd.info("Fetching role members...")
-            Utils.showToast("fetching")
             ObservableExtensionsKt.computationLatest(
                 RestAPI.getApi().getGuildRoleMemberIds(guild, role.id)
             ).subscribe {
                 try {
-                    val bruh = mutableListOf<Long>()
                     this.forEach {
-                        if (!StoreStream.getUsers().users.keys.contains(it)) bruh.add(it)
+                        if (!StoreStream.getUsers().users.keys.contains(it)) StoreStream.getUsers().fetchUsers(
+                            listOf(it))
                     }
-                    if (bruh.size > 0) Utils.mainThread.post {  StoreStream.getUsers().fetchUsers(bruh) }
                     Utils.appActivity.runOnUiThread { // yskysn zt
                         updateList(ctx, this)
                         fetchedRoles[role.id] = this
@@ -84,18 +80,16 @@ class RoleMembersPage(private val role: GuildRole, private val guild: Long) : Se
             }
         } else {
             loggerd.info("Cache for role is present, updating list")
-            Utils.showToast("cached")
-            val bruh = mutableListOf<Long>()
             fetchedRoles[role.id]?.forEach {
-                if (StoreStream.getUsers().users[it] == null) bruh.add(it)
+                if (!StoreStream.getUsers().users.keys.contains(it)) StoreStream.getUsers().fetchUsers(
+                    listOf(it))
             }
-            if (bruh.size > 0) StoreStream.getUsers().fetchUsers(bruh)
             fetchedRoles[role.id]?.let { Utils.appActivity.runOnUiThread { updateList(ctx, it) } }
         }
 
     }
 
-    @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
+    @SuppressLint("SetTextI18n")
     private fun updateList(ctx: Context, userList: MutableList<Long>) {
         try {
             loggerd.info("updating list")
@@ -105,6 +99,18 @@ class RoleMembersPage(private val role: GuildRole, private val guild: Long) : Se
                 typeface = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold)
                 gravity = Gravity.CENTER
                 addView(this)
+            }
+
+            if (userList.isEmpty()) {
+                TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Header).apply {
+                    setTextColor(ColorCompat.getColor(this, R.c.brand_new_330))
+                    text = "This role has no members, or they are not cached. If this doesn't seem right, try running the command again."
+                    isAllCaps = false
+                    typeface = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold)
+                    gravity = Gravity.CENTER
+                    addView(this)
+                }
+                return
             }
 
             StoreStream.getUsers().getUsers(userList, true).forEach {
