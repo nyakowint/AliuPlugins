@@ -23,7 +23,7 @@ class RoleMembers : Plugin() {
         }
     }
 
-    override fun stop(context: Context) {
+    override fun stop(ctx: Context) {
         rmSub?.unsubscribe()
         patcher.unpatchAll()
         commands.unregisterAll()
