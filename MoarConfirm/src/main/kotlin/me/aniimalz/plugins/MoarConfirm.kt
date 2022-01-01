@@ -8,20 +8,11 @@ import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import com.aliucord.fragments.ConfirmDialog
-import com.aliucord.patcher.Hook
-import com.aliucord.patcher.PreHook
-import com.aliucord.patcher.after
-import com.aliucord.patcher.before
+import com.aliucord.patcher.*
 import com.aliucord.wrappers.GuildRoleWrapper.Companion.name
 import com.discord.app.AppComponent
 import com.discord.app.AppPermissionsRequests
 import com.discord.databinding.WidgetUserSheetBinding
-import com.discord.panels.R
-import com.discord.stores.StoreStream
-import com.discord.stores.StoreUser
-import com.discord.stores.StoreUserRelationships
-import com.discord.views.JoinVoiceChannelButton
-import com.discord.widgets.servers.WidgetServerSettingsEditRole
 import com.discord.widgets.servers.`WidgetServerSettingsEditRole$setupMenu$1`
 import com.discord.widgets.user.calls.PrivateCallLauncher
 import com.discord.widgets.user.usersheet.WidgetUserSheet
@@ -48,6 +39,7 @@ class MoarConfirm : Plugin() {
             .apply { isAccessible = true }
         val fragManangerField = PrivateCallLauncher::class.java.getDeclaredField("fragmentManager")
             .apply { isAccessible = true }
+
         patcher.patch(
             PrivateCallLauncher::class.java.getDeclaredMethod(
                 "launchVoiceCall",
@@ -167,7 +159,10 @@ class MoarConfirm : Plugin() {
                 setDescription("Do you want to delete ${uh.name}?")
                 setOnOkListener { _ ->
                     XposedBridge.invokeOriginalMethod(
-                        `WidgetServerSettingsEditRole$setupMenu$1`::class.java.getDeclaredMethod("call", *bruh),
+                        `WidgetServerSettingsEditRole$setupMenu$1`::class.java.getDeclaredMethod(
+                            "call",
+                            *bruh
+                        ),
                         it.thisObject,
                         arrayOf(it.args[0], it.args[1])
                     )

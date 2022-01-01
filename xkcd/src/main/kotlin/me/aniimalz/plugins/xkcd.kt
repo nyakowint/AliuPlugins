@@ -17,7 +17,8 @@ import java.text.SimpleDateFormat
 class xkcd : Plugin() {
 
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
-    override fun start(ctx: Context) {
+    override fun start(context: Context) {
+        val ctx = Utils.appContext
         val url = "https://xkcd.com"
         val comicNum = Utils.createCommandOption(
             ApplicationCommandType.NUMBER,
@@ -33,8 +34,8 @@ class xkcd : Plugin() {
             "xkcd",
             "View a comic from xkcd.com",
             listOf(comicNum)
-        ) { ctx: CommandContext ->
-            val comicNumber = ctx.getLong("num")
+        ) { cctx: CommandContext ->
+            val comicNumber = cctx.getLong("num")
             val comic: Response
             if (comicNumber == null) { // idk if it returns null or 0 if empty
                 comic = try {

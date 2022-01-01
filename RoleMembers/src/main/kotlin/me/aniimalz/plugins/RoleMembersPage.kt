@@ -62,7 +62,7 @@ class RoleMembersPage(private val role: GuildRole, private val guild: Long) : Se
 
         if (shouldFetch(role.id)) {
             loggerd.info("Fetching role members...")
-            ObservableExtensionsKt.computationLatest(
+            rmSub = ObservableExtensionsKt.computationLatest(
                 RestAPI.getApi().getGuildRoleMemberIds(guild, role.id)
             ).subscribe {
                 try {

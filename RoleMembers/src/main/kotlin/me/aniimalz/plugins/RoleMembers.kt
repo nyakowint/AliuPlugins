@@ -6,6 +6,7 @@ import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
 import com.aliucord.entities.Plugin
 import com.discord.api.commands.ApplicationCommandType
+import com.discord.api.role.GuildRole
 
 @AliucordPlugin
 class RoleMembers : Plugin() {
@@ -18,9 +19,13 @@ class RoleMembers : Plugin() {
         )
         commands.registerCommand("rolemembers", "show all members in a given role", roleOption) {
             val role = it.getRequiredRole("role")
-            Utils.openPageWithProxy(Utils.appActivity, RoleMembersPage(role.raw(), it.currentChannel.guildId))
+            showRoleMembers(Utils.appActivity, role.raw(), it.currentChannel.guildId)
             CommandsAPI.CommandResult()
         }
+    }
+
+    fun showRoleMembers(context: Context, role: GuildRole, guildId: Long) {
+        Utils.openPageWithProxy(context, RoleMembersPage(role, guildId))
     }
 
     override fun stop(ctx: Context) {

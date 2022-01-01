@@ -11,8 +11,6 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.aliucord.Constants
-import com.aliucord.Logger
-import com.aliucord.PluginManager
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI

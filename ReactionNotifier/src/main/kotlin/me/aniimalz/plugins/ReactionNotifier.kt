@@ -2,7 +2,6 @@ package me.aniimalz.plugins
 
 import android.content.Context
 import androidx.core.content.ContextCompat
-import c.a.k.b
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.NotificationsAPI

@@ -6,13 +6,6 @@ import com.aliucord.entities.Plugin
 
 @AliucordPlugin
 class TestPlugin : Plugin() {
-/*    init {
-        settingsTab = SettingsTab(
-            PluginSettings::class.java,
-            SettingsTab.Type.BOTTOM_SHEET
-        ).withArgs(settings)
-    } penis */
-
     override fun start(ctx: Context) {
         // shut
     }
