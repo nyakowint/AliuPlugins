@@ -1,0 +1,52 @@
+# yes i stole this from ac cope
+name: Bug or Crash Report
+description: Create a bug or crash report for one of my plugins. For another plugin or Aliucord itself, please use the support server or their repository.
+labels: [bug]
+body:
+  - type: input
+    id: discord
+    attributes:
+      label: Discord Account
+      description: Leave your discord account for follow-up if neccesary. Not required
+      placeholder: deeznuts#0000
+    validations:
+      required: false
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: What happens when the bug or crash occurs?
+      description: Where does this bug or crash occur, when does it occur, etc.
+      placeholder: The bug/crash happens sometimes when I do ..., causing this to not work/the app to crash. I think it happens because of ..., I hope that can help!
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behaviour
+    attributes:
+      label: What did you expect it to do?
+      description: Simply detail what the expected behaviour is.
+      placeholder: I expected [the plugin] to do ... instead of ..., it prevents me from doing ... and it is annoying.
+    validations:
+      required: true
+  - type: textarea
+    id: steps-to-take
+    attributes:
+      label: How do you reproduce this bug or crash?
+      description: If applicable, tell me how to re-create this bug/crash so I can fix it faster
+      placeholder: |
+        1. Do ...
+        2. Then ...
+        3. Do this ..., ... and then ...
+        4. Observe "the bug" or "the crash"
+    validations:
+      required: false
+  - type: textarea
+    id: crash-log
+    attributes:
+      label: Crash log
+      description: If applicable, paste the crash log between the two sections of "```".
+      value: |
+        ```
+        Replace this text with your crash-log.
+        ```
+    validations:
+      required: false
