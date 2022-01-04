@@ -1,3 +1,4 @@
+include(":ThisWillCrashYourDiscord")
 include(":RoleMembers")
 include(":ReactionNotifier")
 include(":HopOnBloonsWhen")
