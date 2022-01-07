@@ -10,7 +10,7 @@ class Template : Plugin() {
     init {
         settingsTab = SettingsTab(
             PluginSettings::class.java,
-            SettingsTab.Type.BOTTOM_SHEET
+            SettingsTab.Type.PAGE
         ).withArgs(settings)
     }
 

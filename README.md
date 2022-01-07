@@ -19,6 +19,7 @@ Manually:
 automatically reveal spoilers on text and media
 
 ### [ChannelLocker](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/ChannelLocker.zip)
+
 Locks down selected channel's chatbox so you cant (accidentally?) type in it
 
 ### [Fart](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/Fart.zip)
@@ -29,7 +30,8 @@ tell someone to fart or fart yourself
 
 Makes you actually hop on bloons when people say the magic word
 
-Disclaimer: Only works with the Google Play version of Bloons TD 6 (or anything with the `com.ninjakiwi.bloonstd6` package name)
+Disclaimer: Only works with the Google Play version of Bloons TD 6 (or anything with
+the `com.ninjakiwi.bloonstd6` package name)
 
 ### [MoarConfirm](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/MoarConfirm.zip)
 
@@ -46,6 +48,23 @@ re-adds the famous "Quote" button
 ### [Reaction Notifier](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/ReactionNotifier.zip)
 
 Sends an **in app** notification when someone reacts to your message.
+
+### [Role Members](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/RoleMembers.zip)
+
+Shows you how many people are in a role with /rolemembers. You may need to run it twice for all
+members to show
+
+### [Startup Channel](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/StartupChannel.zip)
+
+Go to a specific channel when you open discord.
+
+### [This Will Crash Your Discord](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/ThisWillCrashYourDiscord.zip)
+
+Does what it says and causes a crash on purpose. Monkey see plugin: monkey install plugin. Monkey
+crash.
+
+Normally it will auto delete itself; If you want to keep this for shits and giggles, create a file
+called `.dcmd` (dont crash my discord) inside /Aliucord
 
 ### [Timezones](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/Timezones.zip)
 

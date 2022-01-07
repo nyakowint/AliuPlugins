@@ -32,6 +32,40 @@ class MoarConfirm : Plugin() {
     private var callFragManager: FragmentManager? = null
 
     override fun start(ctx: Context) {
+        patchCallButtons()
+        patchUserSheet()
+        patchRoleContext()
+    }
+
+    private fun patchRoleContext() {
+        // confirmation for deleting roles
+        if (!settings.getBool("deleteRoleConfirm", true)) return
+        val args = arrayOf(MenuItem::class.java, Context::class.java)
+        patcher.before<`WidgetServerSettingsEditRole$setupMenu$1`<MenuItem, Context>>(
+            "call",
+            *args
+        ) {
+            val uh = this.`$data`.role
+            val cf = ConfirmDialog().apply {
+                setTitle("Delete Role")
+                setDescription("Do you want to delete ${uh.name}?")
+                setOnOkListener { _ ->
+                    XposedBridge.invokeOriginalMethod(
+                        `WidgetServerSettingsEditRole$setupMenu$1`::class.java.getDeclaredMethod(
+                            "call",
+                            *args
+                        ),
+                        it.thisObject,
+                        arrayOf(it.args[0], it.args[1])
+                    )
+                }
+            }
+            cf.show(Utils.appActivity.supportFragmentManager, "confirm_delete_role")
+            it.result = null
+        }
+    }
+
+    private fun patchCallButtons() {
         val permReqField =
             PrivateCallLauncher::class.java.getDeclaredField("appPermissionsRequests")
                 .apply { isAccessible = true }
@@ -59,8 +93,8 @@ class MoarConfirm : Plugin() {
                     setDescription("Do you really want to call this user?")
                     setOnCancelListener { dismiss() }
                 }
-                confirmCall.show(callFragManager!!, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-                @Suppress("UsePropertyAccessSyntax") // go fuck yourself thanks
+                confirmCall.show(callFragManager!!, "call_confirmation")
+                @Suppress("UsePropertyAccessSyntax")
                 it.setResult(null)
             })
 
@@ -83,11 +117,13 @@ class MoarConfirm : Plugin() {
                     setDescription("Do you really want to video call this user?")
                     setOnCancelListener { dismiss() }
                 }
-                confirmCall.show(callFragManager!!, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-                @Suppress("UsePropertyAccessSyntax") // go fuck yourself thanks
+                confirmCall.show(callFragManager!!, "call_confirmation")
+                @Suppress("UsePropertyAccessSyntax")
                 it.setResult(null)
             })
+    }
 
+    private fun patchUserSheet() {
         with(WidgetUserSheet::class.java) {
             val actionButtons = getDeclaredMethod(
                 "configureProfileActionButtons",
@@ -107,7 +143,7 @@ class MoarConfirm : Plugin() {
                 val confirmBtn = root.findViewById<Button>(addFriendId)
                 val confirmAddFriend = ConfirmDialog().apply {
                     setTitle("Add Friend")
-                    setOnOkListener { _ ->
+                    setOnOkListener {
                         dismiss()
                         val friend = userSheet.javaClass.getDeclaredMethod(
                             "addFriend",
@@ -140,36 +176,10 @@ class MoarConfirm : Plugin() {
                     }
                     confirmAddFriend.show(
                         userSheet.parentFragmentManager,
-                        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                        "friend_confirmation"
                     )
                 }
             })
-        }
-
-        // confirmation for deleting roles
-        val bruh = arrayOf(MenuItem::class.java, Context::class.java)
-        patcher.before<`WidgetServerSettingsEditRole$setupMenu$1`<MenuItem, Context>>(
-            "call",
-            *bruh
-        ) {
-            if (!settings.getBool("deleteRoleConfirm", true)) return@before
-            val uh = this.`$data`.role
-            val cf = ConfirmDialog().apply {
-                setTitle("Delete Role")
-                setDescription("Do you want to delete ${uh.name}?")
-                setOnOkListener { _ ->
-                    XposedBridge.invokeOriginalMethod(
-                        `WidgetServerSettingsEditRole$setupMenu$1`::class.java.getDeclaredMethod(
-                            "call",
-                            *bruh
-                        ),
-                        it.thisObject,
-                        arrayOf(it.args[0], it.args[1])
-                    )
-                }
-            }
-            cf.show(Utils.appActivity.supportFragmentManager, "confirm_delete_role")
-            it.result = null
         }
     }
 

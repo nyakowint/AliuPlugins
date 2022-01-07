@@ -47,6 +47,5 @@ class MoarSettings(private val settings: SettingsAPI) : SettingsPage() {
                 setOnCheckedListener { settings.setBool("deleteRoleConfirm", it) }
             })
 
-
     }
 }

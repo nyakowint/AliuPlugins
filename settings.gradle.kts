@@ -1,3 +1,5 @@
+include(":StartupChannel")
+include(":DefaultGuild")
 include(":ThisWillCrashYourDiscord")
 include(":RoleMembers")
 include(":ReactionNotifier")
