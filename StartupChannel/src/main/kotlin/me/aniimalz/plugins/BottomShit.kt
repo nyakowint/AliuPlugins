@@ -17,6 +17,7 @@ import com.aliucord.utils.DimenUtils
 import com.aliucord.views.Divider
 import com.aliucord.views.TextInput
 import com.aliucord.widgets.BottomSheet
+import com.aliucord.wrappers.ChannelWrapper.Companion.name
 import com.discord.stores.StoreStream
 import com.discord.views.CheckedSetting
 import com.discord.widgets.guilds.WidgetGuildSelector
@@ -31,11 +32,11 @@ class BottomShit(private val settings: SettingsAPI) : BottomSheet() {
         super.onViewCreated(view, bundle)
         val ctx = requireContext()
         addView(TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Header).apply {
-            typeface = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium)
+            typeface = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_bold)
             text = "Startup Channel"
+            isAllCaps = true
             setPadding(DimenUtils.defaultPadding)
         })
-        addView(Divider(ctx))
 
         addView(Utils.createCheckedSetting(
             ctx, CheckedSetting.ViewType.SWITCH, "Enable plugin", null
@@ -43,10 +44,11 @@ class BottomShit(private val settings: SettingsAPI) : BottomSheet() {
             isChecked = settings.getBool("enabled", true)
             setOnCheckedListener { settings.setBool("enabled", it) }
         })
+        addView(Divider(ctx))
 
         val channel = settings.getLong("selectedChannel", 0L).takeIf { it != 0L }
 
-        addView(TextInput(ctx, "Selected channel", channel?.let { channel.toString() } ?: "", object : TextWatcher {
+        addView(TextInput(ctx, "Channel to open: ${channel?.let { "#${StoreStream.getChannels().getChannel(it).name}" }}", channel?.let { channel.toString() } ?: "", object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
