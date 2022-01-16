@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.aliucord.Constants
+import com.aliucord.Http
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
@@ -23,6 +24,7 @@ import com.discord.widgets.user.usersheet.WidgetUserSheet
 import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel
 import com.google.gson.reflect.TypeToken
 import com.lytefast.flexinput.R
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.time.*
 import java.util.*
@@ -48,7 +50,6 @@ class Timezones : Plugin() {
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun start(context: Context) {
-        val ctx = Utils.appContext
         val clock = ContextCompat.getDrawable(Utils.appContext, R.e.ic_archived_clock_dark)?.apply {
             mutate()
         }
@@ -84,29 +85,38 @@ class Timezones : Plugin() {
                         ResourcesCompat.getFont(Utils.appContext, Constants.Fonts.whitney_semibold)
                     val dp = DimenUtils.defaultPadding
                     compoundDrawablePadding = DimenUtils.dpToPx(8)
-                    text = if (user.timezone != null) setUserSheetTime(
+                    setUserSheetTime(
                         user,
                         settings.getBool("24hourTime", false),
                         this
-                    ) else "Click to set a timezone"
+                    )
                     setPadding(dp, dp, dp, dp)
                     setCompoundDrawablesRelativeWithIntrinsicBounds(clock, null, null, null)
                     layout.addView(this, layout.indexOfChild(header))
                     setOnClick(this, userSheet, loaded)
                 }
-
             })
     }
 
-    private val User.timezone
-        get() = settings.getObject(
+    private fun getTimezone(id: Long): String? {
+        val usersList = settings.getObject(
             "usersList", HashMap<Long, String>(), // userid, timezone
             TypeToken.getParameterized(
                 HashMap::class.java,
                 Long::class.javaObjectType,
                 String::class.javaObjectType
             ).type
-        )[id]
+        )
+        if (usersList.containsKey(id)) return usersList[id] else {
+            try {
+                val response = JSONObject(Http.simpleGet("$apiUrl/api/user/$id"))
+                logger.info(response.toString())
+                if (response.has("timezone")) return response.getString("timezone")
+            } catch (e: Exception) {//OH MY GOD NOOOO AN EXCEPTION I SHOULD IMMEDIALTLY HANDLE IT IN RIGHT WAY
+            }
+        }
+        return null
+    }
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
@@ -114,21 +124,21 @@ class Timezones : Plugin() {
         user: User,
         use24Hour: Boolean,
         tzView: TextView
-    ): CharSequence {
-        val list = settings.getObject(
-            "usersList",
-            HashMap<Long, String>(), // userid, timezone
-            TypeToken.getParameterized(
-                HashMap::class.java,
-                Long::class.javaObjectType,
-                String::class.javaObjectType
-            ).type
-        )
-        if (list.containsKey(user.id)) {
-            tzView.text = "${calculateTime(user.timezone, use24Hour)} (UTC${user.timezone})"
-            return "${calculateTime(user.timezone, use24Hour)} (UTC${user.timezone})"
+    ) {
+        tzView.text = "Loading..."
+
+        Utils.threadPool.execute {
+            logger.info("yes")
+
+            val timezone = getTimezone(user.id)
+            if (timezone != null) {
+                Utils.mainThread.post {
+                    tzView.text = formatTimeText(timezone, use24Hour)
+                }
+            } else {
+                tzView.text = "Click to set a timezone"
+            }
         }
-        return "No timezone set"
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
