@@ -2,7 +2,6 @@ package me.aniimalz.plugins
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.aliucord.Logger
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.ZonedDateTime

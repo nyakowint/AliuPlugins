@@ -110,7 +110,6 @@ class Timezones : Plugin() {
         if (usersList.containsKey(id)) return usersList[id] else {
             try {
                 val response = JSONObject(Http.simpleGet("$apiUrl/api/user/$id"))
-                logger.info(response.toString())
                 if (response.has("timezone")) return response.getString("timezone")
             } catch (e: Exception) {//OH MY GOD NOOOO AN EXCEPTION I SHOULD IMMEDIALTLY HANDLE IT IN RIGHT WAY
             }
@@ -128,8 +127,6 @@ class Timezones : Plugin() {
         tzView.text = "Loading..."
 
         Utils.threadPool.execute {
-            logger.info("yes")
-
             val timezone = getTimezone(user.id)
             if (timezone != null) {
                 Utils.mainThread.post {
