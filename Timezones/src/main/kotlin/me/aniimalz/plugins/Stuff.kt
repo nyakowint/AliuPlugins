@@ -48,6 +48,8 @@ val timezones = arrayOf(
     "Custom (may not work)"
 )
 
+const val apiUrl ="https://timezonedb.bigdumb.gq"
+
 @RequiresApi(Build.VERSION_CODES.O)
 fun calculateTime(timezone: String?, use24Hour: Boolean): String {
     val timeInUtc = ZonedDateTime.ofInstant(
@@ -58,4 +60,9 @@ fun calculateTime(timezone: String?, use24Hour: Boolean): String {
     val timeAmPm =
         format12.format(format24.parse("${timeInUtc.hour}:${timeInUtc.minute}")!!)
     return if (use24Hour) "${timeInUtc.hour}:${timeInUtc.minute}" else timeAmPm
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun formatTimeText(timezone: String?, use24Hour: Boolean):String {
+    return "${calculateTime(timezone, use24Hour)} (UTC${timezone})"
 }
