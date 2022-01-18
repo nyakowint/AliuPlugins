@@ -10,24 +10,14 @@ import com.aliucord.api.SettingsAPI
 import com.aliucord.fragments.SettingsPage
 import com.aliucord.views.Divider
 import com.discord.views.CheckedSetting
-import com.google.gson.reflect.TypeToken
+import me.aniimalz.plugins.Timezones.Companion.usersList
 import java.util.*
 
 class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
-    val stzId = View.generateViewId()
     override fun onViewBound(view: View) {
         super.onViewBound(view)
         val ctx = requireContext()
         setActionBarTitle("Timezones")
-        val usersList = settings.getObject(
-            "usersList",
-            HashMap<Long, String>(),
-            TypeToken.getParameterized(
-                HashMap::class.java,
-                Long::class.javaObjectType,
-                String::class.javaObjectType
-            ).type
-        )
 
         val recycler = RecyclerView(ctx).apply {
             layoutManager = LinearLayoutManager(ctx)

@@ -46,6 +46,9 @@ class Timezones : Plugin() {
 
     private val tzId = View.generateViewId()
 
+    companion object {
+        var usersList: HashMap<Long, String> = HashMap<Long, String>()
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
@@ -53,6 +56,14 @@ class Timezones : Plugin() {
         val clock = ContextCompat.getDrawable(Utils.appContext, R.e.ic_archived_clock_dark)?.apply {
             mutate()
         }
+        usersList = settings.getObject(
+            "usersList", HashMap<Long, String>(), // userid, timezone
+            TypeToken.getParameterized(
+                HashMap::class.java,
+                Long::class.javaObjectType,
+                String::class.javaObjectType
+            ).type
+        )
 
         patcher.patch(
             WidgetUserSheet::class.java.getDeclaredMethod(
@@ -74,7 +85,6 @@ class Timezones : Plugin() {
                     setOnClick(tzView, userSheet, loaded)
                     setUserSheetTime(
                         user,
-                        settings.getBool("24hourTime", false),
                         tzView
                     )
                     return@Hook
@@ -87,7 +97,6 @@ class Timezones : Plugin() {
                     compoundDrawablePadding = DimenUtils.dpToPx(8)
                     setUserSheetTime(
                         user,
-                        settings.getBool("24hourTime", false),
                         this
                     )
                     setPadding(dp, dp, dp, dp)
@@ -99,14 +108,6 @@ class Timezones : Plugin() {
     }
 
     private fun getTimezone(id: Long): String? {
-        val usersList = settings.getObject(
-            "usersList", HashMap<Long, String>(), // userid, timezone
-            TypeToken.getParameterized(
-                HashMap::class.java,
-                Long::class.javaObjectType,
-                String::class.javaObjectType
-            ).type
-        )
         if (usersList.containsKey(id)) return usersList[id] else {
             try {
                 val response = JSONObject(Http.simpleGet("$apiUrl/api/user/$id"))
@@ -121,16 +122,21 @@ class Timezones : Plugin() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setUserSheetTime(
         user: User,
-        use24Hour: Boolean,
         tzView: TextView
     ) {
+        val use24Hour = settings.getBool("24hourTime", false)
         tzView.text = "Loading..."
 
         Utils.threadPool.execute {
             val timezone = getTimezone(user.id)
             if (timezone != null) {
                 Utils.mainThread.post {
-                    tzView.text = formatTimeText(timezone, use24Hour)
+                    try {
+                        tzView.text = formatTimeText(timezone, use24Hour)
+                    } catch (e: Exception) {
+                        tzView.text =
+                            "An Error Occured,Try deleting timezone for this user from settings"
+                    }
                 }
             } else {
                 tzView.text = "Click to set a timezone"
@@ -152,41 +158,37 @@ class Timezones : Plugin() {
                     title = "Set timezone (UTC)"
                     items = timezones
                     onResultListener = cringe@{ tz ->
-                        val userList = settings.getObject(
-                            "usersList",
-                            HashMap<Long, String>(), // userid, timezone
-                            TypeToken.getParameterized(
-                                HashMap::class.java,
-                                Long::class.javaObjectType,
-                                String::class.javaObjectType
-                            ).type
-                        )
                         if (timezones[tz].contains("Custom")) {
-                            InputDialog().apply {
+                            InputDialog().run {
                                 title = "Custom Offset"
                                 setDescription("Type a custom UTC offset here (e.g +05:50 or -02:10)")
+                                setPlaceholderText("Enter UTC Offset")
                                 setOnOkListener {
-                                    try {
-                                        userList[user.id] = text as String
-                                        settings.setObject("usersList", userList)
-                                        setUserSheetTime(
-                                            user,
-                                            settings.getBool("24hourTime", false),
-                                            tzView
-                                        )
-                                    } catch (t: Throwable) {
-                                        logger.error(t)
+                                    val input = this.input.toString().trim()
+                                    if (!input.startsWith("+") && !input.startsWith("-")) Utils.showToast(
+                                        "Put - or + to start of input"
+                                    ) else {
+                                        try {
+                                            ZoneOffset.of( input ) //testing if input is valid
+                                            addUser(user.id, input)
+                                            setUserSheetTime(
+                                                user,
+                                                tzView
+                                            )
+                                            dismiss()
+                                        } catch (t: Throwable) {
+                                            Utils.showToast("An Error Occured,Check if your input is valid")
+                                            logger.error(t)
+                                        }
                                     }
                                 }
                                 show(userSheet.parentFragmentManager, "idiot_country_offsets")
                             }
                             return@cringe
                         }
-                        userList[user.id] = timezones[tz]
-                        settings.setObject("usersList", userList)
+                        addUser(user.id, timezones[tz])
                         setUserSheetTime(
                             user,
-                            settings.getBool("24hourTime", false),
                             tzView
                         )
                     }
@@ -194,6 +196,15 @@ class Timezones : Plugin() {
                 }
             }
         }
+    }
+
+    fun addUser(userid: Long, timezone: String) {
+        usersList[userid] = timezone
+        saveSettings()
+    }
+
+    private fun saveSettings() {
+        settings.setObject("usersList", usersList)
     }
 
     override fun stop(ctx: Context) {
