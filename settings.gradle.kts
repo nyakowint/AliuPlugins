@@ -1,3 +1,4 @@
+include(":HomeIconSwitcher")
 include(":StartupChannel")
 include(":ThisWillCrashYourDiscord")
 include(":RoleMembers")
