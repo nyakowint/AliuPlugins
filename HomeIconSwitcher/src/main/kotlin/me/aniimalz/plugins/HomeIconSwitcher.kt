@@ -1,28 +1,31 @@
 package me.aniimalz.plugins
 
 import android.content.Context
-import android.graphics.drawable.Drawable
+import android.graphics.Color
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.OvalShape
 import android.net.Uri
+import android.view.Gravity
+import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.after
-import com.discord.utilities.icon.IconUtils
+import com.discord.databinding.TabsHostBottomNavigationViewBinding
+import com.discord.views.user.UserAvatarPresenceView
 import com.discord.widgets.guilds.list.GuildListItem
 import com.discord.widgets.guilds.list.GuildListViewHolder
-import com.lytefast.flexinput.R
-import android.graphics.BitmapFactory
-
-import android.graphics.Bitmap
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.widget.LinearLayout
 import com.facebook.drawee.view.SimpleDraweeView
-import java.io.IOException
-import java.net.URL
+import com.lytefast.flexinput.R
+import c.f.g.a.a.b as bruh
 
 
 @AliucordPlugin
@@ -30,9 +33,11 @@ class HomeIconSwitcher : Plugin() {
     init {
         settingsTab = SettingsTab(
             PluginSettings::class.java,
-            SettingsTab.Type.PAGE
+            SettingsTab.Type.BOTTOM_SHEET
         ).withArgs(settings)
     }
+
+    private lateinit var homeView: AppCompatImageView
 
     override fun start(ctx: Context) {
         val ctx = Utils.appContext
@@ -40,36 +45,50 @@ class HomeIconSwitcher : Plugin() {
             "configure",
             GuildListItem.FriendsItem::class.java
         ) {
-            val wing = SimpleDraweeView(ctx)
-            val imgView = itemView.findViewById<AppCompatImageView>(
+            homeView = itemView.findViewById(
                 Utils.getResId(
                     "guilds_item_profile_avatar",
                     "id"
                 )
             )
-            val lp = imgView.layoutParams
-            imgView.visibility = View.GONE
-            wing.apply {
-                layoutParams = lp
-            }
-            val bgId = View.generateViewId()
-/*            var image: Bitmap? = null
+            val viewId = View.generateViewId()
+            val homeIcon = settings.getString("homeIcon", null).takeIf { it != null }
             try {
-                val url =
-                    URL("https://cdn.discordapp.com/attachments/930236756182302732/933005852288356442/image0-5-1.gif")
-                image = BitmapFactory.decodeStream(url.openStream())
+                if (homeIcon?.let { it1 -> Utils.getResId(it1, "drawable") } != 0) {
+                    val field = homeIcon?.let { R.e::class.java.getField(homeIcon) }
+                    val icon = homeIcon?.let {
+                        field?.let { it1 ->
+                            ContextCompat.getDrawable(ctx, it1.getInt(field))?.apply {
+                                mutate()
+                                Utils.tintToTheme(this)
+                            }
+                        }
+                    }
+                    homeView.setImageDrawable(icon)
+                    return@after
+                }
+                if (homeView.findViewById<SimpleDraweeView>(viewId) != null) return@after
+                SimpleDraweeView(ctx).apply {
+                    id = viewId
+                    imageTintList = null
+                    setImageURI(homeIcon)
+                    (homeView.parent as FrameLayout).addView(this)
+                    homeView.setImageDrawable(null)
+                    layoutParams = FrameLayout.LayoutParams(128, 128).apply {
+                        gravity = Gravity.CENTER
+                    }
+                    clipToOutline = true
+                    background =
+                        ShapeDrawable(OvalShape()).apply { paint.color = Color.TRANSPARENT }
+                    controller = bruh.a().run {
+                        f(Uri.parse(homeIcon))
+                        m = true
+                        j = true
+                        a()
+                    }
+                }
             } catch (t: Throwable) {
                 logger.error(t)
-            }*/
-            SimpleDraweeView((imgView.parent as ViewGroup).context).run {
-                this.id = bgId
-                layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
-                controller = c.f.g.a.a.b.a().run /*  Fresco.newDraweeControllerBuilder() */ {
-                    f(Uri.parse("https://cdn.discordapp.com/attachments/930236756182302732/933005852288356442/image0-5-1.gif")) // setUri(Uri)
-                    m = true // mAutoPlayAnimations
-                    a() // build()
-                }
-                (imgView.parent as ViewGroup).addView(this, 0)
             }
         }
     }
@@ -78,4 +97,5 @@ class HomeIconSwitcher : Plugin() {
         patcher.unpatchAll()
         commands.unregisterAll()
     }
+
 }

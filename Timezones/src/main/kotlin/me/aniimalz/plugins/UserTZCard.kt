@@ -31,9 +31,10 @@ class UserTZCard(ctx: Context?) : LinearLayout(ctx) {
         image = SimpleDraweeView(ctx).apply {
             layoutParams = LayoutParams(128, 128).apply {
                 gravity = Gravity.CENTER
-                clipToOutline
                 setMargins(0, 0, dpToPx(6), 0)
             }
+            clipToOutline = true
+            background = ShapeDrawable(OvalShape()).apply { paint.color = Color.TRANSPARENT }
         }
 
         background = ShapeDrawable(OvalShape()).apply { paint.color = Color.TRANSPARENT }

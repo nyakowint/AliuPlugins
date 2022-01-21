@@ -33,14 +33,6 @@ class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
             )
         )
         addView(Divider(ctx))
-        addView(
-            addSetting(
-                ctx,
-                "Confirm removal",
-                "protection from fat fingering the x",
-                "confirmRemoval"
-            )
-        )
         addView(recycler)
 
     }
