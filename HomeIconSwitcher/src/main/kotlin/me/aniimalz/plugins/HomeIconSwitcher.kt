@@ -19,7 +19,9 @@ import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.after
+import com.aliucord.utils.DimenUtils
 import com.discord.databinding.TabsHostBottomNavigationViewBinding
+import com.discord.utilities.images.MGImages
 import com.discord.views.user.UserAvatarPresenceView
 import com.discord.widgets.guilds.list.GuildListItem
 import com.discord.widgets.guilds.list.GuildListViewHolder
@@ -45,6 +47,7 @@ class HomeIconSwitcher : Plugin() {
             "configure",
             GuildListItem.FriendsItem::class.java
         ) {
+            if (!settings.getBool("enabled", false)) return@after
             homeView = itemView.findViewById(
                 Utils.getResId(
                     "guilds_item_profile_avatar",
@@ -67,19 +70,17 @@ class HomeIconSwitcher : Plugin() {
                     homeView.setImageDrawable(icon)
                     return@after
                 }
-                if (homeView.findViewById<SimpleDraweeView>(viewId) != null) return@after
-                SimpleDraweeView(ctx).apply {
+                if ((homeView.parent as FrameLayout).findViewById<SimpleDraweeView>(viewId) != null) return@after
+                    SimpleDraweeView(ctx).apply {
                     id = viewId
                     imageTintList = null
                     setImageURI(homeIcon)
                     (homeView.parent as FrameLayout).addView(this)
                     homeView.setImageDrawable(null)
-                    layoutParams = FrameLayout.LayoutParams(128, 128).apply {
+                    layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT).apply {
                         gravity = Gravity.CENTER
                     }
-                    clipToOutline = true
-                    background =
-                        ShapeDrawable(OvalShape()).apply { paint.color = Color.TRANSPARENT }
+                    MGImages.setRoundingParams(this, 60f, false, null, null, 0f)
                     controller = bruh.a().run {
                         f(Uri.parse(homeIcon))
                         m = true

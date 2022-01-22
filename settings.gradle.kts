@@ -1,3 +1,4 @@
+include(":ShowAllActivities")
 include(":HomeIconSwitcher")
 include(":StartupChannel")
 include(":ThisWillCrashYourDiscord")

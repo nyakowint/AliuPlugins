@@ -27,7 +27,7 @@ Locks down selected channel's chatbox so you cant (accidentally?) type in it
 tell someone to fart or fart yourself
 
 ### [HomeIconSwitcher](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/HomeIconSwitcher.zip)
-Switch the icon at the top right of discord to whatever you want
+Switch the icon at the top left of discord to whatever you want
 
 ### [Hop on bloons when](https://github.com/ItzOnlyAnimal/AliuPlugins/raw/builds/HopOnBloonsWhen.zip)
 

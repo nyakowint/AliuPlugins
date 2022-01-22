@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.aliucord.utils.DimenUtils.dpToPx
 import com.aliucord.views.ToolbarButton
+import com.discord.utilities.images.MGImages
 import com.facebook.drawee.view.SimpleDraweeView
 import com.lytefast.flexinput.R
 
@@ -31,13 +32,9 @@ class UserTZCard(ctx: Context?) : LinearLayout(ctx) {
         image = SimpleDraweeView(ctx).apply {
             layoutParams = LayoutParams(128, 128).apply {
                 gravity = Gravity.CENTER
-                setMargins(0, 0, dpToPx(6), 0)
             }
-            clipToOutline = true
-            background = ShapeDrawable(OvalShape()).apply { paint.color = Color.TRANSPARENT }
+            MGImages.setRoundingParams(this, 20f, false, null, null, 0f)
         }
-
-        background = ShapeDrawable(OvalShape()).apply { paint.color = Color.TRANSPARENT }
         val buttons = LinearLayout(ctx)
         buttons.orientation = HORIZONTAL
         val params = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)

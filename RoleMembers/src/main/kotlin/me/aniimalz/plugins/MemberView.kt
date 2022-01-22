@@ -14,6 +14,7 @@ import com.aliucord.utils.DimenUtils
 import com.aliucord.utils.DimenUtils.dpToPx
 import com.discord.models.user.User
 import com.discord.stores.StoreStream
+import com.discord.utilities.images.MGImages
 import com.discord.widgets.user.usersheet.WidgetUserSheet
 import com.facebook.drawee.view.SimpleDraweeView
 import com.lytefast.flexinput.R
@@ -38,11 +39,8 @@ class MemberView(ctx: Context, user: User, guildId: Long) : LinearLayout(ctx) {
         }
         name.typeface = ctx.let { ResourcesCompat.getFont(it, Constants.Fonts.whitney_semibold) }
         image = SimpleDraweeView(ctx).apply {
-            layoutParams = LayoutParams(128, 128).apply {
-                setMargins(0, 0, dpToPx(6), 0)
-            }
-            clipToOutline = true
-            background = ShapeDrawable(OvalShape()).apply { paint.color = Color.TRANSPARENT }
+            layoutParams = LayoutParams(128, 128)
+            MGImages.setRoundingParams(this, 20f, false, null, null, 0f)
             setImageURI(if (guildMember != null && guildMember.hasAvatar()) "https://cdn.discordapp.com/guilds/${guildId}/users/${user.id}/avatars/${guildMember.avatarHash}.png" else "https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png")
             setOnClickListener {
                 WidgetUserSheet.show(

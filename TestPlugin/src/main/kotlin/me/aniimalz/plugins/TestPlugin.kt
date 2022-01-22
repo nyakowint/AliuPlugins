@@ -11,18 +11,27 @@ import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.after
+import com.aliucord.utils.RxUtils.subscribe
+import com.discord.api.activity.Activity
+import com.discord.api.activity.ActivityType
+import com.discord.models.domain.ModelSession
 import com.discord.stores.StoreStream
+import com.discord.stores.StoreUserPresence
+import com.discord.utilities.images.MGImages
 import com.discord.utilities.view.text.SimpleDraweeSpanTextView
 import com.discord.widgets.chat.list.actions.WidgetChatListActions
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
 import com.discord.widgets.chat.list.entries.MessageEntry
 import com.discord.widgets.guilds.WidgetGuildSelector
+import rx.Subscription
+import java.util.concurrent.Flow
 
 @AliucordPlugin
 class TestPlugin : Plugin() {
     @SuppressLint("SetTextI18n")
     override fun start(ctx: Context) {
         // shut
+
     }
 
     override fun stop(ctx: Context) {

@@ -4,7 +4,7 @@ description = "Allows you to set a timezone for a user and view their time"
 aliucord {
     changelog.set("""
         # 1.1.0
-        - Added TimeZoneDB support (by mantikafasi)
+        - Added TimezoneDB support (by mantikafasi)
         
         # 1.0.7
         - Made settings page look slightly nicer
