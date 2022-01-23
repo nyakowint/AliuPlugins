@@ -1,4 +1,4 @@
-include(":ShowAllActivities")
+/*include(":ShowAllActivities")*/
 include(":HomeIconSwitcher")
 include(":StartupChannel")
 include(":ThisWillCrashYourDiscord")

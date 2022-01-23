@@ -1,6 +1,7 @@
 package me.aniimalz.plugins
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -30,7 +31,10 @@ class StartupChannel : Plugin() {
         ).withArgs(settings)
     }
 
+    var pluginIcon: Drawable? = null
+
     override fun start(ctx: Context) {
+        pluginIcon = ContextCompat.getDrawable(Utils.appContext, R.e.ic_channel_text)
         if (!settings.getBool("enabled", true)) return
         val icon = Utils.tintToTheme(ContextCompat.getDrawable(Utils.appContext, R.e.ic_star_24dp))
         val vid = View.generateViewId()

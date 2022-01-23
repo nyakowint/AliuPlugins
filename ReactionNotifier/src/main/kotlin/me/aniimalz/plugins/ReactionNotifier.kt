@@ -1,6 +1,7 @@
 package me.aniimalz.plugins
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
@@ -25,7 +26,10 @@ class ReactionNotifier : Plugin() {
         ).withArgs(settings)
     }
 
+    var pluginIcon: Drawable? = null
+
     override fun start(ctx: Context) {
+        pluginIcon = ContextCompat.getDrawable(Utils.appContext, R.e.ic_reaction_24dp)
         patcher.after<StoreMessageReactions>("handleReactionAdd", MessageReactionUpdate::class.java) {
             if (!settings.getBool("notifyAdd", true)) return@after
             handleReaction(Utils.appContext, (it.args[0] as MessageReactionUpdate), false)

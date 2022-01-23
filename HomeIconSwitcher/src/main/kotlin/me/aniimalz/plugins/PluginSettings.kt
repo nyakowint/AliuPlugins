@@ -39,6 +39,8 @@ class PluginSettings(private val settings: SettingsAPI) : BottomSheet() {
     override fun onViewCreated(view: View, bundle: Bundle?) {
         super.onViewCreated(view, bundle)
         val ctx = requireContext()
+        val logger = Logger("HomeIconSwitcher")
+
         addView(TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Header).apply {
             typeface = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_bold)
             text = "Home Icon Switcher"
@@ -52,27 +54,60 @@ class PluginSettings(private val settings: SettingsAPI) : BottomSheet() {
             isChecked = settings.getBool("enabled", true)
             setOnCheckedListener {
                 settings.setBool("enabled", it)
-                Utils.promptRestart("Restart to apply changes.")
+                promptRestart()
+            }
+        })
+        addView(Utils.createCheckedSetting(
+            ctx, CheckedSetting.ViewType.SWITCH, "Remove colored background", "Remove discord's colored background behind the image"
+        ).apply {
+            isChecked = settings.getBool("removeBg", true)
+            setOnCheckedListener {
+                settings.setBool("removeBg", it)
+                promptRestart()
             }
         })
         addView(Divider(ctx))
 
         val icon = settings.getString("homeIcon", null).takeIf { it != null }
+        val roundAmount = settings.getFloat("roundAmount", -1f).takeIf { it != -1f }
 
-        addView(TextInput(ctx, "Home icon URL", icon?.let { icon } ?: "", object : TextWatcher {
+        addView(TextInput(ctx, "Home icon URL (supports drawables)", icon?.let { icon } ?: "", object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable?) {
-                val txt = s.toString()
                 try {
+                    val txt = s.toString()
                     settings.setString("homeIcon", txt)
-                    Utils.promptRestart("Restart to apply icon change.")
+                    promptRestart("Restart to apply icon change.")
                 } catch (n: Throwable) {
-                    Logger("HomeIconSwitcher").error(n)
+                    logger.error(n)
                 }
             }
         }))
 
+        addView(TextInput(ctx, "Amount to round image (default 60)", roundAmount?.let { roundAmount.toString() } ?: "60", object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                val txt: Float? = try {
+                    s.toString().toFloat()
+                } catch (n: NumberFormatException) {
+                    60f
+                }
+                try {
+                    settings.setFloat("roundAmount", txt ?: 60f)
+                    promptRestart()
+                } catch (n: Throwable) {
+                    logger.error(n)
+                }
+            }
+        }))
+
+    }
+
+    private fun promptRestart(t: String = "Restart to apply changes") {
+        Utils.promptRestart(t)
     }
 }

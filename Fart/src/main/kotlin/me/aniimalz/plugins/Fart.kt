@@ -2,17 +2,21 @@ package me.aniimalz.plugins
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.drawable.Drawable
+import androidx.core.content.ContextCompat
 import com.aliucord.PluginManager
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
 import com.aliucord.entities.Plugin
 import com.discord.api.commands.ApplicationCommandType
+import com.lytefast.flexinput.R
 import kotlin.random.Random
 
 @AliucordPlugin
 class Fart : Plugin() {
 
+    var pluginIcon: Drawable? = null
     @SuppressLint("SetTextI18n")
     override fun start(ctx: Context) {
         val options = listOf(
@@ -27,6 +31,7 @@ class Fart : Plugin() {
                 autocomplete = false
             )
         )
+        pluginIcon = ContextCompat.getDrawable(Utils.appContext, R.e.drawable_thumb_white)
         val rf = listOf("GreenText Fart", "GreenText Mega Fart")
         val fart =
             if (PluginManager.isPluginEnabled("GreenText")) rf[Random.nextInt(rf.size)] else "fart"

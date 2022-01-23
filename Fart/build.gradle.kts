@@ -1,8 +1,10 @@
-version = "1.2.9"
+version = "1.2.10"
 description = "fart"
 
 aliucord {
     changelog.set("""
+        # 1.2.10
+        - added icon also fart lol
         # 1.2.8
         * GreenText Fart
         # 1.2.5

@@ -1,4 +1,4 @@
-version = "1.1.1"
+version = "1.1.2"
 description = "Allows you to set a timezone for a user and view their time"
 
 aliucord {

@@ -2,6 +2,8 @@ package me.aniimalz.plugins
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.drawable.Drawable
+import androidx.core.content.ContextCompat
 import com.aliucord.Http
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
@@ -11,14 +13,17 @@ import com.aliucord.entities.MessageEmbedBuilder
 import com.aliucord.entities.Plugin
 import com.discord.api.commands.ApplicationCommandType
 import com.discord.api.utcdatetime.UtcDateTime
+import com.lytefast.flexinput.R
 import java.text.SimpleDateFormat
 
 @AliucordPlugin
 class xkcd : Plugin() {
 
+    var pluginIcon: Drawable? = null
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
-    override fun start(context: Context) {
+    override fun start(ctx: Context) {
         val ctx = Utils.appContext
+        pluginIcon = ContextCompat.getDrawable(Utils.appContext, R.e.ic_search)
         val url = "https://xkcd.com"
         val comicNum = Utils.createCommandOption(
             ApplicationCommandType.NUMBER,

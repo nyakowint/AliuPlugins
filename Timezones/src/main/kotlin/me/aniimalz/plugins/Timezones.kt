@@ -2,6 +2,7 @@ package me.aniimalz.plugins
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
@@ -45,6 +46,7 @@ class Timezones : Plugin() {
     }
 
     private val tzId = View.generateViewId()
+    var pluginIcon: Drawable? = null
 
     companion object {
         var usersList: HashMap<Long, String> = HashMap<Long, String>()
@@ -53,6 +55,7 @@ class Timezones : Plugin() {
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun start(context: Context) {
+        pluginIcon = ContextCompat.getDrawable(Utils.appContext, R.e.ic_clock_24dp)
         val clock = ContextCompat.getDrawable(Utils.appContext, R.e.ic_archived_clock_dark)?.apply {
             mutate()
         }
