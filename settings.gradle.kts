@@ -1,3 +1,4 @@
+include(":ReadAllGuilds")
 /*include(":ShowAllActivities")*/
 include(":HomeIconSwitcher")
 include(":StartupChannel")
