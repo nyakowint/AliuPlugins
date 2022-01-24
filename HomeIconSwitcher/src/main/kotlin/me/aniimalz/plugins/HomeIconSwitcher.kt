@@ -29,7 +29,7 @@ import com.discord.widgets.guilds.list.GuildListViewHolder
 import com.facebook.drawee.view.SimpleDraweeView
 import com.lytefast.flexinput.R
 import kotlin.math.round
-import c.f.g.a.a.b as bruh
+import b.f.g.a.a.b as bruh
 
 
 @AliucordPlugin

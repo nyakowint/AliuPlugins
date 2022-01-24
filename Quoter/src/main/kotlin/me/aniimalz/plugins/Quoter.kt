@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
-import c.b.a.e.a
+import b.b.a.e.a
 import com.aliucord.Constants
 import com.aliucord.PluginManager
 import com.aliucord.Utils
@@ -118,12 +118,12 @@ class Quoter : Plugin() {
                 Hook { yes: XC_MethodHook.MethodHookParam ->
                     val linearLayout =
                         (yes.args[0] as NestedScrollView).getChildAt(0) as LinearLayout
-                    val ctx = linearLayout.context
+                    val cntx = linearLayout.context
 
-                    quoteIcon?.setTint(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal))
+                    quoteIcon?.setTint(ColorCompat.getThemedColor(cntx, R.b.colorInteractiveNormal))
                     Utils.tintToTheme(quoteIcon)
 
-                    val quote = TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Icon).apply {
+                    val quote = TextView(cntx, null, 0, R.i.UiKit_Settings_Item_Icon).apply {
                         text = "Quote"
                         id = quoteId
                         setCompoundDrawablesRelativeWithIntrinsicBounds(
@@ -132,7 +132,7 @@ class Quoter : Plugin() {
                             null,
                             null
                         )
-                        typeface = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium)
+                        typeface = ResourcesCompat.getFont(cntx, Constants.Fonts.whitney_medium)
                     }
 
                     linearLayout.addView(quote, 2)
