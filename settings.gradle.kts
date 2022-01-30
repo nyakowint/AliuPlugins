@@ -1,7 +1,6 @@
 include(":Moyai")
-include(":HideBlockedMessages")
+/*include(":HideBlockedMessages")*/
 include(":ReadAllGuilds")
-/*include(":ShowAllActivities")*/
 include(":HomeIconSwitcher")
 include(":StartupChannel")
 include(":ThisWillCrashYourDiscord")
