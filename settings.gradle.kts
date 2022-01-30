@@ -1,3 +1,4 @@
+include(":HideBlockedMessages")
 include(":ReadAllGuilds")
 /*include(":ShowAllActivities")*/
 include(":HomeIconSwitcher")
