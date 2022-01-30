@@ -1,3 +1,4 @@
+include(":Moyai")
 include(":HideBlockedMessages")
 include(":ReadAllGuilds")
 /*include(":ShowAllActivities")*/
