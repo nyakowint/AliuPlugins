@@ -69,7 +69,6 @@ class PluginSettings(private val settings: SettingsAPI) : BottomSheet() {
         addView(Divider(ctx))
 
         val icon = settings.getString("homeIcon", null).takeIf { it != null }
-        val roundAmount = settings.getFloat("roundAmount", -1f).takeIf { it != -1f }
 
         addView(TextInput(ctx, "Home icon URL (supports drawables)", icon?.let { icon } ?: "", object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -80,25 +79,6 @@ class PluginSettings(private val settings: SettingsAPI) : BottomSheet() {
                     val txt = s.toString()
                     settings.setString("homeIcon", txt)
                     promptRestart("Restart to apply icon change.")
-                } catch (n: Throwable) {
-                    logger.error(n)
-                }
-            }
-        }))
-
-        addView(TextInput(ctx, "Amount to round image (default 60)", roundAmount?.let { roundAmount.toString() } ?: "60", object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                val txt: Float? = try {
-                    s.toString().toFloat()
-                } catch (n: NumberFormatException) {
-                    60f
-                }
-                try {
-                    settings.setFloat("roundAmount", txt ?: 60f)
-                    promptRestart()
                 } catch (n: Throwable) {
                     logger.error(n)
                 }

@@ -8,27 +8,19 @@ import android.graphics.drawable.shapes.OvalShape
 import android.net.Uri
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.after
-import com.aliucord.utils.DimenUtils
-import com.discord.databinding.TabsHostBottomNavigationViewBinding
 import com.discord.utilities.images.MGImages
-import com.discord.views.user.UserAvatarPresenceView
 import com.discord.widgets.guilds.list.GuildListItem
 import com.discord.widgets.guilds.list.GuildListViewHolder
 import com.facebook.drawee.view.SimpleDraweeView
 import com.lytefast.flexinput.R
-import kotlin.math.round
 import b.f.g.a.a.b as bruh
 
 
@@ -92,6 +84,7 @@ class HomeIconSwitcher : Plugin() {
                 SimpleDraweeView(ctx).apply {
                     id = viewId
                     imageTintList = null
+                    clipToOutline = true
                     setImageURI(homeIcon)
                     layout.addView(this)
                     homeView.setImageDrawable(null)
@@ -101,7 +94,7 @@ class HomeIconSwitcher : Plugin() {
                     ).apply {
                         gravity = Gravity.CENTER
                     }
-                    MGImages.setRoundingParams(this, roundAmount ?: 60f, false, null, null, 0f)
+                    background = ShapeDrawable(OvalShape()).apply { paint.color = Color.TRANSPARENT }
                     controller = bruh.a().run {
                         f(Uri.parse(homeIcon))
                         m = true

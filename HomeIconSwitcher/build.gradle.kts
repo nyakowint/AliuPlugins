@@ -1,2 +1,2 @@
-version = "1.0.2"
-description = "switch the home icon above guild list"
+version = "1.0.3"
+description = "switch the home icon above guild list also fresco sucks"

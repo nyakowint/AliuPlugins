@@ -32,33 +32,30 @@ class Fart : Plugin() {
             )
         )
         pluginIcon = ContextCompat.getDrawable(Utils.appContext, R.e.drawable_thumb_white)
-        val rf = listOf("GreenText Fart", "GreenText Mega Fart")
-        val fart =
-            if (PluginManager.isPluginEnabled("GreenText")) rf[Random.nextInt(rf.size)] else "fart"
 
         // hi ven :3
-        commands.registerCommand("fart", "Tell someone to $fart", options) {
+        commands.registerCommand("fart", "Tell someone to fart", options) {
             if (it.containsArg("user")) {
-                CommandsAPI.CommandResult("<@${it.getRequiredUser("user").id}> $fart", null, true)
+                CommandsAPI.CommandResult("<@${it.getRequiredUser("user").id}> fart", null, true)
             } else {
-                CommandsAPI.CommandResult(fart, null, true)
+                CommandsAPI.CommandResult("fart", null, true)
             }
         }
 
         commands.registerCommand(
             "betterfart",
-            "$fart but better",
+            "fart but better",
             options
         ) {
             if (it.mentionedUsers.count() > 0) {
                 CommandsAPI.CommandResult(
-                    "Hello <@${it.getRequiredUser("user").id}>, do you possibly think, that you could, potentially in the near future, $fart? It would be monumental to everyone's experience on Aliucord™. Have a fart day!",
+                    "Hello <@${it.getRequiredUser("user").id}>, do you possibly think, that you could, potentially in the near future, fart? It would be monumental to everyone's experience on Aliucord™. Have a fart day!",
                     null,
                     true
                 )
             } else {
                 CommandsAPI.CommandResult(
-                    "Hello everyone, do you possibly think, that you could, potentially in the near future, $fart? It would be monumental to your experience on Aliucord™. Have a fart day!",
+                    "Hello everyone, do you possibly think, that you could, potentially in the near future, fart? It would be monumental to your experience on Aliucord™. Have a fart day!",
                     null,
                     true
                 )
