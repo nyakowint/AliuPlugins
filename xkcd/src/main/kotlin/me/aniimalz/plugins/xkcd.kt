@@ -22,7 +22,6 @@ class xkcd : Plugin() {
     var pluginIcon: Drawable? = null
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun start(ctx: Context) {
-        val ctx = Utils.appContext
         pluginIcon = ContextCompat.getDrawable(Utils.appContext, R.e.ic_search)
         val url = "https://xkcd.com"
         val comicNum = Utils.createCommandOption(
@@ -55,7 +54,11 @@ class xkcd : Plugin() {
                     .setDescription(comic.transcript)
                     .setImage(comic.img, comic.img, 720, 1280)
                     .setFooter(comic.alt)
-                    .setTimestamp(UtcDateTime(SimpleDateFormat("dd-MM-yyyy").parse("${comic.day}-${comic.month}-${comic.year}").time))
+                    .setTimestamp(SimpleDateFormat("dd-MM-yyyy").parse("${comic.day}-${comic.month}-${comic.year}")?.time?.let {
+                        UtcDateTime(
+                            it
+                        )
+                    })
                 CommandsAPI.CommandResult(null, listOf(embed.build()), false)
             } else {
                 comic = try {
@@ -70,7 +73,11 @@ class xkcd : Plugin() {
                     .setDescription(comic.transcript)
                     .setImage(comic.img, comic.img, 720, 1280)
                     .setFooter(comic.alt)
-                    .setTimestamp(UtcDateTime(SimpleDateFormat("dd-MM-yyyy").parse("${comic.day}-${comic.month}-${comic.year}").time))
+                    .setTimestamp(SimpleDateFormat("dd-MM-yyyy").parse("${comic.day}-${comic.month}-${comic.year}")?.time?.let {
+                        UtcDateTime(
+                            it
+                        )
+                    })
                 CommandsAPI.CommandResult(null, listOf(embed.build()), false)
             }
         }
@@ -84,10 +91,7 @@ class xkcd : Plugin() {
 class Response(
     val month: String,
     val num: Number,
-    val link: String,
     val year: String,
-    val news: String,
-    val safe_title: String,
     val transcript: String,
     val alt: String,
     val img: String,

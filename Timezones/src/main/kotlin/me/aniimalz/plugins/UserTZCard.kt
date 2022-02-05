@@ -16,7 +16,7 @@ import com.lytefast.flexinput.R
 
 
 
-@SuppressWarnings("deprecation")
+@Suppress("Deprecation")
 class UserTZCard(ctx: Context?) : LinearLayout(ctx) {
     val name: TextView
     val delete: ToolbarButton

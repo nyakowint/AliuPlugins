@@ -38,7 +38,6 @@ class HomeIconSwitcher : Plugin() {
     var pluginIcon: Drawable? = null
 
     override fun start(ctx: Context) {
-        val ctx = Utils.appContext
         val viewId = View.generateViewId()
         pluginIcon = ContextCompat.getDrawable(Utils.appContext, R.e.ic_tab_home)
         patcher.after<GuildListViewHolder.FriendsViewHolder>(
@@ -54,7 +53,6 @@ class HomeIconSwitcher : Plugin() {
             )
             val layout = homeView.parent as FrameLayout
             val homeIcon = settings.getString("homeIcon", null).takeIf { it != null }
-            val roundAmount = settings.getFloat("roundAmount", -1f).takeIf { it != -1f }
             try {
                 if (homeIcon?.let { it1 -> Utils.getResId(it1, "drawable") } != 0) {
                     val field = homeIcon?.let { R.e::class.java.getField(homeIcon) }
