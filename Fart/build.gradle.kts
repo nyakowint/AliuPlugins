@@ -1,17 +1,9 @@
-version = "1.2.11"
+version = "1.3.0"
 description = "fart"
 
 aliucord {
     changelog.set("""
-        # 1.2.11
-        - no more greentext fart
-        # 1.2.10
-        - added icon also fart lol
-        # 1.2.8
-        * GreenText Fart
-        # 1.2.5
-        * 101.3 (aka fart version)
-        # 1.2.4
-        * Remove unused imports
+        # 1.3.0
+        You can now fart in amazing 4k with sound
     """.trimIndent())
 }
