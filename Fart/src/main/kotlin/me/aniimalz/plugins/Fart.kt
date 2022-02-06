@@ -82,7 +82,7 @@ class Fart : Plugin() {
             if (this == null) return@subscribe
             val message = Message(this)
             val mentions = message.mentions
-            if (message.channelId != StoreStream.getChannelsSelected().id) return@subscribe
+            if (message.channelId != StoreStream.getChannelsSelected().id || !message.content.contains("fart")) return@subscribe
             mentions.forEach {
                 if (CoreUser(it).id == StoreStream.getUsers().me.id) fart()
             }
