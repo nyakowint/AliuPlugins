@@ -17,6 +17,7 @@ import com.aliucord.api.CommandsAPI
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.Hook
 import com.aliucord.patcher.InsteadHook
+import com.aliucord.patcher.after
 import com.aliucord.utils.DimenUtils
 import com.aliucord.utils.ReflectUtils
 import com.aliucord.wrappers.ChannelWrapper.Companion.id
@@ -43,7 +44,12 @@ class ChannelLocker : Plugin() {
 
     @SuppressLint("SetTextI18n")
     override fun start(ctx: Context) {
-        val icon = Utils.tintToTheme(ContextCompat.getDrawable(Utils.appContext, R.e.ic_lock_dark_a60_24dp)) // diamong makes me husk
+        val icon = Utils.tintToTheme(
+            ContextCompat.getDrawable(
+                Utils.appContext,
+                R.e.ic_lock_dark_a60_24dp
+            )
+        ) // diamong makes me husk
         val channelLockId = View.generateViewId()
         val channels = settings.getObject(
             "channels", HashMap<String, Long>(), TypeToken.getParameterized(
@@ -68,76 +74,73 @@ class ChannelLocker : Plugin() {
 
         val bindingMethod = WidgetChatInput::class.java.getDeclaredMethod("getBinding")
             .apply { isAccessible = true }
-        patcher.patch(
-            WidgetChatInput::class.java.getDeclaredMethod(
-                "configureChatGuard",
-                ChatInputViewModel.ViewState.Loaded::class.java
-            ), Hook {
+        patcher.after<WidgetChatInput>(
+            "configureChatGuard", ChatInputViewModel.ViewState.Loaded::class.java
+        ) {
+            val loaded = it.args[0] as ChatInputViewModel.ViewState.Loaded
 
-                val loaded = it.args[0] as ChatInputViewModel.ViewState.Loaded
+            if (channels.containsValue(loaded.channelId) && !loaded.shouldShowVerificationGate) {
+                val binding = bindingMethod(it.thisObject) as WidgetChatInputBinding
 
-                if (channels.containsValue(loaded.channelId) && !loaded.shouldShowVerificationGate) {
-                    val binding = bindingMethod(it.thisObject) as WidgetChatInputBinding
+                val gateButtonText = binding.root.findViewById<TextView>(
+                    Utils.getResId(
+                        "chat_input_member_verification_guard_text",
+                        "id"
+                    )
+                )
+                val chatWrap = binding.root.findViewById<LinearLayout>(
+                    Utils.getResId(
+                        "chat_input_wrap",
+                        "id"
+                    )
+                )
+                val gateButtonImage = binding.root.findViewById<ImageView>(
+                    Utils.getResId(
+                        "chat_input_member_verification_guard_icon",
+                        "id"
+                    )
+                )
+                val gateButtonArrow = binding.root.findViewById<ImageView>(
+                    Utils.getResId(
+                        "chat_input_member_verification_guard_action",
+                        "id"
+                    )
+                )
+                val gateButtonLayout = binding.root.findViewById<RelativeLayout>(
+                    Utils.getResId(
+                        "guard_member_verification",
+                        "id"
+                    )
+                )
 
-                    val gateButtonText = binding.root.findViewById<TextView>(
-                        Utils.getResId(
-                            "chat_input_member_verification_guard_text",
-                            "id"
-                        )
-                    )
-                    val chatWrap = binding.root.findViewById<LinearLayout>(
-                        Utils.getResId(
-                            "chat_input_wrap",
-                            "id"
-                        )
-                    )
-                    val gateButtonImage = binding.root.findViewById<ImageView>(
-                        Utils.getResId(
-                            "chat_input_member_verification_guard_icon",
-                            "id"
-                        )
-                    )
-                    val gateButtonArrow = binding.root.findViewById<ImageView>(
-                        Utils.getResId(
-                            "chat_input_member_verification_guard_action",
-                            "id"
-                        )
-                    )
-                    val gateButtonLayout = binding.root.findViewById<RelativeLayout>(
-                        Utils.getResId(
-                            "guard_member_verification",
-                            "id"
-                        )
-                    )
+                gateButtonLayout.visibility = View.VISIBLE
+                chatWrap.visibility = View.GONE
 
-                    gateButtonLayout.visibility = View.VISIBLE
-                    chatWrap.visibility = View.GONE
+                gateButtonImage.setImageResource(R.e.ic_channel_text_locked)
+                gateButtonText.text =
+                    "Channel is locked"
+                gateButtonArrow.setImageResource(R.e.ic_check_white_24dp)
+                val pd = DimenUtils.defaultPadding
+                gateButtonArrow.setPadding(pd, pd, pd, pd)
+                gateButtonArrow.layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                gateButtonArrow.setOnLongClickListener {
+                    channels.remove(loaded.channel.name)
+                    settings.setObject("channels", channels)
 
-                    gateButtonImage.setImageResource(R.e.ic_channel_text_locked)
-                    gateButtonText.text =
-                        "Channel is locked"
-                    gateButtonArrow.setImageResource(R.e.ic_check_white_24dp)
-                    val pd = DimenUtils.defaultPadding
-                    gateButtonArrow.setPadding(pd, pd, pd, pd)
-                    gateButtonArrow.layoutParams = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                    )
-                    gateButtonArrow.setOnLongClickListener {
-                        channels.remove(loaded.channel.name)
-                        settings.setObject("channels", channels)
-
-                        gateButtonLayout.visibility = View.GONE
-                        chatWrap.visibility = View.VISIBLE
-                        return@setOnLongClickListener true
-                    }
-                    gateButtonArrow.setOnClickListener {
-                        InsteadHook.DO_NOTHING
-                    }
-                    gateButtonArrow.visibility =
-                        if (settings.getBool("showUnlock", true)) View.VISIBLE else View.GONE
+                    gateButtonLayout.visibility = View.GONE
+                    chatWrap.visibility = View.VISIBLE
+                    return@setOnLongClickListener true
                 }
-            })
+                gateButtonArrow.setOnClickListener {
+                    InsteadHook.DO_NOTHING
+                }
+                gateButtonArrow.visibility =
+                    if (settings.getBool("showUnlock", true)) View.VISIBLE else View.GONE
+            }
+        }
 
 
         // just adding stupid buttons to channel settings and channel list actions
@@ -159,7 +162,10 @@ class ChannelLocker : Plugin() {
                             if (!channels.containsValue(model.channel.id)) "Lock Channel" else "Unlock Channel"
                         setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
                         id = channelLockId
-                        typeface = ResourcesCompat.getFont(Utils.appContext, Constants.Fonts.whitney_medium)
+                        typeface = ResourcesCompat.getFont(
+                            Utils.appContext,
+                            Constants.Fonts.whitney_medium
+                        )
                         setOnClickListener {
                             if (channels.containsValue(model.channel.id)) {
                                 channels.remove(model.channel.name)

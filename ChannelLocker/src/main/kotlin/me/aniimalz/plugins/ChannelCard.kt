@@ -9,6 +9,7 @@ import com.aliucord.utils.DimenUtils.dpToPx
 import com.aliucord.views.ToolbarButton
 import com.lytefast.flexinput.R
 
+@Suppress("Deprecation")
 class ChannelCard(ctx: Context?) : LinearLayout(ctx) {
     val name: TextView
     val delete: ToolbarButton
