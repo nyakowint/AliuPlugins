@@ -32,6 +32,14 @@ class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
                 "24hourTime"
             )
         )
+        addView(
+            addSetting(
+                ctx,
+                "Time in message header",
+                "Show user's time in their timezone. Will look bad if the user has a long name, or if you have too many plugins using the message header",
+                "timeInHeader"
+            )
+        )
         addView(Divider(ctx))
         addView(recycler)
 

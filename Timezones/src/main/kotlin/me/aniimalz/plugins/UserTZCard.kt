@@ -1,25 +1,20 @@
 package me.aniimalz.plugins
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ShapeDrawable
-import android.graphics.drawable.shapes.OvalShape
 import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.aliucord.utils.DimenUtils.dpToPx
-import com.aliucord.views.ToolbarButton
 import com.discord.utilities.images.MGImages
 import com.facebook.drawee.view.SimpleDraweeView
 import com.lytefast.flexinput.R
 
 
-
 @Suppress("Deprecation")
 class UserTZCard(ctx: Context?) : LinearLayout(ctx) {
     val name: TextView
-    val delete: ToolbarButton
+    val delete: com.aliucord.views.ToolbarButton
     val image: SimpleDraweeView
 
     init {
@@ -42,7 +37,7 @@ class UserTZCard(ctx: Context?) : LinearLayout(ctx) {
         buttons.layoutParams = params
         buttons.setHorizontalGravity(Gravity.END)
         buttons.setVerticalGravity(Gravity.CENTER_VERTICAL)
-        delete = ToolbarButton(ctx)
+        delete = com.aliucord.views.ToolbarButton(ctx)
         delete.setImageDrawable(ContextCompat.getDrawable(ctx!!, R.e.ic_close_primary_200_24dp))
         buttons.addView(delete)
         addView(image)

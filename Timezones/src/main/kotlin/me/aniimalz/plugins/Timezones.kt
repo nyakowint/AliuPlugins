@@ -31,6 +31,26 @@ import java.text.SimpleDateFormat
 import java.time.*
 import java.util.*
 
+import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
+import android.os.Looper
+
+import com.discord.stores.Store
+
+import com.discord.models.user.CoreUser
+
+import com.discord.widgets.chat.list.entries.MessageEntry
+
+import androidx.constraintlayout.widget.ConstraintSet
+
+import com.discord.utilities.color.ColorCompat
+
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.discord.models.message.Message
+
+import com.discord.widgets.chat.list.entries.ChatListEntry
+import org.w3c.dom.Text
+
+
 @SuppressLint("SimpleDateFormat")
 val format12 = SimpleDateFormat("hh:mm a")
 
@@ -69,42 +89,47 @@ class Timezones : Plugin() {
             ).type
         )
 
-        patcher.after<WidgetUserSheet>("configureNote", WidgetUserSheetViewModel.ViewState.Loaded::class.java) {
-                val loaded = it.args[0] as WidgetUserSheetViewModel.ViewState.Loaded
-                val user = loaded.user
-                if (user == null || user.isBot) return@after
-                val binding =
-                    WidgetUserSheet.`access$getBinding$p`(it.thisObject as WidgetUserSheet)
-                val headerId = Utils.getResId("about_me_header_container", "id")
-                val header = binding.a.findViewById<ViewGroup>(headerId)
-                val layout = header.parent as LinearLayout
-                val userSheet = it.thisObject as WidgetUserSheet
+        patcher.after<WidgetUserSheet>(
+            "configureNote",
+            WidgetUserSheetViewModel.ViewState.Loaded::class.java
+        ) {
+            val loaded = it.args[0] as WidgetUserSheetViewModel.ViewState.Loaded
+            val user = loaded.user
+            if (user == null || user.isBot) return@after
+            val binding =
+                WidgetUserSheet.`access$getBinding$p`(it.thisObject as WidgetUserSheet)
+            val headerId = Utils.getResId("about_me_header_container", "id")
+            val header = binding.a.findViewById<ViewGroup>(headerId)
+            val layout = header.parent as LinearLayout
+            val userSheet = it.thisObject as WidgetUserSheet
 
-                val tzView = layout.findViewById<TextView>(tzId)
-                if (tzView != null) {
-                    setOnClick(tzView, userSheet, loaded)
-                    setUserSheetTime(
-                        user,
-                        tzView
-                    )
-                    return@after
-                }
-                TextView(layout.context, null, 0, R.i.UserProfile_Section_Header).apply {
-                    id = tzId
-                    typeface =
-                        ResourcesCompat.getFont(Utils.appContext, Constants.Fonts.whitney_semibold)
-                    val dp = DimenUtils.defaultPadding
-                    compoundDrawablePadding = DimenUtils.dpToPx(8)
-                    setUserSheetTime(
-                        user,
-                        this
-                    )
-                    setPadding(dp, dp, dp, dp)
-                    setCompoundDrawablesRelativeWithIntrinsicBounds(clock, null, null, null)
-                    layout.addView(this, layout.indexOfChild(header))
-                    setOnClick(this, userSheet, loaded)
-                }
+            val tzView = layout.findViewById<TextView>(tzId)
+            if (tzView != null) {
+                setOnClick(tzView, userSheet, loaded)
+                setUserSheetTime(
+                    user,
+                    tzView
+                )
+                return@after
             }
+            TextView(layout.context, null, 0, R.i.UserProfile_Section_Header).apply {
+                id = tzId
+                typeface =
+                    ResourcesCompat.getFont(Utils.appContext, Constants.Fonts.whitney_semibold)
+                val dp = DimenUtils.defaultPadding
+                compoundDrawablePadding = DimenUtils.dpToPx(8)
+                setUserSheetTime(
+                    user,
+                    this
+                )
+                setPadding(dp, dp, dp, dp)
+                setCompoundDrawablesRelativeWithIntrinsicBounds(clock, null, null, null)
+                layout.addView(this, layout.indexOfChild(header))
+                setOnClick(this, userSheet, loaded)
+            }
+        }
+
+        if (settings.getBool("timeInHeader", false)) setMsgHeaderTime()
     }
 
     private fun getTimezone(id: Long): String? {
@@ -112,7 +137,8 @@ class Timezones : Plugin() {
             try {
                 val response = JSONObject(Http.simpleGet("$apiUrl/api/user/$id"))
                 if (response.has("timezone")) return response.getString("timezone")
-            } catch (e: Exception) {//OH MY GOD NOOOO AN EXCEPTION I SHOULD IMMEDIALTLY HANDLE IT IN RIGHT WAY
+            } catch (e: Exception) {
+                /* trolley */
             }
         }
         return null
@@ -169,7 +195,7 @@ class Timezones : Plugin() {
                                         "Put - or + to start of input"
                                     ) else {
                                         try {
-                                            ZoneOffset.of( input ) //testing if input is valid
+                                            ZoneOffset.of(input) //testing if input is valid
                                             addUser(user.id, input)
                                             setUserSheetTime(
                                                 user,
@@ -198,7 +224,7 @@ class Timezones : Plugin() {
         }
     }
 
-    fun addUser(userid: Long, timezone: String) {
+    private fun addUser(userid: Long, timezone: String) {
         usersList[userid] = timezone
         saveSettings()
     }
@@ -207,8 +233,29 @@ class Timezones : Plugin() {
         settings.setObject("usersList", usersList)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O) // HUSK
+    @SuppressLint("SetTextI18n")
+    private fun setMsgHeaderTime() {
+        val timestampField =
+            WidgetChatListAdapterItemMessage::class.java.getDeclaredField("itemTimestamp")
+                .apply { isAccessible = true }
+
+        patcher.after<WidgetChatListAdapterItemMessage>(
+            "configureItemTag",
+            Message::class.java
+        ) {
+            val msg = it.args[0] as Message
+            val use24Hour = settings.getBool("24hourTime", false)
+            Utils.threadPool.execute {
+                val timezone = getTimezone(CoreUser(msg.author).id) ?: return@execute
+                val timestamp = timestampField[this] as TextView? ?: return@execute
+                if (timestamp.text.contains("LT: ")) return@execute
+                timestamp.text = "${timestamp.text} (LT: ${calculateTime(timezone, use24Hour)})"
+            }
+        }
+    }
+
     override fun stop(ctx: Context) {
         patcher.unpatchAll()
-        commands.unregisterAll()
     }
 }
