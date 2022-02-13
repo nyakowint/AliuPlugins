@@ -98,7 +98,7 @@ class Fart : Plugin() {
                     .build()
             )
             setDataSource("https://github.com/ItzOnlyAnimal/AliuPlugins/raw/main/fart.mp3")
-            prepare()
+            prepareAsync()
             start()
         }
     }

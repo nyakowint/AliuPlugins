@@ -46,7 +46,7 @@ class Moyai : Plugin() {
                         .build()
                 )
                 setDataSource("https://github.com/ItzOnlyAnimal/AliuPlugins/raw/main/boom.ogg")
-                prepare()
+                prepareAsync()
                 start()
             }
         } catch (ignored: Throwable) {

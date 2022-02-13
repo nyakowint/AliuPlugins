@@ -1,7 +1,6 @@
 include(":RevoltCord")
 include(":Moyai")
 /*include(":HideBlockedMessages")*/
-include(":ShowAllActivities")
 include(":ReadAllGuilds")
 include(":HomeIconSwitcher")
 include(":StartupChannel")
