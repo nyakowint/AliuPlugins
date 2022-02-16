@@ -6,13 +6,12 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.aliucord.utils.DimenUtils.dpToPx
-import com.aliucord.views.ToolbarButton
 import com.lytefast.flexinput.R
 
 @Suppress("Deprecation")
 class ChannelCard(ctx: Context?) : LinearLayout(ctx) {
     val name: TextView
-    val delete: ToolbarButton
+    val delete: com.aliucord.views.ToolbarButton
 
     init {
         orientation = HORIZONTAL
@@ -26,7 +25,7 @@ class ChannelCard(ctx: Context?) : LinearLayout(ctx) {
         buttons.layoutParams = params
         buttons.setHorizontalGravity(Gravity.END)
         buttons.setVerticalGravity(Gravity.CENTER_VERTICAL)
-        delete = ToolbarButton(ctx)
+        delete = com.aliucord.views.ToolbarButton(ctx)
         delete.setImageDrawable(ContextCompat.getDrawable(ctx!!, R.e.ic_close_primary_200_24dp))
         buttons.addView(delete)
         addView(name)

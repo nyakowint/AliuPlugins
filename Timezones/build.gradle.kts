@@ -1,8 +1,10 @@
-version = "1.1.4"
+version = "1.1.5"
 description = "Allows you to set a timezone for a user and view their time"
 
 aliucord {
     changelog.set("""
+        # 1.1.5
+        - said option will apply if you turn on after plugin starts
         # 1.1.4
         - Added option for user time in message timestamp (looks bad but works)
         

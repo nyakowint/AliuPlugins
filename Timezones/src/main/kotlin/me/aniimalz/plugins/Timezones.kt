@@ -45,6 +45,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import com.discord.utilities.color.ColorCompat
 
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.aliucord.views.Button
 import com.discord.models.message.Message
 
 import com.discord.widgets.chat.list.entries.ChatListEntry
@@ -129,7 +130,7 @@ class Timezones : Plugin() {
             }
         }
 
-        if (settings.getBool("timeInHeader", false)) setMsgHeaderTime()
+        setMsgHeaderTime()
     }
 
     private fun getTimezone(id: Long): String? {
@@ -244,13 +245,16 @@ class Timezones : Plugin() {
             "configureItemTag",
             Message::class.java
         ) {
+            if (!settings.getBool("timeInHeader", false)) return@after
             val msg = it.args[0] as Message
             val use24Hour = settings.getBool("24hourTime", false)
             Utils.threadPool.execute {
                 val timezone = getTimezone(CoreUser(msg.author).id) ?: return@execute
                 val timestamp = timestampField[this] as TextView? ?: return@execute
-                if (timestamp.text.contains("LT: ")) return@execute
-                timestamp.text = "${timestamp.text} (LT: ${calculateTime(timezone, use24Hour)})"
+                if (timestamp.text.contains("| LT")) return@execute
+                    Utils.appActivity.runOnUiThread {
+                        timestamp.text = "${timestamp.text} | LT ${calculateTime(timezone, use24Hour)})"
+                    }
             }
         }
     }

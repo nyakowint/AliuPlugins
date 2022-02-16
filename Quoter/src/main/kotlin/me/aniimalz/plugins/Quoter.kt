@@ -23,6 +23,7 @@ import com.aliucord.widgets.BottomSheet
 import com.aliucord.wrappers.ChannelWrapper.Companion.id
 import com.discord.databinding.WidgetChatListActionsBinding
 import com.discord.models.message.Message
+import com.discord.models.user.CoreUser
 import com.discord.stores.StoreStream
 import com.discord.utilities.color.ColorCompat
 import com.discord.utilities.permissions.PermissionUtils
@@ -152,6 +153,7 @@ class Quoter : Plugin() {
 
     @SuppressLint("SetTextI18n")
     private fun quoteNormal(inputBox: FlexEditText, msg: Message) {
+        val author = CoreUser(msg.author)
         if (msg.content.contains("\n")) {
             inputBox.setText(
                 "> ${
@@ -165,7 +167,7 @@ class Quoter : Plugin() {
                     "mention",
                     true
                 )
-            ) inputBox.append("@${msg.author.r()}#${msg.author.f()} ")
+            ) inputBox.append("@${author.username}#${author.discriminator} ")
             inputBox.text?.let { inputBox.setSelection(inputBox.selectionEnd) }
         } else {
             inputBox.setText("> ${msg.content}\n")
@@ -173,7 +175,7 @@ class Quoter : Plugin() {
                     "mention",
                     true
                 )
-            ) inputBox.append("@${msg.author.r()}#${msg.author.f()} ")
+            ) inputBox.append("@${author.username}#${author.discriminator} ")
             inputBox.text?.let { inputBox.setSelection(inputBox.selectionEnd) }
         }
     }
@@ -181,6 +183,7 @@ class Quoter : Plugin() {
     @SuppressLint("SetTextI18n")
     private fun quoteAppend(inputBox: FlexEditText, msg: Message) {
         val quoteText = StringBuilder()
+        val author = CoreUser(msg.author)
         if (msg.content.contains("\n")) quoteText.append(
             "\n> ${
                 msg.content.replace(
@@ -193,7 +196,7 @@ class Quoter : Plugin() {
                 "mention",
                 true
             )
-        ) quoteText.append("@${msg.author.r()}#${msg.author.f()} ")
+        ) quoteText.append("@${author.username}#${author.discriminator} ")
         textInput!!.text?.let { inputBox.setSelection(inputBox.selectionEnd) }
         inputBox.append(quoteText)
     }
