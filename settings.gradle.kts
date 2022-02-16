@@ -1,4 +1,4 @@
-include(":BlueInAliu")
+/*include(":BlueInAliu")*/
 include(":RevoltCord")
 include(":Moyai")
 /*include(":HideBlockedMessages")*/
