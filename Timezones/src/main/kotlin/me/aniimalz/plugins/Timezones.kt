@@ -3,12 +3,10 @@ package me.aniimalz.plugins
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.aliucord.Constants
@@ -43,8 +41,8 @@ val format24 = SimpleDateFormat("HH:mm")
 class Timezones : Plugin() {
     init {
         settingsTab = SettingsTab(
-            PluginSettings::class.java,
-            SettingsTab.Type.PAGE
+                PluginSettings::class.java,
+                SettingsTab.Type.PAGE
         ).withArgs(settings)
     }
 
@@ -55,7 +53,6 @@ class Timezones : Plugin() {
         var usersList: HashMap<Long, String> = HashMap<Long, String>()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun start(context: Context) {
         pluginIcon = ContextCompat.getDrawable(Utils.appContext, R.e.ic_clock_24dp)
@@ -63,23 +60,23 @@ class Timezones : Plugin() {
             mutate()
         }
         usersList = settings.getObject(
-            "usersList", HashMap<Long, String>(), // userid, timezone
-            TypeToken.getParameterized(
-                HashMap::class.java,
-                Long::class.javaObjectType,
-                String::class.javaObjectType
-            ).type
+                "usersList", HashMap<Long, String>(), // userid, timezone
+                TypeToken.getParameterized(
+                        HashMap::class.java,
+                        Long::class.javaObjectType,
+                        String::class.javaObjectType
+                ).type
         )
 
         patcher.after<WidgetUserSheet>(
-            "configureNote",
-            WidgetUserSheetViewModel.ViewState.Loaded::class.java
+                "configureNote",
+                WidgetUserSheetViewModel.ViewState.Loaded::class.java
         ) {
             val loaded = it.args[0] as WidgetUserSheetViewModel.ViewState.Loaded
             val user = loaded.user
             if (user == null || user.isBot) return@after
             val binding =
-                WidgetUserSheet.`access$getBinding$p`(it.thisObject as WidgetUserSheet)
+                    WidgetUserSheet.`access$getBinding$p`(it.thisObject as WidgetUserSheet)
             val headerId = Utils.getResId("about_me_header_container", "id")
             val header = binding.a.findViewById<ViewGroup>(headerId)
             val layout = header.parent as LinearLayout
@@ -89,20 +86,20 @@ class Timezones : Plugin() {
             if (tzView != null) {
                 setOnClick(tzView, userSheet, loaded)
                 setUserSheetTime(
-                    user,
-                    tzView
+                        user,
+                        tzView
                 )
                 return@after
             }
             TextView(layout.context, null, 0, R.i.UserProfile_Section_Header).apply {
                 id = tzId
                 typeface =
-                    ResourcesCompat.getFont(Utils.appContext, Constants.Fonts.whitney_semibold)
+                        ResourcesCompat.getFont(Utils.appContext, Constants.Fonts.whitney_semibold)
                 val dp = DimenUtils.defaultPadding
                 compoundDrawablePadding = DimenUtils.dpToPx(8)
                 setUserSheetTime(
-                    user,
-                    this
+                        user,
+                        this
                 )
                 setPadding(dp, dp, dp, dp)
                 setCompoundDrawablesRelativeWithIntrinsicBounds(clock, null, null, null)
@@ -127,10 +124,9 @@ class Timezones : Plugin() {
     }
 
     @SuppressLint("SetTextI18n")
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setUserSheetTime(
-        user: User,
-        tzView: TextView
+            user: User,
+            tzView: TextView
     ) {
         val use24Hour = settings.getBool("24hourTime", false)
         tzView.text = "Loading..."
@@ -143,7 +139,7 @@ class Timezones : Plugin() {
                         tzView.text = formatTimeText(timezone, use24Hour)
                     } catch (e: Exception) {
                         tzView.text =
-                            "An Error Occured,Try deleting timezone for this user from settings"
+                                "An Error Occured,Try deleting timezone for this user from settings"
                     }
                 }
             } else {
@@ -152,12 +148,11 @@ class Timezones : Plugin() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     private fun setOnClick(
-        tzView: TextView,
-        userSheet: WidgetUserSheet,
-        loaded: WidgetUserSheetViewModel.ViewState.Loaded
+            tzView: TextView,
+            userSheet: WidgetUserSheet,
+            loaded: WidgetUserSheetViewModel.ViewState.Loaded
     ) {
         with(tzView) {
             val user = loaded.user
@@ -168,8 +163,8 @@ class Timezones : Plugin() {
                     onResultListener = cringe@{ tz ->
                         addUser(user.id, timezones[tz])
                         setUserSheetTime(
-                            user,
-                            tzView
+                                user,
+                                tzView
                         )
                     }
                     show(userSheet.parentFragmentManager, "timezone_selector")
@@ -187,16 +182,15 @@ class Timezones : Plugin() {
         settings.setObject("usersList", usersList)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O) // HUSK
     @SuppressLint("SetTextI18n")
     private fun setMsgHeaderTime() {
         val timestampField =
-            WidgetChatListAdapterItemMessage::class.java.getDeclaredField("itemTimestamp")
-                .apply { isAccessible = true }
+                WidgetChatListAdapterItemMessage::class.java.getDeclaredField("itemTimestamp")
+                        .apply { isAccessible = true }
 
         patcher.after<WidgetChatListAdapterItemMessage>(
-            "configureItemTag",
-            Message::class.java
+                "configureItemTag",
+                Message::class.java
         ) {
             if (!settings.getBool("timeInHeader", false)) return@after
             val msg = it.args[0] as Message
@@ -205,9 +199,9 @@ class Timezones : Plugin() {
                 val timezone = getTimezone(CoreUser(msg.author).id) ?: return@execute
                 val timestamp = timestampField[this] as TextView? ?: return@execute
                 if (timestamp.text.contains("| LT")) return@execute
-                    Utils.appActivity.runOnUiThread {
-                        timestamp.text = "${timestamp.text} | LT ${calculateTime(timezone, use24Hour)})"
-                    }
+                Utils.appActivity.runOnUiThread {
+                    timestamp.text = "${timestamp.text} | LT ${calculateTime(timezone, use24Hour)})"
+                }
             }
         }
     }

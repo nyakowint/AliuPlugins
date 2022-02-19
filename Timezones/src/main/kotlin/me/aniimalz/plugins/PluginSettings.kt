@@ -25,20 +25,20 @@ class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
         }
 
         addView(
-            addSetting(
-                ctx,
-                "Use 24-hour time",
-                "Use 24 hour time instead of AM/PM",
-                "24hourTime"
-            )
+                addSetting(
+                        ctx,
+                        "Use 24-hour time",
+                        "Use 24 hour time instead of AM/PM",
+                        "24hourTime"
+                )
         )
         addView(
-            addSetting(
-                ctx,
-                "Time in message header",
-                "Show user's time in their timezone. Will look bad if the user has a long name, or if you have too many plugins using the message header",
-                "timeInHeader"
-            )
+                addSetting(
+                        ctx,
+                        "Time in message header",
+                        "Show user's time in their timezone. Will look bad if the user has a long name, or if you have too many plugins using the message header",
+                        "timeInHeader"
+                )
         )
         addView(Divider(ctx))
         addView(recycler)
@@ -46,19 +46,19 @@ class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
     }
 
     private fun addSetting(
-        ctx: Context,
-        title: String,
-        subtitle: String = "",
-        setting: String,
-        checked: Boolean = true
+            ctx: Context,
+            title: String,
+            subtitle: String = "",
+            setting: String,
+            checked: Boolean = true
     ): CheckedSetting {
         return Utils.createCheckedSetting(ctx, CheckedSetting.ViewType.SWITCH, title, subtitle)
-            .apply {
-                isChecked = settings.getBool(setting, checked)
-                setOnCheckedListener {
-                    settings.setBool(setting, it)
-                    PluginManager.remountPlugin("Timezones")
+                .apply {
+                    isChecked = settings.getBool(setting, checked)
+                    setOnCheckedListener {
+                        settings.setBool(setting, it)
+                        PluginManager.remountPlugin("Timezones")
+                    }
                 }
-            }
     }
 }

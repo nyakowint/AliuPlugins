@@ -10,7 +10,6 @@ import com.discord.utilities.images.MGImages
 import com.facebook.drawee.view.SimpleDraweeView
 import com.lytefast.flexinput.R
 
-
 @Suppress("Deprecation")
 class UserTZCard(ctx: Context?) : LinearLayout(ctx) {
     val name: TextView
@@ -22,7 +21,7 @@ class UserTZCard(ctx: Context?) : LinearLayout(ctx) {
         gravity = Gravity.CENTER_VERTICAL
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         name = TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Icon).apply {
-            
+
         }
         image = SimpleDraweeView(ctx).apply {
             layoutParams = LayoutParams(128, 128).apply {
