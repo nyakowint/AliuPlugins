@@ -22,5 +22,6 @@ aliucord {
         I don't plan on adding new features since the base functionality is already here.
         Feel free to PR if you want.
     """.trimIndent())
-    author("mantikafasi", 287555395151593473, "Ven", 343383572805058560)
+    author("mantikafasi", 287555395151593473)
+    author("Ven", 343383572805058560)
 }
