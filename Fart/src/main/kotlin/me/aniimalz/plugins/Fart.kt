@@ -51,6 +51,7 @@ class Fart : Plugin() {
             } else {
                 fart()
                 CommandsAPI.CommandResult("fart", null, true)
+                // balls
             }
         }
 
