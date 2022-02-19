@@ -5,6 +5,7 @@ import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.aliucord.utils.DimenUtils.defaultPadding
 import com.aliucord.utils.DimenUtils.dpToPx
 import com.discord.utilities.images.MGImages
 import com.facebook.drawee.view.SimpleDraweeView
@@ -20,6 +21,7 @@ class UserTZCard(ctx: Context?) : LinearLayout(ctx) {
         orientation = HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+        defaultPadding.let { setPadding(it, it / 2, it, it / 2) }
         name = TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Icon).apply {
 
         }

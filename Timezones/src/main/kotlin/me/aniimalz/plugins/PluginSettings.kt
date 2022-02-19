@@ -27,14 +27,6 @@ class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
         addView(
                 addSetting(
                         ctx,
-                        "Use 24-hour time",
-                        "Use 24 hour time instead of AM/PM",
-                        "24hourTime"
-                )
-        )
-        addView(
-                addSetting(
-                        ctx,
                         "Time in message header",
                         "Show user's time in their timezone. Will look bad if the user has a long name, or if you have too many plugins using the message header",
                         "timeInHeader"
@@ -50,7 +42,7 @@ class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
             title: String,
             subtitle: String = "",
             setting: String,
-            checked: Boolean = true
+            checked: Boolean = false
     ): CheckedSetting {
         return Utils.createCheckedSetting(ctx, CheckedSetting.ViewType.SWITCH, title, subtitle)
                 .apply {

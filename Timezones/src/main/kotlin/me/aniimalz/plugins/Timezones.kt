@@ -128,7 +128,6 @@ class Timezones : Plugin() {
             user: User,
             tzView: TextView
     ) {
-        val use24Hour = settings.getBool("24hourTime", false)
         tzView.text = "Loading..."
 
         Utils.threadPool.execute {
@@ -136,8 +135,9 @@ class Timezones : Plugin() {
             if (timezone != null) {
                 Utils.mainThread.post {
                     try {
-                        tzView.text = formatTimeText(timezone, use24Hour)
+                        tzView.text = formatTimeText(timezone)
                     } catch (e: Exception) {
+                        logger.error(e)
                         tzView.text =
                                 "An Error Occured,Try deleting timezone for this user from settings"
                     }
@@ -194,13 +194,12 @@ class Timezones : Plugin() {
         ) {
             if (!settings.getBool("timeInHeader", false)) return@after
             val msg = it.args[0] as Message
-            val use24Hour = settings.getBool("24hourTime", false)
             Utils.threadPool.execute {
                 val timezone = getTimezone(CoreUser(msg.author).id) ?: return@execute
                 val timestamp = timestampField[this] as TextView? ?: return@execute
                 if (timestamp.text.contains("| LT")) return@execute
                 Utils.appActivity.runOnUiThread {
-                    timestamp.text = "${timestamp.text} | LT ${calculateTime(timezone, use24Hour)})"
+                    timestamp.text = "${timestamp.text} | LT ${calculateTime(timezone)})"
                 }
             }
         }

@@ -1,5 +1,7 @@
 package me.aniimalz.plugins
 
+import android.text.format.DateFormat
+import com.aliucord.Utils
 import java.util.*
 
 val timezones = arrayOf(
@@ -45,18 +47,19 @@ val timezones = arrayOf(
 
 const val apiUrl = "https://timezonedb.bigdumb.gq"
 
-fun calculateTime(timezone: String?, use24Hour: Boolean): String {
-    val tz = TimeZone.getTimeZone(timezone)
+fun calculateTime(timezone: String?): String {
+    val use24Hour = DateFormat.is24HourFormat(Utils.appContext);
+    val tz = TimeZone.getTimeZone("GMT$timezone")
     val cal = Calendar.getInstance(tz)
+
     with(cal) {
-        val time = "${get(Calendar.HOUR)}:${get(Calendar.MINUTE)}"
         return when {
-            use24Hour -> time
-            else -> format12.format(format24.parse(time)!!)
+            use24Hour -> "${get(Calendar.HOUR_OF_DAY)}:${get(Calendar.MINUTE)}"
+            else -> "${get(Calendar.HOUR)}:${get(Calendar.MINUTE)} ${arrayOf("am", "pm")[get(Calendar.AM_PM)]}"
         }
     }
 }
 
-fun formatTimeText(timezone: String?, use24Hour: Boolean): String {
-    return "${calculateTime(timezone, use24Hour)} (UTC${timezone})"
+fun formatTimeText(timezone: String?): String {
+    return "${calculateTime(timezone)} (UTC${timezone})"
 }
