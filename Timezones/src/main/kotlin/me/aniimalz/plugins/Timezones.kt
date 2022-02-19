@@ -16,12 +16,13 @@ import com.aliucord.Http
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
-import com.aliucord.fragments.InputDialog
 import com.aliucord.fragments.SelectDialog
-import com.aliucord.patcher.Hook
 import com.aliucord.patcher.after
 import com.aliucord.utils.DimenUtils
+import com.discord.models.message.Message
+import com.discord.models.user.CoreUser
 import com.discord.models.user.User
+import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
 import com.discord.widgets.user.usersheet.WidgetUserSheet
 import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel
 import com.google.gson.reflect.TypeToken
@@ -30,26 +31,6 @@ import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.time.*
 import java.util.*
-
-import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
-import android.os.Looper
-
-import com.discord.stores.Store
-
-import com.discord.models.user.CoreUser
-
-import com.discord.widgets.chat.list.entries.MessageEntry
-
-import androidx.constraintlayout.widget.ConstraintSet
-
-import com.discord.utilities.color.ColorCompat
-
-import androidx.constraintlayout.widget.ConstraintLayout
-import com.aliucord.views.Button
-import com.discord.models.message.Message
-
-import com.discord.widgets.chat.list.entries.ChatListEntry
-import org.w3c.dom.Text
 
 
 @SuppressLint("SimpleDateFormat")
@@ -185,34 +166,6 @@ class Timezones : Plugin() {
                     title = "Set timezone (UTC)"
                     items = timezones
                     onResultListener = cringe@{ tz ->
-                        if (timezones[tz].contains("Custom")) {
-                            InputDialog().run {
-                                title = "Custom Offset"
-                                setDescription("Type a custom UTC offset here (e.g +05:50 or -02:10)")
-                                setPlaceholderText("Enter UTC Offset")
-                                setOnOkListener {
-                                    val input = this.input.toString().trim()
-                                    if (!input.startsWith("+") && !input.startsWith("-")) Utils.showToast(
-                                        "Put - or + to start of input"
-                                    ) else {
-                                        try {
-                                            ZoneOffset.of(input) //testing if input is valid
-                                            addUser(user.id, input)
-                                            setUserSheetTime(
-                                                user,
-                                                tzView
-                                            )
-                                            dismiss()
-                                        } catch (t: Throwable) {
-                                            Utils.showToast("An Error Occured,Check if your input is valid")
-                                            logger.error(t)
-                                        }
-                                    }
-                                }
-                                show(userSheet.parentFragmentManager, "idiot_country_offsets")
-                            }
-                            return@cringe
-                        }
                         addUser(user.id, timezones[tz])
                         setUserSheetTime(
                             user,

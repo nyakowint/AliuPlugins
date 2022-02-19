@@ -44,8 +44,7 @@ val timezones = arrayOf(
     "+12:00",
     "+12:45",
     "+13:00",
-    "+14:00",
-    "Custom (may not work)"
+    "+14:00"
 )
 
 const val apiUrl ="https://timezonedb.bigdumb.gq"
