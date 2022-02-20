@@ -25,6 +25,7 @@ class Moyai : Plugin() {
         ) {
             val r = it.args[0] as MessageReactionUpdate
             if (r.b().d() != "\uD83D\uDDFF") return@after
+            if (r.a() != StoreStream.getChannelsSelected().id) return@after
             funny()
         }
         observable = StoreStream.getGatewaySocket().messageCreate.onBackpressureBuffer().subscribe {

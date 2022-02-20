@@ -10,30 +10,22 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.aliucord.Constants
-import com.aliucord.Http
 import com.aliucord.Logger
 import com.aliucord.Utils
 import com.aliucord.fragments.SettingsPage
 import com.aliucord.utils.DimenUtils
-import com.aliucord.utils.GsonUtils
-import com.aliucord.utils.ReflectUtils
 import com.aliucord.utils.RxUtils.subscribe
-import com.aliucord.wrappers.GuildRoleWrapper.Companion.color
 import com.aliucord.wrappers.GuildRoleWrapper.Companion.icon
 import com.aliucord.wrappers.GuildRoleWrapper.Companion.name
 import com.discord.api.role.GuildRole
 import com.discord.stores.StoreStream
-import com.discord.utilities.analytics.AnalyticSuperProperties
 import com.discord.utilities.color.ColorCompat
 import com.discord.utilities.rest.RestAPI
 import com.discord.utilities.rx.ObservableExtensionsKt
 import com.facebook.drawee.view.SimpleDraweeView
 import com.lytefast.flexinput.R
 import rx.Subscription
-import java.util.concurrent.TimeUnit
 
 var rmSub: Subscription? = null
 val loggerd = Logger("RMP")
