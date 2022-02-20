@@ -26,16 +26,8 @@ import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel
 import com.google.gson.reflect.TypeToken
 import com.lytefast.flexinput.R
 import org.json.JSONObject
-import java.text.SimpleDateFormat
 import java.time.*
 import java.util.*
-
-
-@SuppressLint("SimpleDateFormat")
-val format12 = SimpleDateFormat("hh:mm a")
-
-@SuppressLint("SimpleDateFormat")
-val format24 = SimpleDateFormat("HH:mm")
 
 @AliucordPlugin
 class Timezones : Plugin() {

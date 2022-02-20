@@ -10,13 +10,10 @@ import com.aliucord.PluginManager
 import com.aliucord.Utils
 import com.aliucord.fragments.SettingsPage
 import com.aliucord.utils.RxUtils.subscribe
-import com.discord.models.user.User
 import com.discord.stores.StoreStream
 import com.discord.utilities.rest.RestAPI
 import com.discord.widgets.user.usersheet.WidgetUserSheet
 import java.util.*
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
 class SettingsTZAdapter(

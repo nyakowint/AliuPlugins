@@ -1,7 +1,6 @@
 package me.aniimalz.plugins
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,10 +8,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import com.aliucord.Constants
-import com.aliucord.PluginManager
 import com.aliucord.Utils
 import com.aliucord.api.SettingsAPI
-import com.aliucord.fragments.SettingsPage
 import com.aliucord.utils.DimenUtils
 import com.aliucord.views.Divider
 import com.aliucord.views.TextInput
@@ -20,10 +17,7 @@ import com.aliucord.widgets.BottomSheet
 import com.aliucord.wrappers.ChannelWrapper.Companion.name
 import com.discord.stores.StoreStream
 import com.discord.views.CheckedSetting
-import com.discord.widgets.guilds.WidgetGuildSelector
 import com.lytefast.flexinput.R
-import org.w3c.dom.Text
-import java.lang.NumberFormatException
 
 class BottomShit(private val settings: SettingsAPI) : BottomSheet() {
 

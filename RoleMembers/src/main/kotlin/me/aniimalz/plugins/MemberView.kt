@@ -1,16 +1,12 @@
 package me.aniimalz.plugins
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ShapeDrawable
-import android.graphics.drawable.shapes.OvalShape
 import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import com.aliucord.Constants
 import com.aliucord.Utils
-import com.aliucord.utils.DimenUtils
 import com.aliucord.utils.DimenUtils.dpToPx
 import com.discord.models.user.User
 import com.discord.stores.StoreStream

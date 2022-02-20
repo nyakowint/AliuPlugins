@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import androidx.core.content.ContextCompat
-import com.aliucord.PluginManager
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
@@ -16,11 +15,9 @@ import com.aliucord.utils.RxUtils.subscribe
 import com.discord.api.commands.ApplicationCommandType
 import com.discord.models.message.Message
 import com.discord.models.user.CoreUser
-import com.discord.models.user.User
 import com.discord.stores.StoreStream
 import com.lytefast.flexinput.R
 import rx.Subscription
-import kotlin.random.Random
 
 @AliucordPlugin
 class Fart : Plugin() {

@@ -16,7 +16,6 @@ import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.after
-import com.discord.utilities.images.MGImages
 import com.discord.widgets.guilds.list.GuildListItem
 import com.discord.widgets.guilds.list.GuildListViewHolder
 import com.facebook.drawee.view.SimpleDraweeView

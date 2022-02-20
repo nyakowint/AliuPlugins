@@ -6,8 +6,6 @@ import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
 import com.aliucord.entities.Plugin
 import com.discord.stores.StoreStream
-import com.discord.utilities.rest.RestAPI
-import com.lytefast.flexinput.R
 
 @AliucordPlugin
 class ReadAllGuilds : Plugin() {

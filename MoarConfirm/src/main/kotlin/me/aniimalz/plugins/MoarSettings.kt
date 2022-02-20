@@ -2,7 +2,6 @@ package me.aniimalz.plugins
 
 import android.annotation.SuppressLint
 import android.view.View
-import com.aliucord.PluginManager
 import com.aliucord.Utils
 import com.aliucord.api.SettingsAPI
 import com.aliucord.fragments.SettingsPage

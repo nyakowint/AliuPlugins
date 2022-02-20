@@ -1,9 +1,9 @@
 package me.aniimalz.plugins
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -16,17 +16,6 @@ import com.aliucord.patcher.after
 import com.discord.utilities.color.ColorCompat
 import com.discord.widgets.settings.WidgetSettings
 import com.lytefast.flexinput.R
-
-import com.discord.widgets.debugging.WidgetDebugging
-
-import com.aliucord.settings.Crashes
-
-import androidx.appcompat.widget.LinearLayoutCompat
-import com.aliucord.patcher.Hook
-
-import com.aliucord.patcher.Patcher
-import android.content.pm.ApplicationInfo
-import com.aliucord.BuildConfig
 
 
 @AliucordPlugin
