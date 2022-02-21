@@ -20,13 +20,6 @@ import com.lytefast.flexinput.R
 
 @AliucordPlugin
 class BlueInAliu : Plugin() {
-    init {
-        settingsTab = SettingsTab(
-            PluginSettings::class.java,
-            SettingsTab.Type.PAGE
-        ).withArgs(settings)
-    }
-
     @Suppress("SetTextI18n", "Deprecation") // cope
     override fun start(ctx: Context) {
         patcher.after<WidgetSettings>("onViewBound", View::class.java) {
@@ -50,7 +43,7 @@ class BlueInAliu : Plugin() {
             view.addView(bcs, view.indexOfChild(baseIndex))
             val version = view.findViewById<TextView>(Utils.getResId("app_info_header", "id"))
             val pInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-            version.text = "Bluecord v2.0a - Based on Discord ${pInfo.versionName} (${pInfo.versionCode})\n" +
+            version.text = "Bluecord v2.1a - Based on Discord ${pInfo.versionName} (${pInfo.versionCode})\n" +
                     "~Made with love by Blue~"
         }
     }
