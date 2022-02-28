@@ -1,2 +1,2 @@
-version = "1.0.4"
+version = "1.1.0"
 description = "Automatically clicks on spoilers for you"
