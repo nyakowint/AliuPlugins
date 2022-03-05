@@ -9,4 +9,4 @@ How to install:
    in [#plugins-list](https://discord.com/channels/811255666990907402/811275162715553823/896571282483728444)
    then click "Open PluginDownloader"
 
-Alternative method: Download `[plugin].zip` and move to `Aliucord/plugins` folder 
+Alternative method: Download `[plugin].zip` from the builds branch and move to `Aliucord/plugins` folder 
