@@ -54,8 +54,8 @@ fun calculateTime(timezone: String?): String {
 
     with(cal) {
         return when {
-            use24Hour -> "${get(Calendar.HOUR_OF_DAY)}:${get(Calendar.MINUTE)}"
-            else -> "${get(Calendar.HOUR)}:${get(Calendar.MINUTE)} ${arrayOf("am", "pm")[get(Calendar.AM_PM)]}"
+            use24Hour -> "%02d:%02d".format(get(Calendar.HOUR_OF_DAY), get(Calendar.MINUTE))
+            else -> "%02d:%02d ${arrayOf("am", "pm")[get(Calendar.AM_PM)]}".format(get(Calendar.HOUR), get(Calendar.MINUTE))
         }
     }
 }

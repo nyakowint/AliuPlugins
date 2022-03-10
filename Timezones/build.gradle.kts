@@ -1,8 +1,11 @@
-version = "1.1.6"
+version = "1.1.7"
 description = "Allows you to set a timezone for a user and view their time"
 
 aliucord {
     changelog.set("""
+        # 1.1.7
+        * fix padded zeros and ui thread error
+        
         # 1.1.6
         * Make plugin compatible with Android 7 & 8
         * Now detect 24h/12h preference from system

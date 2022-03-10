@@ -131,7 +131,7 @@ class Timezones : Plugin() {
                     } catch (e: Exception) {
                         logger.error(e)
                         tzView.text =
-                            "An Error Occured,Try deleting timezone for this user from settings"
+                            "An error occurred, try deleting timezone for this user from settings"
                     }
                 }
             } else {
