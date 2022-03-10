@@ -33,8 +33,8 @@ import java.util.*
 class Timezones : Plugin() {
     init {
         settingsTab = SettingsTab(
-                PluginSettings::class.java,
-                SettingsTab.Type.PAGE
+            PluginSettings::class.java,
+            SettingsTab.Type.PAGE
         ).withArgs(settings)
     }
 
@@ -52,23 +52,23 @@ class Timezones : Plugin() {
             mutate()
         }
         usersList = settings.getObject(
-                "usersList", HashMap<Long, String>(), // userid, timezone
-                TypeToken.getParameterized(
-                        HashMap::class.java,
-                        Long::class.javaObjectType,
-                        String::class.javaObjectType
-                ).type
+            "usersList", HashMap<Long, String>(), // userid, timezone
+            TypeToken.getParameterized(
+                HashMap::class.java,
+                Long::class.javaObjectType,
+                String::class.javaObjectType
+            ).type
         )
 
         patcher.after<WidgetUserSheet>(
-                "configureNote",
-                WidgetUserSheetViewModel.ViewState.Loaded::class.java
+            "configureNote",
+            WidgetUserSheetViewModel.ViewState.Loaded::class.java
         ) {
             val loaded = it.args[0] as WidgetUserSheetViewModel.ViewState.Loaded
             val user = loaded.user
             if (user == null || user.isBot) return@after
             val binding =
-                    WidgetUserSheet.`access$getBinding$p`(it.thisObject as WidgetUserSheet)
+                WidgetUserSheet.`access$getBinding$p`(it.thisObject as WidgetUserSheet)
             val headerId = Utils.getResId("about_me_header_container", "id")
             val header = binding.a.findViewById<ViewGroup>(headerId)
             val layout = header.parent as LinearLayout
@@ -78,20 +78,20 @@ class Timezones : Plugin() {
             if (tzView != null) {
                 setOnClick(tzView, userSheet, loaded)
                 setUserSheetTime(
-                        user,
-                        tzView
+                    user,
+                    tzView
                 )
                 return@after
             }
             TextView(layout.context, null, 0, R.i.UserProfile_Section_Header).apply {
                 id = tzId
                 typeface =
-                        ResourcesCompat.getFont(Utils.appContext, Constants.Fonts.whitney_semibold)
+                    ResourcesCompat.getFont(Utils.appContext, Constants.Fonts.whitney_semibold)
                 val dp = DimenUtils.defaultPadding
                 compoundDrawablePadding = DimenUtils.dpToPx(8)
                 setUserSheetTime(
-                        user,
-                        this
+                    user,
+                    this
                 )
                 setPadding(dp, dp, dp, dp)
                 setCompoundDrawablesRelativeWithIntrinsicBounds(clock, null, null, null)
@@ -117,8 +117,8 @@ class Timezones : Plugin() {
 
     @SuppressLint("SetTextI18n")
     private fun setUserSheetTime(
-            user: User,
-            tzView: TextView
+        user: User,
+        tzView: TextView
     ) {
         tzView.text = "Loading..."
 
@@ -131,7 +131,7 @@ class Timezones : Plugin() {
                     } catch (e: Exception) {
                         logger.error(e)
                         tzView.text =
-                                "An Error Occured,Try deleting timezone for this user from settings"
+                            "An Error Occured,Try deleting timezone for this user from settings"
                     }
                 }
             } else {
@@ -142,24 +142,26 @@ class Timezones : Plugin() {
 
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     private fun setOnClick(
-            tzView: TextView,
-            userSheet: WidgetUserSheet,
-            loaded: WidgetUserSheetViewModel.ViewState.Loaded
+        tzView: TextView,
+        userSheet: WidgetUserSheet,
+        loaded: WidgetUserSheetViewModel.ViewState.Loaded
     ) {
-        with(tzView) {
-            val user = loaded.user
-            setOnClickListener {
-                SelectDialog().apply {
-                    title = "Set timezone (UTC)"
-                    items = timezones
-                    onResultListener = cringe@{ tz ->
-                        addUser(user.id, timezones[tz])
-                        setUserSheetTime(
+        Utils.mainThread.post {
+            with(tzView) {
+                val user = loaded.user
+                setOnClickListener {
+                    SelectDialog().apply {
+                        title = "Set timezone (UTC)"
+                        items = timezones
+                        onResultListener = cringe@{ tz ->
+                            addUser(user.id, timezones[tz])
+                            setUserSheetTime(
                                 user,
                                 tzView
-                        )
+                            )
+                        }
+                        show(userSheet.parentFragmentManager, "timezone_selector")
                     }
-                    show(userSheet.parentFragmentManager, "timezone_selector")
                 }
             }
         }
@@ -177,12 +179,12 @@ class Timezones : Plugin() {
     @SuppressLint("SetTextI18n")
     private fun setMsgHeaderTime() {
         val timestampField =
-                WidgetChatListAdapterItemMessage::class.java.getDeclaredField("itemTimestamp")
-                        .apply { isAccessible = true }
+            WidgetChatListAdapterItemMessage::class.java.getDeclaredField("itemTimestamp")
+                .apply { isAccessible = true }
 
         patcher.after<WidgetChatListAdapterItemMessage>(
-                "configureItemTag",
-                Message::class.java
+            "configureItemTag",
+            Message::class.java
         ) {
             if (!settings.getBool("timeInHeader", false)) return@after
             val msg = it.args[0] as Message
