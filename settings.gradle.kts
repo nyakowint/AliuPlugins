@@ -1,8 +1,6 @@
-include(":BlueInAliu")
+include(":StatusSheetPlus")
 include(":RevoltCord")
 include(":Moyai")
-/*include(":HideBlockedMessages")*/
-include(":ReadAllGuilds")
 include(":HomeIconSwitcher")
 include(":StartupChannel")
 include(":ThisWillCrashYourDiscord")
