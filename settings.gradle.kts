@@ -1,3 +1,4 @@
+include(":StatusSheetPlus")
 include(":RevoltCord")
 include(":Moyai")
 include(":HomeIconSwitcher")
