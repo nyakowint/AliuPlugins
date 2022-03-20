@@ -25,7 +25,8 @@ class MemberView(ctx: Context, user: User, guildId: Long) : LinearLayout(ctx) {
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         val guildMember = StoreStream.getGuilds().getMember(guildId, user.id)
         name = TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Icon).apply {
-            text = if (guildMember?.nick != null) "${guildMember.nick} (${user.username})" else user.username
+            text =
+                if (guildMember?.nick != null) "${guildMember.nick} (${user.username})" else user.username
             setOnClickListener {
                 WidgetUserSheet.show(
                     user.id,
@@ -37,7 +38,10 @@ class MemberView(ctx: Context, user: User, guildId: Long) : LinearLayout(ctx) {
         image = SimpleDraweeView(ctx).apply {
             layoutParams = LayoutParams(128, 128)
             MGImages.setRoundingParams(this, 20f, false, null, null, 0f)
-            setImageURI(if (guildMember != null && guildMember.hasAvatar()) "https://cdn.discordapp.com/guilds/${guildId}/users/${user.id}/avatars/${guildMember.avatarHash}.png" else "https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png")
+            MGImages.setImage(
+                this,
+                if (guildMember != null && guildMember.hasAvatar()) "https://cdn.discordapp.com/guilds/${guildId}/users/${user.id}/avatars/${guildMember.avatarHash}.png" else "https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png"
+            )
             setOnClickListener {
                 WidgetUserSheet.show(
                     user.id,

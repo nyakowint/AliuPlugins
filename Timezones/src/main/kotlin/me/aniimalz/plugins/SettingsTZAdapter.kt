@@ -11,6 +11,7 @@ import com.aliucord.Utils
 import com.aliucord.fragments.SettingsPage
 import com.aliucord.utils.RxUtils.subscribe
 import com.discord.stores.StoreStream
+import com.discord.utilities.images.MGImages
 import com.discord.utilities.rest.RestAPI
 import com.discord.widgets.user.usersheet.WidgetUserSheet
 import java.util.*
@@ -67,7 +68,7 @@ class SettingsTZAdapter(
                 notifyDataSetChanged()
                 Utils.showToast("User removed")
             }
-            holder.item.image.setImageURI("https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png")
+            MGImages.setImage(holder.item.image, "https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png")
             holder.item.image.setOnClickListener {
                 WidgetUserSheet.show(
                         user.id,
@@ -80,7 +81,7 @@ class SettingsTZAdapter(
                 return@setOnLongClickListener true
             }
         } catch (e: Exception) {
-            Logger("Timezones").error("EEEE", e)
+            Logger("Timezones").error("rip", e)
         }
 
     }
