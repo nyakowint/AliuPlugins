@@ -19,6 +19,8 @@ import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.SettingsAPI
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.Hook
+import com.aliucord.patcher.after
+import com.aliucord.patcher.before
 import com.aliucord.widgets.BottomSheet
 import com.aliucord.wrappers.ChannelWrapper.Companion.id
 import com.discord.databinding.WidgetChatListActionsBinding
@@ -29,6 +31,8 @@ import com.discord.utilities.color.ColorCompat
 import com.discord.utilities.permissions.PermissionUtils
 import com.discord.views.CheckedSetting
 import com.discord.widgets.chat.input.AppFlexInputViewModel
+import com.discord.widgets.chat.input.MessageDraftsRepo
+import com.discord.widgets.chat.input.WidgetChatInputEditText
 import com.discord.widgets.chat.list.actions.WidgetChatListActions
 import com.lytefast.flexinput.R
 import com.lytefast.flexinput.fragment.`FlexInputFragment$c`
@@ -54,22 +58,22 @@ class Quoter : Plugin() {
     @SuppressLint("SetTextI18n")
     override fun start(ctx: Context) {
         quoteIcon = ContextCompat.getDrawable(Utils.appContext, R.e.ic_quote_white_a60_24dp)
-        // thanks zt and ven
-        patcher.patch(
-            FlexEditText::class.java.getDeclaredMethod(
-                "onCreateInputConnection",
-                EditorInfo::class.java
-            ), Hook {
-                textInput = it.thisObject as FlexEditText
-            })
-        patcher.patch(
-            `FlexInputFragment$c`::class.java.getDeclaredMethod(
-                "invoke",
-                Object::class.java
-            ), Hook {
-                textInput = (it.result as a).root.findViewById(R.f.text_input)
-            })
         val quoteId = View.generateViewId()
+
+        patcher.before<WidgetChatInputEditText>(
+            FlexEditText::class.java,
+            MessageDraftsRepo::class.java
+        ) {
+            textInput = it.args[0] as FlexEditText
+        }
+        // thanks zt and ven
+        patcher.after<FlexEditText>("onCreateInputConnection", EditorInfo::class.java) {
+            textInput = this
+        }
+
+        patcher.after<`FlexInputFragment$c`>("invoke", Object::class.java) {
+            textInput = (it.result as a).root.findViewById(R.f.text_input)
+        }
 
         with(WidgetChatListActions::class.java, {
             val getBinding = getDeclaredMethod("getBinding").apply { isAccessible = true }
@@ -114,17 +118,19 @@ class Quoter : Plugin() {
                         logger.error(ignore)
                     }
                 })
+
+
             patcher.patch(
                 getDeclaredMethod("onViewCreated", View::class.java, Bundle::class.java),
                 Hook { yes: XC_MethodHook.MethodHookParam ->
                     val linearLayout =
                         (yes.args[0] as NestedScrollView).getChildAt(0) as LinearLayout
-                    val cntx = linearLayout.context
+                    val ct = linearLayout.context
 
-                    quoteIcon?.setTint(ColorCompat.getThemedColor(cntx, R.b.colorInteractiveNormal))
+                    quoteIcon?.setTint(ColorCompat.getThemedColor(ct, R.b.colorInteractiveNormal))
                     Utils.tintToTheme(quoteIcon)
 
-                    val quote = TextView(cntx, null, 0, R.i.UiKit_Settings_Item_Icon).apply {
+                    val quote = TextView(ct, null, 0, R.i.UiKit_Settings_Item_Icon).apply {
                         text = "Quote"
                         id = quoteId
                         setCompoundDrawablesRelativeWithIntrinsicBounds(
@@ -133,20 +139,19 @@ class Quoter : Plugin() {
                             null,
                             null
                         )
-                        typeface = ResourcesCompat.getFont(cntx, Constants.Fonts.whitney_medium)
+                        typeface = ResourcesCompat.getFont(ct, Constants.Fonts.whitney_medium)
                     }
 
                     linearLayout.addView(quote, 2)
                 })
 
-            patcher.patch(
-                AppFlexInputViewModel::class.java.getDeclaredMethod(
-                    "onInputTextChanged",
-                    String::class.java,
-                    Boolean::class.javaObjectType
-                ), Hook {
-                    textBox = it.thisObject as AppFlexInputViewModel
-                })
+            patcher.after<AppFlexInputViewModel>(
+                "onInputTextChanged",
+                String::class.java,
+                Boolean::class.javaObjectType
+            ) {
+                textBox = it.thisObject as AppFlexInputViewModel
+            }
 
         })
     }
