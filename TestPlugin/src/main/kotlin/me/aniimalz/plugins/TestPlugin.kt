@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.NestedScrollView
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
@@ -27,7 +28,6 @@ class TestPlugin : Plugin() {
     @SuppressLint("SetTextI18n")
     override fun start(ctx: Context) {
         // i hate android stop being idiot when
-
     }
 
     override fun stop(ctx: Context) {
