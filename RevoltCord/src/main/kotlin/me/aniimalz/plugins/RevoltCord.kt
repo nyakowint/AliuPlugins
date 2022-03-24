@@ -16,6 +16,10 @@ import com.aliucord.fragments.SettingsPage
 
 @AliucordPlugin
 class RevoltCord : Plugin() {
+    init {
+        settingsTab = SettingsTab(RevoltCordSettings::class.java, SettingsTab.Type.PAGE)
+    }
+
     @SuppressLint("SetJavaScriptEnabled")
     inner class Trolley(context: Context) : WebView(context) {
         @SuppressLint("ClickableViewAccessibility")
@@ -43,13 +47,13 @@ class RevoltCord : Plugin() {
 
     lateinit var revolt: Trolley
 
-    inner class RevoltPage : SettingsPage() {
+    inner class RevoltPage(private val instanceUrl: String) : SettingsPage() {
         override fun onViewBound(view: View) {
             super.onViewBound(view)
             headerBar.visibility = View.GONE
             setPadding(0)
             revolt = Trolley(view.context)
-            revolt.loadUrl("https://app.revolt.chat")
+            revolt.loadUrl(instanceUrl)
             revolt.layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
@@ -60,8 +64,11 @@ class RevoltCord : Plugin() {
 
     override fun start(context: Context) {
         commands.registerCommand("revolt", "Revolt in Discord lol") {
-            openPageWithProxy(Utils.appActivity, RevoltPage())
+            openPageWithProxy(Utils.appActivity, RevoltPage(settings.getString("instance", "https://app.revolt.chat") ?: "https://app.revolt.chat"))
             CommandsAPI.CommandResult()
+        }
+        if (settings.getBool("startup", false)) {
+            openPageWithProxy(Utils.appActivity, RevoltPage(settings.getString("instance", "https://app.revolt.chat") ?: "https://app.revolt.chat"))  
         }
     }
 
@@ -70,3 +77,33 @@ class RevoltCord : Plugin() {
         commands.unregisterAll()
     }
 }
+
+class RevoltCordSettings : SettingsPage() {
+        override fun onViewBound(view: View) {
+            super.onViewBound(view)
+
+        addView(Utils.createCheckedSetting(
+            ctx, CheckedSetting.ViewType.SWITCH, "Launch on startup", null
+        ).apply {
+            isChecked = settings.getBool("startup", false)
+            setOnCheckedListener { settings.setBool("startup", it) }
+        })
+        addView(Divider(ctx))
+
+        val instance = settings.getString("instance", "https://app.revolt.chat")
+
+        addView(TextInput(ctx, "Revolt instance (leave blank for main)", instance?.let { instance.toString() } ?: "https://app.revolt.chat", object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                val txt = s.toString()
+                try {
+                    settings.setString("instance", txt)
+                } catch (e: Throwable) {
+                    Utils.showToast("Invalid URL")
+                }
+            }
+        }))
+        }
+    }
