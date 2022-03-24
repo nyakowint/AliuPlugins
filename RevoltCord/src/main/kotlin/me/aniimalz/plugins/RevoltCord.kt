@@ -13,6 +13,20 @@ import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
 import com.aliucord.entities.Plugin
 import com.aliucord.fragments.SettingsPage
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
+import com.aliucord.Constants
+import com.aliucord.api.SettingsAPI
+import com.aliucord.utils.DimenUtils
+import com.aliucord.views.Divider
+import com.aliucord.views.TextInput
+import com.aliucord.widgets.BottomSheet
+import com.aliucord.wrappers.ChannelWrapper.Companion.name
+import com.discord.stores.StoreStream
+import com.discord.views.CheckedSetting
+import com.lytefast.flexinput.R
 
 @AliucordPlugin
 class RevoltCord : Plugin() {
