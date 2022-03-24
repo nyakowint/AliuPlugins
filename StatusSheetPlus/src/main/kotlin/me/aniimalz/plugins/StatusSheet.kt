@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
-import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
@@ -14,7 +13,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
-import b.f.g.a.a.b
 import com.aliucord.Constants
 import com.aliucord.Logger
 import com.aliucord.PluginManager
@@ -34,7 +32,6 @@ import com.discord.utilities.color.ColorCompat
 import com.discord.utilities.icon.IconUtils
 import com.discord.utilities.images.MGImages
 import com.discord.widgets.user.WidgetUserSetCustomStatus
-import com.discord.widgets.user.WidgetUserStatusSheet
 import com.discord.widgets.user.WidgetUserStatusSheetViewModel
 import com.discord.widgets.user.profile.UserStatusPresenceCustomView
 import com.facebook.drawee.view.SimpleDraweeView
@@ -64,18 +61,6 @@ class StatusSheet(private val logger: Logger) : BottomSheet() {
         val presence =
             StoreStream.getPresences()::class.java.getDeclaredMethod("getLocalPresence$${Constants.RELEASE_SUFFIX}")
                 .invoke(StoreStream.getPresences()) as Presence
-
-        SimpleDraweeView(ctx).apply {
-            layoutParams =
-                LinearLayout.LayoutParams(48, 48).apply { gravity = Gravity.TOP + Gravity.RIGHT }
-            setImageURI("https://files.catbox.moe/4v33xe.png")
-            setOnLongClickListener {
-                (WidgetUserStatusSheet.Companion).show(this@StatusSheet)
-                dismiss()
-                true
-            }
-            addView(this)
-        }
 
         SimpleDraweeView(ctx).apply {
             layoutParams = LinearLayout.LayoutParams(180, 180).apply {

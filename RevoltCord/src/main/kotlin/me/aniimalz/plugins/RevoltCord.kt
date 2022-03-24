@@ -2,6 +2,8 @@ package me.aniimalz.plugins
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -11,22 +13,12 @@ import com.aliucord.Utils
 import com.aliucord.Utils.openPageWithProxy
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
+import com.aliucord.api.SettingsAPI
 import com.aliucord.entities.Plugin
 import com.aliucord.fragments.SettingsPage
-import android.text.Editable
-import android.text.TextWatcher
-import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
-import com.aliucord.Constants
-import com.aliucord.api.SettingsAPI
-import com.aliucord.utils.DimenUtils
 import com.aliucord.views.Divider
 import com.aliucord.views.TextInput
-import com.aliucord.widgets.BottomSheet
-import com.aliucord.wrappers.ChannelWrapper.Companion.name
-import com.discord.stores.StoreStream
 import com.discord.views.CheckedSetting
-import com.lytefast.flexinput.R
 
 @AliucordPlugin
 class RevoltCord : Plugin() {
@@ -78,11 +70,23 @@ class RevoltCord : Plugin() {
 
     override fun start(context: Context) {
         commands.registerCommand("revolt", "Revolt in Discord lol") {
-            openPageWithProxy(Utils.appActivity, RevoltPage(settings.getString("instance", "https://app.revolt.chat") ?: "https://app.revolt.chat"))
+            openPageWithProxy(
+                Utils.appActivity,
+                RevoltPage(
+                    settings.getString("instance", "https://app.revolt.chat")
+                        ?: "https://app.revolt.chat"
+                )
+            )
             CommandsAPI.CommandResult()
         }
         if (settings.getBool("startup", false)) {
-            openPageWithProxy(Utils.appActivity, RevoltPage(settings.getString("instance", "https://app.revolt.chat") ?: "https://app.revolt.chat"))  
+            openPageWithProxy(
+                Utils.appActivity,
+                RevoltPage(
+                    settings.getString("instance", "https://app.revolt.chat")
+                        ?: "https://app.revolt.chat"
+                )
+            )
         }
     }
 
@@ -92,10 +96,10 @@ class RevoltCord : Plugin() {
     }
 }
 
-class RevoltCordSettings : SettingsPage() {
-        override fun onViewBound(view: View) {
-            super.onViewBound(view)
-
+class RevoltCordSettings(private val settings: SettingsAPI) : SettingsPage() {
+    override fun onViewBound(view: View) {
+        super.onViewBound(view)
+        val ctx = Utils.appContext
         addView(Utils.createCheckedSetting(
             ctx, CheckedSetting.ViewType.SWITCH, "Launch on startup", null
         ).apply {
@@ -106,19 +110,30 @@ class RevoltCordSettings : SettingsPage() {
 
         val instance = settings.getString("instance", "https://app.revolt.chat")
 
-        addView(TextInput(ctx, "Revolt instance (leave blank for main)", instance?.let { instance.toString() } ?: "https://app.revolt.chat", object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                val txt = s.toString()
-                try {
-                    settings.setString("instance", txt)
-                } catch (e: Throwable) {
-                    Utils.showToast("Invalid URL")
-                }
-            }
-        }))
-        }
+        addView(TextInput(ctx, "Revolt instance (leave blank for main)",
+                instance?.let { instance.toString() } ?: "https://app.revolt.chat",
+                object : TextWatcher { override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int) {
+                    }
+                    override fun onTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int) {
+                    }
+                    override fun afterTextChanged(s: Editable?) {
+                        val txt = s.toString()
+                        try {
+                            settings.setString("instance", txt)
+                        } catch (e: Throwable) {
+                            Utils.showToast("Invalid URL")
+                        }
+                    }
+                })
+        )
     }
+}
 // h
