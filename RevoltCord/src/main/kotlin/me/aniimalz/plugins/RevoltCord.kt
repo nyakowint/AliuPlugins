@@ -107,3 +107,4 @@ class RevoltCordSettings : SettingsPage() {
         }))
         }
     }
+// h
