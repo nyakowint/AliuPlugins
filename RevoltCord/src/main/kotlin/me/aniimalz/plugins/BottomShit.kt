@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import com.aliucord.Logger
 import com.aliucord.Utils
 import com.aliucord.api.SettingsAPI
 import com.aliucord.views.Divider
@@ -56,7 +57,7 @@ class BottomShit(private val settings: SettingsAPI) : BottomSheet() {
                         }
                         settings.setString("instance", txt)
                     } catch (e: Throwable) {
-                        Utils.showToast("Invalid URL")
+                        // who care
                     }
                 }
             })
