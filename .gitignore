@@ -6,6 +6,8 @@
 /build
 /captures
 .externalNativeBuild
+/AutoServerNotifs
 .cxx
 local.properties
 **/build
+**/AutoServerNotifs/

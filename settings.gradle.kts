@@ -1,3 +1,5 @@
+/*include(":AutoServerNotifs")*/
+include(":PersistSettings")
 include(":StatusSheetPlus")
 include(":RevoltCord")
 include(":Moyai")
