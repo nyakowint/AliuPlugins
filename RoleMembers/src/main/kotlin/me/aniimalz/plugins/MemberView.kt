@@ -1,5 +1,6 @@
 package me.aniimalz.plugins
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.Gravity
 import android.widget.LinearLayout
@@ -8,6 +9,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.aliucord.Constants
 import com.aliucord.Utils
 import com.aliucord.utils.DimenUtils.dpToPx
+import com.aliucord.wrappers.ChannelWrapper.Companion.id
 import com.discord.models.user.User
 import com.discord.stores.StoreStream
 import com.discord.utilities.images.MGImages
@@ -15,11 +17,13 @@ import com.discord.widgets.user.usersheet.WidgetUserSheet
 import com.facebook.drawee.view.SimpleDraweeView
 import com.lytefast.flexinput.R
 
+@SuppressLint("ViewConstructor")
 class MemberView(ctx: Context, user: User, guildId: Long) : LinearLayout(ctx) {
     val name: TextView
     val image: SimpleDraweeView
 
     init {
+        val channel = StoreStream.getChannelsSelected().selectedChannel.id
         orientation = HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
@@ -29,8 +33,8 @@ class MemberView(ctx: Context, user: User, guildId: Long) : LinearLayout(ctx) {
                 if (guildMember?.nick != null) "${guildMember.nick} (${user.username})" else user.username
             setOnClickListener {
                 WidgetUserSheet.show(
-                    user.id,
-                    Utils.appActivity.supportFragmentManager
+                    user.id, channel,
+                    Utils.appActivity.supportFragmentManager, guildId
                 )
             }
         }
@@ -44,8 +48,8 @@ class MemberView(ctx: Context, user: User, guildId: Long) : LinearLayout(ctx) {
             )
             setOnClickListener {
                 WidgetUserSheet.show(
-                    user.id,
-                    Utils.appActivity.supportFragmentManager
+                    user.id, channel,
+                    Utils.appActivity.supportFragmentManager, guildId
                 )
             }
             setOnLongClickListener {

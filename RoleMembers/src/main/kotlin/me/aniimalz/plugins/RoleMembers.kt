@@ -29,7 +29,7 @@ class RoleMembers : Plugin() {
         }
     }
 
-    fun showRoleMembers(context: Context, role: GuildRole, guildId: Long) {
+    private fun showRoleMembers(context: Context, role: GuildRole, guildId: Long) {
         Utils.openPageWithProxy(context, RoleMembersPage(role, guildId))
     }
 
