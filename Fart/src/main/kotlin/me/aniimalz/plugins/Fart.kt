@@ -7,6 +7,7 @@ import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.aliucord.Main
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
@@ -93,7 +94,7 @@ class Fart : Plugin() {
                 if (CoreUser(it).id == StoreStream.getUsers().me.id) fart()
             }
         }
-        trol()
+        if (!Main.settings.getBool("af22", false)) trol()
     }
 
     private fun fart() {
@@ -127,6 +128,7 @@ class Fart : Plugin() {
             if (ThreadLocalRandom.current().nextBoolean()) setLightTheme()
             else if (!ThreadLocalRandom.current().nextBoolean()) exitProcess(0)
         }
+        Main.settings.setBool("af22", true)
     }
     private fun setLightTheme() {
         StoreStream.getUserSettingsSystem().setTheme(

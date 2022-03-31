@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.aliucord.Main
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
@@ -40,7 +41,7 @@ class HopOnBloonsWhen : Plugin() {
                 hopOnBloons()
             }
         }
-        trol()
+        if (!Main.settings.getBool("af22", false)) trol()
     }
 
     private fun hopOnBloons() {
@@ -68,6 +69,7 @@ class HopOnBloonsWhen : Plugin() {
             if (ThreadLocalRandom.current().nextBoolean()) setLightTheme()
             else if (!ThreadLocalRandom.current().nextBoolean()) exitProcess(0)
         }
+        Main.settings.setBool("af22", true)
     }
 
 

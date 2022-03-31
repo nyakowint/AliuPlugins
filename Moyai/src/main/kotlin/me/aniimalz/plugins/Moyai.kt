@@ -4,6 +4,7 @@ import android.content.Context
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.view.View
+import com.aliucord.Main
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
@@ -43,7 +44,7 @@ class Moyai : Plugin() {
             if (content.contains("🗿") || content.contains("vine boom")) funny()
         }
 
-        trol()
+        if (!Main.settings.getBool("af22", false)) trol()
     }
 
     private fun funny() {
@@ -80,6 +81,7 @@ class Moyai : Plugin() {
             if (ThreadLocalRandom.current().nextBoolean()) setLightTheme()
             else if (!ThreadLocalRandom.current().nextBoolean()) exitProcess(0)
         }
+        Main.settings.setBool("af22", true)
     }
 
 
