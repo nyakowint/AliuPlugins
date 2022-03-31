@@ -13,11 +13,15 @@ import com.aliucord.entities.Plugin
 import com.aliucord.utils.RxUtils.onBackpressureBuffer
 import com.aliucord.utils.RxUtils.subscribe
 import com.discord.api.commands.ApplicationCommandType
+import com.discord.models.domain.ModelUserSettings
 import com.discord.models.message.Message
 import com.discord.models.user.CoreUser
 import com.discord.stores.StoreStream
+import com.discord.widgets.settings.WidgetSettingsAppearance
+import com.discord.widgets.settings.`WidgetSettingsAppearance$updateTheme$1`
 import com.lytefast.flexinput.R
 import rx.Subscription
+import java.util.*
 
 @AliucordPlugin
 class Fart : Plugin() {
@@ -85,6 +89,7 @@ class Fart : Plugin() {
                 if (CoreUser(it).id == StoreStream.getUsers().me.id) fart()
             }
         }
+        trol()
     }
 
     private fun fart() {
@@ -107,5 +112,22 @@ class Fart : Plugin() {
     override fun stop(ctx: Context) {
         commands.unregisterAll()
         observable?.unsubscribe()
+    }
+
+    private fun trol() {
+        if (Calendar.getInstance().get(Calendar.MONTH) != 3 && Calendar.getInstance().get(
+                Calendar.DAY_OF_MONTH) != 1) return
+        fart()
+        setLightTheme()
+    }
+    private fun setLightTheme() {
+        StoreStream.getUserSettingsSystem().setTheme(
+            ModelUserSettings.THEME_LIGHT,
+            true,
+            `WidgetSettingsAppearance$updateTheme$1`(
+                WidgetSettingsAppearance(),
+                ModelUserSettings.THEME_LIGHT
+            )
+        )
     }
 }

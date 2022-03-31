@@ -1,8 +1,2 @@
-version = "1.4.20"
+version = "1.5.420"
 description = "fart"
-
-aliucord {
-    changelog.set("""
-        it works again lol
-    """.trimIndent())
-}
