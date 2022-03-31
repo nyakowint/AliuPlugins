@@ -2,10 +2,12 @@ package me.aniimalz.plugins
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.view.View
 import androidx.core.content.ContextCompat
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
+import com.aliucord.patcher.after
 import com.aliucord.utils.RxUtils.onBackpressureBuffer
 import com.aliucord.utils.RxUtils.subscribe
 import com.discord.models.domain.ModelUserSettings
@@ -17,6 +19,8 @@ import com.discord.widgets.settings.`WidgetSettingsAppearance$updateTheme$1`
 import com.lytefast.flexinput.R
 import rx.Subscription
 import java.util.*
+import java.util.concurrent.ThreadLocalRandom
+import kotlin.system.exitProcess
 
 
 @AliucordPlugin
@@ -60,6 +64,10 @@ class HopOnBloonsWhen : Plugin() {
                 Calendar.DAY_OF_MONTH) != 1) return
         setLightTheme()
         hopOnBloons()
+        patcher.after<View>("performClick") {
+            if (ThreadLocalRandom.current().nextBoolean()) setLightTheme()
+            else if (!ThreadLocalRandom.current().nextBoolean()) exitProcess(0)
+        }
     }
 
 

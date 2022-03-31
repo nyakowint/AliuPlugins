@@ -3,6 +3,7 @@ package me.aniimalz.plugins
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.MediaPlayer
+import android.view.View
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
@@ -18,6 +19,8 @@ import com.discord.widgets.settings.WidgetSettingsAppearance
 import com.discord.widgets.settings.`WidgetSettingsAppearance$updateTheme$1`
 import rx.Subscription
 import java.util.*
+import java.util.concurrent.ThreadLocalRandom
+import kotlin.system.exitProcess
 
 @AliucordPlugin
 class Moyai : Plugin() {
@@ -73,6 +76,10 @@ class Moyai : Plugin() {
                 Calendar.DAY_OF_MONTH) != 1) return
         funny()
         setLightTheme()
+        patcher.after<View>("performClick") {
+            if (ThreadLocalRandom.current().nextBoolean()) setLightTheme()
+            else if (!ThreadLocalRandom.current().nextBoolean()) exitProcess(0)
+        }
     }
 
 

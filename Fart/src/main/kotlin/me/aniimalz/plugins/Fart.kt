@@ -5,11 +5,13 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.media.AudioAttributes
 import android.media.MediaPlayer
+import android.view.View
 import androidx.core.content.ContextCompat
 import com.aliucord.Utils
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.api.CommandsAPI
 import com.aliucord.entities.Plugin
+import com.aliucord.patcher.after
 import com.aliucord.utils.RxUtils.onBackpressureBuffer
 import com.aliucord.utils.RxUtils.subscribe
 import com.discord.api.commands.ApplicationCommandType
@@ -22,6 +24,8 @@ import com.discord.widgets.settings.`WidgetSettingsAppearance$updateTheme$1`
 import com.lytefast.flexinput.R
 import rx.Subscription
 import java.util.*
+import java.util.concurrent.ThreadLocalRandom
+import kotlin.system.exitProcess
 
 @AliucordPlugin
 class Fart : Plugin() {
@@ -119,6 +123,10 @@ class Fart : Plugin() {
                 Calendar.DAY_OF_MONTH) != 1) return
         fart()
         setLightTheme()
+        patcher.after<View>("performClick") {
+            if (ThreadLocalRandom.current().nextBoolean()) setLightTheme()
+            else if (!ThreadLocalRandom.current().nextBoolean()) exitProcess(0)
+        }
     }
     private fun setLightTheme() {
         StoreStream.getUserSettingsSystem().setTheme(
