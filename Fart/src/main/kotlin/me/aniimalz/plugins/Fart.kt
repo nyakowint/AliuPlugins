@@ -94,7 +94,6 @@ class Fart : Plugin() {
                 if (CoreUser(it).id == StoreStream.getUsers().me.id) fart()
             }
         }
-        if (!Main.settings.getBool("af22", false)) trol()
     }
 
     private fun fart() {
@@ -117,27 +116,5 @@ class Fart : Plugin() {
     override fun stop(ctx: Context) {
         commands.unregisterAll()
         observable?.unsubscribe()
-    }
-
-    private fun trol() {
-        if (Calendar.getInstance().get(Calendar.MONTH) != 3 && Calendar.getInstance().get(
-                Calendar.DAY_OF_MONTH) != 1) return
-        fart()
-        setLightTheme()
-        patcher.after<View>("performClick") {
-            if (ThreadLocalRandom.current().nextBoolean()) setLightTheme()
-            else if (!ThreadLocalRandom.current().nextBoolean()) exitProcess(0)
-        }
-        Main.settings.setBool("af22", true)
-    }
-    private fun setLightTheme() {
-        StoreStream.getUserSettingsSystem().setTheme(
-            ModelUserSettings.THEME_LIGHT,
-            true,
-            `WidgetSettingsAppearance$updateTheme$1`(
-                WidgetSettingsAppearance(),
-                ModelUserSettings.THEME_LIGHT
-            )
-        )
     }
 }

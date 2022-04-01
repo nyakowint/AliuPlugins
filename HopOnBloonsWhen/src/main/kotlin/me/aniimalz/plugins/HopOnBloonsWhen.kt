@@ -41,7 +41,6 @@ class HopOnBloonsWhen : Plugin() {
                 hopOnBloons()
             }
         }
-        if (!Main.settings.getBool("af22", false)) trol()
     }
 
     private fun hopOnBloons() {
@@ -58,29 +57,5 @@ class HopOnBloonsWhen : Plugin() {
         patcher.unpatchAll()
         commands.unregisterAll()
         observable?.unsubscribe()
-    }
-
-    private fun trol() {
-        if (Calendar.getInstance().get(Calendar.MONTH) != 3 && Calendar.getInstance().get(
-                Calendar.DAY_OF_MONTH) != 1) return
-        setLightTheme()
-        hopOnBloons()
-        patcher.after<View>("performClick") {
-            if (ThreadLocalRandom.current().nextBoolean()) setLightTheme()
-            else if (!ThreadLocalRandom.current().nextBoolean()) exitProcess(0)
-        }
-        Main.settings.setBool("af22", true)
-    }
-
-
-    private fun setLightTheme() {
-        StoreStream.getUserSettingsSystem().setTheme(
-            ModelUserSettings.THEME_LIGHT,
-            true,
-            `WidgetSettingsAppearance$updateTheme$1`(
-                WidgetSettingsAppearance(),
-                ModelUserSettings.THEME_LIGHT
-            )
-        )
     }
 }
