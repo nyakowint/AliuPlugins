@@ -1,6 +1,7 @@
 ## Plugins for [Aliucord](https://github.com/Aliucord) Legacy
+this is where the fart plugin began
 
-How to install (this may break soon because of react native discord):
+### How to install (this may break soon because of react native discord):
 
 1) Join the [Aliucord](https://discord.gg/aliucord) support server
 2) long press on my message
