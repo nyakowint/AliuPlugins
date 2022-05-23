@@ -38,8 +38,8 @@ subprojects {
     //
     aliucord {
         author("Animal", 118437263754395652L)
-        updateUrl.set("https://raw.githubusercontent.com/ItzOnlyAnimal/AliuPlugins/builds/updater.json")
-        buildUrl.set("https://raw.githubusercontent.com/ItzOnlyAnimal/AliuPlugins/builds/%s.zip")
+        updateUrl.set("https://raw.githubusercontent.com/ItzOnlyAnimal/AliuPlugins-fart/builds/updater.json")
+        buildUrl.set("https://raw.githubusercontent.com/ItzOnlyAnimal/AliuPlugins-fart/builds/%s.zip")
     }
 
     android {
