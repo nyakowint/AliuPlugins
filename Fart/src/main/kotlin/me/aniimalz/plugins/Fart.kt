@@ -105,7 +105,7 @@ class Fart : Plugin() {
                         .setUsage(AudioAttributes.USAGE_MEDIA)
                         .build()
                 )
-                setDataSource("https://github.com/ItzOnlyAnimal/AliuPlugins/raw/main/fart.mp3")
+                setDataSource("https://raw.githubusercontent.com/ItzOnlyAnimal/AliuPlugins-fart/main/fart.mp3")
                 prepare()
                 start()
             }

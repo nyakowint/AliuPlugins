@@ -1,5 +1,5 @@
 ## Plugins for [Aliucord](https://github.com/Aliucord) Legacy
-this is where the fart plugin began
+this is where the fart plugin began (its funny how i broke my plugins by changing the repo url)
 
 New plugins (for aliucord rn) are [here](https://github.com/ItzOnlyAnimal/AliuPlugins)
 
