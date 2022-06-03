@@ -1,9 +1,10 @@
-## Plugins for [Aliucord](https://github.com/Aliucord) Legacy
-this is where the fart plugin began (its funny how i broke my plugins by changing the repo url)
+### Plugins for [Aliucord](https://github.com/Aliucord) Legacy
+this is where the fart plugin began (funny how i broke the updater again by changing the repo url)
 
-New plugins (for aliucord rn) are [here](https://github.com/ItzOnlyAnimal/AliuPlugins)
+# THESE PLUGINS ARE NOT MAINTAINED - 
+### New plugins (for Aliucord RN) are [here](https://github.com/ItzOnlyAnimal/AliuPlugins)
 
-### How to install (this may break soon because of react native discord):
+### How to install (may no longer work):
 
 1) Join the [Aliucord](https://discord.gg/aliucord) support server
 2) long press on my message
