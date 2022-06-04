@@ -1,8 +1,11 @@
-version = "1.1.7"
+version = "1.1.8"
 description = "Allows you to set a timezone for a user and view their time"
 
 aliucord {
     changelog.set("""
+        # 1.1.8
+        * move domains guhhh aa will explode
+
         # 1.1.7
         * fix padded zeros and ui thread error
         

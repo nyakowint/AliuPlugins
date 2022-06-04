@@ -45,7 +45,7 @@ val timezones = arrayOf(
         "+14:00"
 )
 
-const val apiUrl = "https://timezonedb.bigdumb.gq"
+const val apiUrl = "https://timezonedb.catvibers.me"
 
 fun calculateTime(timezone: String?): String {
     val use24Hour = DateFormat.is24HourFormat(Utils.appContext);
