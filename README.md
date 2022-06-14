@@ -2,7 +2,7 @@
 this is where the fart plugin began (funny how i broke the updater again by changing the repo url)
 
 # THESE PLUGINS ARE NOT MAINTAINED - 
-### New plugins (for Aliucord RN) are [here](https://github.com/ItzOnlyAnimal/AliuPlugins)
+### New plugins (for Aliucord RN) are [here](https://github.com/ItzOnlyAnimal/AliuPloogins)
 
 ### How to install (may no longer work):
 
