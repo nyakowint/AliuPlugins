@@ -1,8 +1,14 @@
-version = "1.1.8"
+version = "1.1.9"
 description = "Allows you to set a timezone for a user and view their time"
 
 aliucord {
     changelog.set("""
+        # 1.1.9
+        * Fix hook for message header
+        * Increase max width for message timestamp
+        * Cache timeInHeader setting
+        * Hide own local time for message header
+
         # 1.1.8
         * move domains guhhh aa will explode
 
@@ -14,20 +20,22 @@ aliucord {
         * Now detect 24h/12h preference from system
         
         # 1.1.5
-        - said option will apply if you turn on after plugin starts
+        * said option will apply if you turn on after plugin starts
         # 1.1.4
-        - Added option for user time in message timestamp (looks bad but works)
+        * Added option for user time in message timestamp (looks bad but works)
         
         # 1.1.0
-        - Added TimezoneDB support (by mantikafasi)
+        * Added TimezoneDB support (by mantikafasi)
         
         # 1.0.7
-        - Made settings page look slightly nicer
+        * Made settings page look slightly nicer
         
         # Announcement
-        I don't plan on adding new features since the base functionality is already here.
-        Feel free to PR if you want.
+        * I don't plan on adding new features since the base functionality is already here.
+        * Feel free to PR if you want.
     """.trimIndent())
+
     author("mantikafasi", 287555395151593473)
     author("Ven", 343383572805058560)
+    author("Diamond", 295190422244950017)
 }

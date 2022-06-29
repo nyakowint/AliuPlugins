@@ -13,7 +13,7 @@ import com.discord.views.CheckedSetting
 import me.aniimalz.plugins.Timezones.Companion.usersList
 import java.util.*
 
-class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
+class PluginSettings(private val plugin: Timezones) : SettingsPage() {
     override fun onViewBound(view: View) {
         super.onViewBound(view)
         val ctx = requireContext()
@@ -46,10 +46,11 @@ class PluginSettings(private val settings: SettingsAPI) : SettingsPage() {
     ): CheckedSetting {
         return Utils.createCheckedSetting(ctx, CheckedSetting.ViewType.SWITCH, title, subtitle)
                 .apply {
-                    isChecked = settings.getBool(setting, checked)
+                    isChecked = plugin.settings.getBool(setting, checked)
                     setOnCheckedListener {
-                        settings.setBool(setting, it)
-                        PluginManager.remountPlugin("Timezones")
+                        plugin.timeInHeader = it
+                        plugin.settings.setBool(setting, it)
+                        Utils.promptRestart()
                     }
                 }
     }
