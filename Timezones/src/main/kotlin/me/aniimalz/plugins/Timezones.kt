@@ -17,9 +17,11 @@ import com.aliucord.entities.Plugin
 import com.aliucord.fragments.SelectDialog
 import com.aliucord.patcher.after
 import com.aliucord.utils.DimenUtils
+import com.aliucord.utils.DimenUtils.dp
 import com.discord.models.message.Message
 import com.discord.models.user.CoreUser
 import com.discord.models.user.User
+import com.discord.stores.StoreStream
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
 import com.discord.widgets.user.usersheet.WidgetUserSheet
 import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel
@@ -35,11 +37,12 @@ class Timezones : Plugin() {
         settingsTab = SettingsTab(
             PluginSettings::class.java,
             SettingsTab.Type.PAGE
-        ).withArgs(settings)
+        ).withArgs(this)
     }
 
     private val tzId = View.generateViewId()
-    var pluginIcon: Drawable? = null
+    private var pluginIcon: Drawable? = null
+    var timeInHeader = settings.getBool("timeInHeader", false)
 
     companion object {
         var usersList: HashMap<Long, String> = HashMap<Long, String>()
@@ -184,16 +187,21 @@ class Timezones : Plugin() {
 
         patcher.after<WidgetChatListAdapterItemMessage>(
             "configureItemTag",
-            Message::class.java
+            Message::class.java,
+            Boolean::class.javaPrimitiveType!!,
         ) {
-            if (!settings.getBool("timeInHeader", false)) return@after
+            if (!timeInHeader) return@after
+
             val msg = it.args[0] as Message
+            if (msg.author.id == StoreStream.getUsers().me.id)
+                return@after
+
             Utils.threadPool.execute {
                 val timezone = getTimezone(CoreUser(msg.author).id) ?: return@execute
                 val timestamp = timestampField[this] as TextView? ?: return@execute
-                if (timestamp.text.contains("| LT")) return@execute
                 Utils.appActivity.runOnUiThread {
-                    timestamp.text = "${timestamp.text} | LT ${calculateTime(timezone)})"
+                    timestamp.maxWidth = 300.dp
+                    timestamp.text = "${timestamp.text.takeWhile { c -> c != '|' }} | ${calculateTime(timezone)}"
                 }
             }
         }
