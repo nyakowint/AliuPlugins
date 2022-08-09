@@ -1,8 +1,11 @@
-version = "1.1.9"
+version = "1.2.0"
 description = "Allows you to set a timezone for a user and view their time"
 
 aliucord {
     changelog.set("""
+        # 1.2.0
+        * Add caching
+        
         # 1.1.9
         * Fix hook for message header
         * Increase max width for message timestamp
