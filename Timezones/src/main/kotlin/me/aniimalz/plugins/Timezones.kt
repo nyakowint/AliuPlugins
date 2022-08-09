@@ -111,7 +111,6 @@ class Timezones : Plugin() {
         if (usersList.containsKey(id)) return usersList[id] else {
             try {
                 val response: JSONObject
-
                 Http.Request("$apiUrl/api/user/$id", "GET").use {
                     it.conn.defaultUseCaches = true
                     it.conn.useCaches = true
@@ -124,7 +123,8 @@ class Timezones : Plugin() {
                 /* trolley */
             }
         }
-        return null
+        cache[id] = ""
+        return cache[id]
     }
 
     @SuppressLint("SetTextI18n")
