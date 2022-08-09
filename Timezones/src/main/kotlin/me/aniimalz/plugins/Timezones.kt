@@ -28,11 +28,11 @@ import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel
 import com.google.gson.reflect.TypeToken
 import com.lytefast.flexinput.R
 import org.json.JSONObject
-import java.time.*
-import java.util.*
 
 @AliucordPlugin
 class Timezones : Plugin() {
+    private var cache = HashMap<Long, String?>()
+
     init {
         settingsTab = SettingsTab(
             PluginSettings::class.java,
@@ -106,11 +106,20 @@ class Timezones : Plugin() {
         setMsgHeaderTime()
     }
 
+    @Synchronized
     private fun getTimezone(id: Long): String? {
         if (usersList.containsKey(id)) return usersList[id] else {
             try {
-                val response = JSONObject(Http.simpleGet("$apiUrl/api/user/$id"))
-                if (response.has("timezone")) return response.getString("timezone")
+                val response: JSONObject
+
+                Http.Request("$apiUrl/api/user/$id", "GET").use {
+                    it.conn.defaultUseCaches = true
+                    it.conn.useCaches = true
+                    response = JSONObject(it.execute().text())
+                }
+
+                cache[id] = if (response.has("timezone")) response.getString("timezone") else ""
+                return cache[id]
             } catch (e: Exception) {
                 /* trolley */
             }
@@ -124,24 +133,31 @@ class Timezones : Plugin() {
         tzView: TextView
     ) {
         tzView.text = "Loading..."
+        if (cache.containsKey(user.id)) {
+            //get from memory cache if cached
+            setTimezone(tzView, cache[user.id])
+            return
+        }
 
-        Utils.threadPool.execute {
-            val timezone = getTimezone(user.id)
-            if (timezone != null) {
-                Utils.mainThread.post {
-                    try {
-                        tzView.text = formatTimeText(timezone)
-                    } catch (e: Exception) {
-                        logger.error(e)
-                        tzView.text =
-                            "An error occurred, try deleting timezone for this user from settings"
-                    }
-                }
-            } else {
-                tzView.text = "Click to set a timezone"
-            }
+        Utils.threadPool.run {
+            setTimezone(tzView, getTimezone(user.id))
         }
     }
+
+    private fun setTimezone(tzView: TextView, timezone: String?) {
+        if (timezone != null && timezone.isNotEmpty()) {
+            try {
+                tzView.text = formatTimeText(timezone)
+            } catch (e: Exception) {
+                logger.error(e)
+                tzView.text =
+                    "An error occurred, try deleting timezone for this user from settings"
+            }
+        } else {
+            tzView.text = "Click to set a timezone"
+        }
+    }
+
 
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     private fun setOnClick(
@@ -197,11 +213,14 @@ class Timezones : Plugin() {
                 return@after
 
             Utils.threadPool.execute {
-                val timezone = getTimezone(CoreUser(msg.author).id) ?: return@execute
+                val id = CoreUser(msg.author).id
+                val timezone = if (cache[id] != null) cache[id] else getTimezone(id)
+                if (timezone == null || timezone.isEmpty()) return@execute
                 val timestamp = timestampField[this] as TextView? ?: return@execute
                 Utils.appActivity.runOnUiThread {
                     timestamp.maxWidth = 300.dp
-                    timestamp.text = "${timestamp.text.takeWhile { c -> c != '|' }} | ${calculateTime(timezone)}"
+                    timestamp.text =
+                        "${timestamp.text.takeWhile { c -> c != '|' }} | ${calculateTime(timezone)}"
                 }
             }
         }
