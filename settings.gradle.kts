@@ -1,4 +1,3 @@
-include(":Devices")
 include(":StatusSheetPlus")
 include(":RevoltCord")
 include(":Moyai")
