@@ -1,3 +1,4 @@
+include(":UnknownConnectionIcons")
 include(":StatusSheetPlus")
 include(":RevoltCord")
 include(":Moyai")
