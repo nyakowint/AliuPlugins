@@ -18,6 +18,7 @@ import com.aliucord.fragments.SelectDialog
 import com.aliucord.patcher.after
 import com.aliucord.utils.DimenUtils
 import com.aliucord.utils.DimenUtils.dp
+import com.aliucord.utils.GsonUtils
 import com.discord.models.message.Message
 import com.discord.models.user.CoreUser
 import com.discord.models.user.User
@@ -28,10 +29,14 @@ import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel
 import com.google.gson.reflect.TypeToken
 import com.lytefast.flexinput.R
 import org.json.JSONObject
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 @AliucordPlugin
 class Timezones : Plugin() {
     private var cache = HashMap<Long, String?>()
+    private var timezonesToFetch: ArrayList<String> = ArrayList()
 
     init {
         settingsTab = SettingsTab(
@@ -47,6 +52,8 @@ class Timezones : Plugin() {
     companion object {
         var usersList: HashMap<Long, String> = HashMap<Long, String>()
     }
+
+    private val funtimer: Timer = Timer()
 
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun start(context: Context) {
@@ -104,27 +111,36 @@ class Timezones : Plugin() {
         }
 
         setMsgHeaderTime()
+
+        // start fetching timezones every 5 seconds
+        funtimer.schedule(object : TimerTask() {
+            override fun run() {
+                if (timezonesToFetch.isEmpty()) return
+                val timezones = JSONObject(
+                    Http.Request("$apiUrl/api/user/bulk", "POST")
+                        .setHeader("Content-Type", "application/json")
+                        .executeWithBody(
+                            GsonUtils.toJson(timezonesToFetch)
+                                .replace("\\", "")
+                        ).text()
+                )
+                timezonesToFetch = ArrayList()
+                timezones.keys().forEach { id ->
+                    if (!timezones.isNull(id))
+                        cache[id.toLong()] = timezones.getJSONObject(id).getString("timezone")
+
+                }
+            }
+        }, 0, 1000 * 5)
+
     }
 
-    @Synchronized
-    private fun getTimezone(id: Long): String? {
+    private fun fetchTimezone(id: Long): String? {
         if (usersList.containsKey(id)) return usersList[id] else {
-            try {
-                val response: JSONObject
-                Http.Request("$apiUrl/api/user/$id", "GET").use {
-                    it.conn.defaultUseCaches = true
-                    it.conn.useCaches = true
-                    response = JSONObject(it.execute().text())
-                }
-
-                cache[id] = if (response.has("timezone")) response.getString("timezone") else ""
-                return cache[id]
-            } catch (e: Exception) {
-                /* trolley */
-            }
+            if (!timezonesToFetch.contains(id.toString()))
+                timezonesToFetch.add(id.toString())
         }
-        cache[id] = ""
-        return cache[id]
+        return null
     }
 
     @SuppressLint("SetTextI18n")
@@ -140,7 +156,7 @@ class Timezones : Plugin() {
         }
 
         Utils.threadPool.run {
-            setTimezone(tzView, getTimezone(user.id))
+            setTimezone(tzView, fetchTimezone(user.id))
         }
     }
 
@@ -214,7 +230,7 @@ class Timezones : Plugin() {
 
             Utils.threadPool.execute {
                 val id = CoreUser(msg.author).id
-                val timezone = if (cache[id] != null) cache[id] else getTimezone(id)
+                val timezone = if (cache[id] != null) cache[id] else fetchTimezone(id)
                 if (timezone == null || timezone.isEmpty()) return@execute
                 val timestamp = timestampField[this] as TextView? ?: return@execute
                 Utils.appActivity.runOnUiThread {
