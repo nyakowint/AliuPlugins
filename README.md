@@ -1,23 +1,22 @@
-### Plugins for [Aliucord](https://github.com/Aliucord) Kotlin
+### Plugins for [Aliucord](https://github.com/Aliucord) (kotlin)
 
 this is where the original fart plugin began
 
-# THESE PLUGINS ARE NOT ACTIVELY MAINTAINED -
+## THESE PLUGINS ARE NOT ACTIVELY MAINTAINED
+There may be updates sometimes but don't count on it lol. PRs for fixes are okay
 
-### New plugins for AliucordRN are [here](https://github.com/ItzOnlyAnimal/AliuPloogins)
 
-### How to install (may no longer work):
+### How to install:
 
-1) Join the [Aliucord](https://discord.gg/aliucord) support server
-2) long press on my message
-   in [#plugins-list](https://discord.com/channels/811255666990907402/811275162715553823/896571282483728444)
+1) Join the [Aliucord](https://discord.gg/EsNDvBaHVU) support server
+2) long press on this message — [#plugins-list](https://discord.com/channels/811255666990907402/811275162715553823/958136372928053339)
    then click "Open PluginDownloader"
 
-How to install (will always work):
+How to install manually (will always work):
 Download `[plugin].zip` from the builds branch and move to your Aliucord plugins folder (
 usually `/sdcard/Aliucord/plugins`)
 
-## How to add new icons (for when discord adds more pointless connections):
+## How to add new icons (UnknownConnectionIcons):
 
 - Fork this repo
 1) Get a Vector Drawable of the connection's icon, the easiest way is just stealing it from the
