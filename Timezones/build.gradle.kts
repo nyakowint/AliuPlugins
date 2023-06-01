@@ -1,8 +1,11 @@
-version = "1.2.1"
+version = "1.2.2"
 description = "Allows you to set a timezone for a user and view their time"
 
 aliucord {
     changelog.set("""
+        # 1.2.2
+        Fix the silly ahh 00:04 PM thing
+        
         # 1.2.1
         * Add bulk fetch for user timezones
             
