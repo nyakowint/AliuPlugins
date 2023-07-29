@@ -1,9 +1,7 @@
 ### Plugins for [Aliucord](https://github.com/Aliucord) (kotlin)
 
-this is where the original fart plugin began
-
-## THESE PLUGINS ARE NOT ACTIVELY MAINTAINED
-There may be updates sometimes but don't count on it lol. PRs for fixes are okay
+## THESE PLUGINS ARE NOT ACTIVELY MAINTAINED!
+There may be updates sometimes but don't count on it lol - PRs for fixes are okay
 
 
 ### How to install:
