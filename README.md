@@ -17,18 +17,19 @@ usually `/sdcard/Aliucord/plugins`)
 ## How to add new icons (UnknownConnectionIcons):
 
 - Fork this repo
-1) Get a Vector Drawable of the connection's icon, the easiest way is just stealing it from the
+1. Get a Vector Drawable of the connection's icon, the easiest way is just stealing it from the
    Desktop app with inspect element
     - If needed add "discord.com" to get the asset e.g "
       discord.com/assets/6a853b4c87fce386cbfef4a2efbacb09.svg"
     - Convert SVGs to Vector Drawables with an online tool or Android Studio (preferred - resize to
       24dp) or PNGs
-2) Add the icon to `UnknownConnectionIcons/src/main/res/drawable`
-   2.5) Add the light theme compatible icon to `[NAME]_light`, replacing `[NAME]` with the
+2. Add the icon to `UnknownConnectionIcons/src/main/res/drawable`
+   
+   2.5. Add the light theme compatible icon to `[NAME]_light`, replacing `[NAME]` with the
    connection name Discord uses
     - If there isn't one, just copy and paste your icon and rename it
 
-3) Please increment the version number inside `UnknownConnectionIcons/build.gradle.kts`
+3. Please increment the version number inside `UnknownConnectionIcons/build.gradle.kts`
 
 You are technically done, but if the connection has a URL (indicated by an open link button on
 desktop/rn), you might want to continue following along
@@ -46,4 +47,4 @@ desktop/rn), you might want to continue following along
         }
    ```
 
-4) Create a pull request!
+4. Create a pull request!
