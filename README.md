@@ -41,7 +41,7 @@ desktop/rn), you might want to continue following along
             "ebay" -> "https://ebay.com/usr/${account.d()}"
             "instagram" -> "https://instagram.com/${account.d()}"
             "tiktok" -> "https://tiktok.com/@${account.d()}"
-            "twitter" -> "https://twitter.com/${account.d()}"
+            "domain" -> "https://${account.d()}"
             "CONNECTION_NAME" -> "https://CONNECTION_URL/${account.d()}"
             else -> null
         }

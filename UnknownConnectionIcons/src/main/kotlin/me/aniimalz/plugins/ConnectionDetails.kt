@@ -25,6 +25,9 @@ class ConnectionDetails(private val platform: String, private val username: Stri
 
         if (url != null) {
             open.apply {
+                if (platform == "domain") {
+                    text = "Visit $username"
+                }
                 visibility = View.VISIBLE
                 setOnClickListener {
                     view.context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
