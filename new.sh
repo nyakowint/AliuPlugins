@@ -6,7 +6,7 @@ name="$1"
 first_char="$(printf %.1s "$name")"
 [ "$(echo "$first_char"  | tr "[:lower:]" "[:upper:]")" != "$first_char" ] && { >&2 echo "Name must be PascalCase"; exit 1; }
 
-d="$name/src/main/kotlin/me/aniimalz/plugins"
+d="$name/src/main/kotlin/dev/nyakoo/plugins"
 new="$d/$name.kt"
 
 set -x
