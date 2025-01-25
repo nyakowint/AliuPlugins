@@ -114,6 +114,7 @@ class UnknownConnectionIcons : Plugin() {
             "ebay" -> "https://www.ebay.com/usr/${account.d()}"
             "instagram" -> "https://www.instagram.com/${account.d()}"
             "tiktok" -> "https://www.tiktok.com/@${account.d()}"
+            "bluesky" -> "https://bsky.app/profile/${account.d()}"
             "domain" -> "https://${account.d()}"
             else -> null
         }
