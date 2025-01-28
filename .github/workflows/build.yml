@@ -47,7 +47,7 @@ jobs:
           cp $GITHUB_WORKSPACE/src/build/updater.json $GITHUB_WORKSPACE/compiled
       
       - name: Upload plugins as artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: plugins
           path: compiled
