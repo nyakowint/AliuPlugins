@@ -115,6 +115,7 @@ class UnknownConnectionIcons : Plugin() {
             "instagram" -> "https://www.instagram.com/${account.d()}"
             "tiktok" -> "https://www.tiktok.com/@${account.d()}"
             "bluesky" -> "https://bsky.app/profile/${account.d()}"
+            "mastodon" -> "https://mastodon.social/@${account.d()}"
             "domain" -> "https://${account.d()}"
             else -> null
         }
