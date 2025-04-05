@@ -236,7 +236,7 @@ class Timezones : Plugin() {
                 Utils.appActivity.runOnUiThread {
                     timestamp.maxWidth = 300.dp
                     timestamp.text =
-                        "${timestamp.text.takeWhile { c -> c != '|' }} | ${calculateTime(timezone)}"
+                        "${timestamp.text.takeWhile { c -> c != '|' }} | ${calculateTime(timezone, Date(msg.timestamp.g()))}"
                 }
             }
         }
