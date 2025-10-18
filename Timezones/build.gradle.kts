@@ -1,8 +1,12 @@
-version = "1.2.2"
+version = "1.2.3"
 description = "Allows you to set a timezone for a user and view their time"
 
 aliucord {
     changelog.set("""
+        # 1.2.3
+        Show user's local time at sending time in message headers (#35)
+        or something... i dont remember havent plugin dev in years
+
         # 1.2.2
         Fix the silly ahh 00:04 PM thing
         
