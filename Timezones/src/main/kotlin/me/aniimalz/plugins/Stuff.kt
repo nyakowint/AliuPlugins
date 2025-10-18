@@ -7,7 +7,7 @@ import java.util.*
 
 const val apiUrl = "https://timezonedb.catvibers.me"
 
-fun calculateTime(timezone: String?): String {
+fun calculateTime(timezone: String?, date: Date? = null): String {
     val tz = TimeZone.getTimeZone("GMT$timezone")
     val cal = Calendar.getInstance(tz)
 
@@ -18,7 +18,7 @@ fun calculateTime(timezone: String?): String {
     }
 
     dateFormat.timeZone = tz
-    return dateFormat.format(cal.time)
+    return dateFormat.format(date ?: cal.time)
 }
 
 fun formatTimeText(timezone: String?): String {
