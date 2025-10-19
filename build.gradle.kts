@@ -6,12 +6,15 @@ buildscript {
         google()
         mavenCentral()
         maven("https://maven.aliucord.com/snapshots")
+        gradlePluginPortal() // remove when gradle 8
         maven("https://jitpack.io")
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.0.4")
+        classpath("com.android.tools.build:gradle:7.1.3")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
         classpath("com.github.Aliucord:gradle:main-SNAPSHOT")
+        //classpath("com.gradleup.shadow:shadow-gradle-plugin:8.3.8")
+        classpath("com.github.johnrengelman.shadow:com.github.johnrengelman.shadow.gradle.plugin:7.1.2") // For Gradle 7 compat (allegedly)
     }
 }
 
@@ -20,7 +23,6 @@ allprojects {
         google()
         mavenCentral()
         maven("https://maven.aliucord.com/snapshots")
-        maven("https://jitpack.io")
     }
 }
 
@@ -43,11 +45,11 @@ subprojects {
     }
 
     android {
-        compileSdkVersion(30)
+        compileSdkVersion(31) // fuck you google 
 
         defaultConfig {
             minSdk = 24
-            targetSdk = 30
+            targetSdk = 31  // fuck you google
         }
 
         compileOptions {
@@ -74,10 +76,10 @@ subprojects {
 
     dependencies {
         val discord by configurations
-        val compileOnly by configurations
+        val implementation by configurations
 
         discord("com.discord:discord:aliucord-SNAPSHOT")
-        compileOnly("com.aliucord:Aliucord:main-SNAPSHOT")
+        implementation("com.aliucord:Aliucord:2.5.0")
     }
 }
 
