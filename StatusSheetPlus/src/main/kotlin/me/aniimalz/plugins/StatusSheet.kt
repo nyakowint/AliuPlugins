@@ -288,7 +288,7 @@ class StatusSheet(private val logger: Logger) : BottomSheet() {
                     layoutParams = LinearLayout.LayoutParams(64, 64).apply {
                         gravity = Gravity.CENTER_VERTICAL
                     }
-                    setImageURI("https://i.imgur.com/vtrgS65.png")
+                    setImageURI("https://i.ibb.co/DDG1xPWb/accountswitch-icon.png")
                     val colorName =
                         if (StoreStream.getUserSettingsSystem().theme == "light")
                             R.c.primary_light_600
