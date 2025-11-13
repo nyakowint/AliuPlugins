@@ -79,7 +79,7 @@ subprojects {
         val implementation by configurations
 
         discord("com.discord:discord:aliucord-SNAPSHOT")
-        implementation("com.aliucord:Aliucord:2.5.0")
+        implementation("com.aliucord:Aliucord:2.4.0")
     }
 }
 
