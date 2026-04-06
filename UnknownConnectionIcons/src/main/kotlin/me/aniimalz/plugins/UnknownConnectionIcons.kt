@@ -83,7 +83,7 @@ class UnknownConnectionIcons : Plugin() {
     
         var result: Drawable? = null
         try {
-            val iconName = account.g()
+            val iconName = account.g().replace("-", "")
             val theme = StoreStream.getUserSettingsSystem().theme
 
             val icon = if (theme == "dark") {
