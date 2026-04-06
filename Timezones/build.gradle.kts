@@ -1,8 +1,11 @@
-version = "1.2.3"
+version = "1.3.0"
 description = "Allows you to set a timezone for a user and view their time"
 
 aliucord {
     changelog.set("""
+        # 1.3.0
+        Support IANA timezones (daylight savings finally real)
+		
         # 1.2.3
         Show user's local time at sending time in message headers (#35)
         or something... i dont remember havent plugin dev in years
