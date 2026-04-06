@@ -79,17 +79,23 @@ class UnknownConnectionIcons : Plugin() {
     }
 
     private fun determineTheme(ctx: Context, account: ConnectedAccount): Drawable {
+        val res = resources ?: return ContextCompat.getDrawable(ctx, R.e.ic_activity_status_24dp)!!
+    
         var result: Drawable? = null
         try {
-            val icon = if (StoreStream.getUserSettingsSystem().theme == "dark") {
+            val iconName = account.g()
+            val theme = StoreStream.getUserSettingsSystem().theme
+
+            val icon = if (theme == "dark") {
                 ResourcesCompat.getDrawable(
-                    resources,
-                    resources.getIdentifier(account.g(), "drawable", "me.aniimalz.plugins"), null
+                    res,
+                    res.getIdentifier(iconName, "drawable", "me.aniimalz.plugins"), 
+                    null
                 )
             } else {
                 ResourcesCompat.getDrawable(
-                    resources,
-                    resources.getIdentifier("${account.g()}_light", "drawable", "me.aniimalz.plugins"),
+                    res,
+                    res.getIdentifier("${iconName}_light", "drawable", "me.aniimalz.plugins"),
                     null
                 )
             }
