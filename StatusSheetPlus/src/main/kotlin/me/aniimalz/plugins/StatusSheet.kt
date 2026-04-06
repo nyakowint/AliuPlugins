@@ -273,10 +273,16 @@ class StatusSheet(private val logger: Logger) : BottomSheet() {
 
                     // kanged from dps
                     try {
-                        val args = h?.settingsTab?.args ?: emptyArray()
-                        if (h != null) {
-                            ReflectUtils.invokeConstructorWithArgs(h.settingsTab.page, *args).let {
-                                Utils.openPageWithProxy(ctx, it)
+                        h?.settingsTab?.let { tab ->
+                            val pageClass = tab.page
+                            val args = tab.args ?: emptyArray()
+
+                            if (pageClass != null) {
+                                val fragmentInstance = ReflectUtils.invokeConstructorWithArgs(pageClass, *args)
+
+                                fragmentInstance?.let {
+                                    Utils.openPageWithProxy(ctx, it)
+                                }
                             }
                         }
                     } catch (th: Throwable) {

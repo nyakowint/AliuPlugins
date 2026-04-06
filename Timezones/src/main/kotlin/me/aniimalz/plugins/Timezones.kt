@@ -174,7 +174,6 @@ class Timezones : Plugin() {
         }
     }
 
-
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     private fun setOnClick(
         tzView: TextView,
@@ -185,11 +184,34 @@ class Timezones : Plugin() {
             with(tzView) {
                 val user = loaded.user
                 setOnClickListener {
+                    val displayItems = timezones.map { id ->
+                        val isNamed = id.contains("/")
+                        if (isNamed) {
+                            val tz = TimeZone.getTimeZone(id)
+							val isDaylight = tz.inDaylightTime(Date())
+							
+                            val name = tz.getDisplayName(isDaylight, TimeZone.SHORT, Locale.US).let { usName ->
+                                if (usName.startsWith("GMT")) {
+                                    tz.getDisplayName(isDaylight, TimeZone.SHORT, Locale.UK) //show timezone abbreviations for Europe
+                                } else {
+                                    usName
+                                }
+                            }
+							
+                            "$id ($name)"
+                        } else {
+                            "GMT$id"
+                        }
+                    }.toTypedArray()
+
                     SelectDialog().apply {
-                        title = "Set timezone (UTC)"
-                        items = timezones
-                        onResultListener = cringe@{ tz ->
-                            addUser(user.id, timezones[tz])
+                        title = "Set timezone (IANA or GMT)"
+                        items = displayItems
+                        
+                        onResultListener = cringe@{ index ->
+                            val selectedId = timezones[index]
+                            
+                            addUser(user.id, selectedId)
                             setUserSheetTime(
                                 user,
                                 tzView
