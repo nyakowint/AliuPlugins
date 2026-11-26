@@ -169,7 +169,8 @@ class StatusSheet(private val logger: Logger) : BottomSheet() {
 
         addView(LinearLayout(ctx).apply {
             setOnClickListener {
-                (WidgetUserSetCustomStatus.Companion).launch(ctx)
+                // K2 resolves WidgetUserSetCustomStatus.Companion to the nested class, not the static field
+                (WidgetUserSetCustomStatus::class.java.getField("Companion").get(null) as WidgetUserSetCustomStatus.Companion).launch(ctx)
                 dismiss()
             }
             val emojiView = SimpleDraweeView(ctx).apply {

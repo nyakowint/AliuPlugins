@@ -39,7 +39,7 @@ class StartupChannel : Plugin() {
         val vid = View.generateViewId()
         val channel = settings.getLong("selectedChannel", 0L).takeIf { it != 0L }
         try {
-            (StoreStream.Companion).messagesLoader.jumpToMessage(
+            StoreStream.getMessagesLoader().jumpToMessage(
                 channel ?: return,
                 StoreStream.getChannels().getChannel(channel).lastMessageId
             )
