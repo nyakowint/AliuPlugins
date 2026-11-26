@@ -74,9 +74,6 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/builds
           for file in $(git diff --name-only HEAD~1 HEAD 2>/dev/null || git ls-files); do
-            # Plugins reference @refs/heads/builds, purge both ref forms to be safe
-            for ref in builds refs/heads/builds; do
-              curl -sS --retry 3 --max-time 30 "https://purge.jsdelivr.net/gh/${GITHUB_REPOSITORY}@$ref/$file" || echo "Failed to purge $file"
-            done
+            curl -sS --retry 3 --max-time 30 "https://purge.jsdelivr.net/gh/${GITHUB_REPOSITORY}@builds/$file" || echo "Failed to purge $file"
             echo
           done
