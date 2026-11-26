@@ -46,7 +46,6 @@ jobs:
           chmod +x ./gradlew
           ./gradlew make :generateUpdaterJson
 
-          rm -f $GITHUB_WORKSPACE/builds/*.zip
           cp $GITHUB_WORKSPACE/src/*/build/outputs/*.zip $GITHUB_WORKSPACE/builds/
           cp $GITHUB_WORKSPACE/src/build/outputs/updater.json $GITHUB_WORKSPACE/builds/
 
