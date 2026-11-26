@@ -1,3 +1,6 @@
+include(":ChannelLocker")
+include(":RevoltCord")
+include(":UnknownConnectionIcons")
 include(":Bee")
 include(":Vector")
 include(":FreeNitroll")
