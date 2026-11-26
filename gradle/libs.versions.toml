@@ -1,0 +1,19 @@
+[versions]
+aliucord = "2.9.1"
+aliucord-gradle = "2.3.1"
+#noinspection AndroidGradlePluginVersion
+android = "8.13.2"
+discord = "126021"
+kotlin = "2.3.21"
+#noinspection GradleDependency
+kotlin-stdlib = "1.5.21"
+
+[libraries]
+aliucord = { module = "com.aliucord:Aliucord", version.ref = "aliucord" }
+discord = { module = "com.discord:discord", version.ref = "discord" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin-stdlib" }
+
+[plugins]
+aliucord-plugin = { id = "com.aliucord.plugin", version.ref = "aliucord-gradle" }
+android-library = { id = "com.android.library", version.ref = "android" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

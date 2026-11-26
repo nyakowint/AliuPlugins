@@ -1,89 +1,78 @@
+@file:Suppress("UnstableApiUsage")
+
 import com.aliucord.gradle.AliucordExtension
-import com.android.build.gradle.BaseExtension
+import com.android.build.gradle.LibraryExtension
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidExtension
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-		maven("https://maven.aliucord.com/releases")
-        maven("https://maven.aliucord.com/snapshots")
-        gradlePluginPortal() // remove when gradle 8
-        maven("https://jitpack.io")
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:7.1.3")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
-        classpath("com.aliucord:gradle:753ad25")
-        //classpath("com.gradleup.shadow:shadow-gradle-plugin:8.3.8")
-        classpath("com.github.johnrengelman.shadow:com.github.johnrengelman.shadow.gradle.plugin:7.1.2") // For Gradle 7 compat (allegedly)
-    }
+plugins {
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.aliucord.plugin)
 }
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        maven("https://maven.aliucord.com/snapshots")
-    }
-}
-
-fun Project.android(configuration: BaseExtension.() -> Unit) =
-    extensions.getByName<BaseExtension>("android").configuration()
-
-fun Project.aliucord(configuration: AliucordExtension.() -> Unit) =
-    extensions.getByName<AliucordExtension>("aliucord").configuration()
 
 subprojects {
-    apply(plugin = "com.android.library")
-    apply(plugin = "com.aliucord.gradle")
-    apply(plugin = "kotlin-android")
+    val libs = rootProject.libs
 
-    
-    aliucord {
-        author("nyakowint", 118437263754395652L)
-        updateUrl.set("https://raw.githubusercontent.com/nyakowint/AliuPlugins/builds/updater.json")
-        buildUrl.set("https://raw.githubusercontent.com/nyakowint/AliuPlugins/builds/%s.zip")
+    apply {
+        plugin(libs.plugins.android.library.get().pluginId)
+        plugin(libs.plugins.aliucord.plugin.get().pluginId)
+        plugin(libs.plugins.kotlin.android.get().pluginId)
     }
 
-    android {
-        compileSdkVersion(31) // fuck you google 
+    configure<LibraryExtension> {
+        namespace = "me.aniimalz.plugins"
+        compileSdk = 36
 
         defaultConfig {
             minSdk = 24
-            targetSdk = 31  // fuck you google
+        }
+
+        buildFeatures {
+            buildConfig = true
+            resValues = true
         }
 
         compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_11
-            targetCompatibility = JavaVersion.VERSION_11
-        }
-
-        tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-            kotlinOptions {
-                jvmTarget = "11"
-                freeCompilerArgs = freeCompilerArgs +
-                        "-Xno-call-assertions" +
-                        "-Xno-param-assertions" +
-                        "-Xno-receiver-assertions"
-            }
+            sourceCompatibility = JavaVersion.VERSION_21
+            targetCompatibility = JavaVersion.VERSION_21
         }
     }
 
-    repositories {
-        google()
-        mavenCentral()
-        maven("https://jitpack.io")
+    configure<AliucordExtension> {
+        author("nyakowint", 118437263754395652L)
+        github("https://github.com/nyakowint/AliuPlugins")
+    }
+
+    // Aliucord's gradle plugin writes manifest.json without declaring its fields as task inputs,
+    // so a version-only bump would otherwise leave the old manifest in an "up-to-date" zip
+    afterEvaluate {
+        val aliucord = extensions.getByType<AliucordExtension>()
+        tasks.named("package") {
+            inputs.property("pluginVersion", version.toString())
+            inputs.property("pluginDescription", description.orEmpty())
+            inputs.property("pluginChangelog", aliucord.changelog.orElse(""))
+            inputs.property("pluginChangelogMedia", aliucord.changelogMedia.orElse(""))
+        }
+    }
+
+    configure<KotlinAndroidExtension> {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_21
+            optIn.add("kotlin.RequiresOptIn")
+            freeCompilerArgs.addAll(
+                "-Xno-call-assertions",
+                "-Xno-param-assertions",
+                "-Xno-receiver-assertions",
+            )
+        }
     }
 
     dependencies {
-        val discord by configurations
-        val implementation by configurations
+        val compileOnly by configurations
 
-        discord("com.discord:discord:126021")
-        implementation("com.aliucord:Aliucord:2.4.0")
+        compileOnly(libs.discord)
+        compileOnly(libs.aliucord)
+        compileOnly(libs.kotlin.stdlib)
     }
-}
-
-task<Delete>("clean") {
-    delete(rootProject.buildDir)
 }
