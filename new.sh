@@ -6,7 +6,7 @@ name="$1"
 first_char="$(printf %.1s "$name")"
 [ "$(echo "$first_char"  | tr "[:lower:]" "[:upper:]")" != "$first_char" ] && { >&2 echo "Name must be PascalCase"; exit 1; }
 
-d="$name/src/main/kotlin/dev/nyakoo/plugins"
+d="$name/src/main/kotlin/me/aniimalz/plugins"
 new="$d/$name.kt"
 
 set -x
@@ -16,6 +16,3 @@ cp -r Template "$name"
 mv "$d/Template.kt" "$new"
 # Change class name
 sed -i "s/Template/$name/" "$new"
-
-# Add to settings.gradle
-echo "include(\":$name\")" | cat - settings.gradle.kts > settings.gradle.new && mv settings.gradle.new settings.gradle.kts
