@@ -21,7 +21,7 @@ subprojects {
     }
 
     configure<LibraryExtension> {
-        namespace = "me.aniimalz.plugins"
+        namespace = "me.nyako.aliuplugins"
         compileSdk = 36
 
         defaultConfig {
