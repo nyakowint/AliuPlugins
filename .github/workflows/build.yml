@@ -1,65 +1,40 @@
 name: Build
 
-# https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#concurrency
-concurrency:
-  group: "build"
-  cancel-in-progress: true
-
 on:
   workflow_dispatch:
+  pull_request:
   push:
-    branches:
+    branches-ignore:
       - main
+      - builds
     paths-ignore:
       - '*.md'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@master
-        with:
-          path: "src"
+        uses: actions/checkout@v6
 
-      - name: Checkout builds
-        uses: actions/checkout@master
+      - name: Setup JDK 21
+        uses: actions/setup-java@v5
         with:
-          ref: "builds"
-          path: "builds"
-
-      - name: Setup JDK
-        uses: actions/setup-java@v3
-        with:
-          java-version: 17
+          java-version: 21
           distribution: temurin
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
 
-      - name: Build Plugins
+      - name: Build
         run: |
-          cd $GITHUB_WORKSPACE/src
-          chmod +x gradlew
-          ./gradlew make generateUpdaterJson --no-daemon
-          mkdir $GITHUB_WORKSPACE/compiled
-          cp $GITHUB_WORKSPACE/src/**/build/*.zip $GITHUB_WORKSPACE/compiled
-          cp $GITHUB_WORKSPACE/src/build/updater.json $GITHUB_WORKSPACE/compiled
-      
-      - name: Upload plugins as artifacts
-        uses: actions/upload-artifact@v4.6.0
+          chmod +x ./gradlew
+          ./gradlew make
+
+      - name: Upload plugin artifacts
+        uses: actions/upload-artifact@v7
         with:
           name: plugins
-          path: compiled
-
-      - name: Push builds
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: |
-          cd $GITHUB_WORKSPACE/builds
-          cp $GITHUB_WORKSPACE/compiled/* .
-          git config --local user.email "actions@github.com"
-          git config --local user.name "Your mom"
-          git add .
-          git commit -m "Build $GITHUB_SHA" || exit 0   # do not error if nothing to commit
-          git push
-
+          if-no-files-found: error
+          path: ${{ github.workspace }}/*/build/outputs/*.zip
