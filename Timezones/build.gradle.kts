@@ -1,8 +1,11 @@
-version = "1.3.0"
+version = "1.3.1"
 description = "Allows you to set a timezone for a user and view their time"
 
 aliucord {
     changelog.set("""
+        # 1.3.1
+        * Now requires Aliucord 2.9.1+
+
         # 1.3.0
         Support IANA timezones (daylight savings finally real)
 		
